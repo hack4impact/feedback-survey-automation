@@ -2,6 +2,24 @@
   "name": "airtable-automation",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc -p ./ -w",
+    "build": "tsc -p ./",
+    "make": "node out/script.js",
+    "make-ts": "ts-node src/script.ts"
+  },
+  "dependencies": {
+    "airtable": "^0.10.1",
+    "dotenv-safe": "^8.2.0",
+    "googleapis": "^67.0.0",
+    "moment": "^2.29.1",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/airtable": "^0.8.1",
+    "@types/dotenv-safe": "^8.1.1",
+    "@types/node": "^14.14.21",
+    "@types/yargs": "^15.0.12",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }
