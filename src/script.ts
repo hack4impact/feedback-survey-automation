@@ -9,8 +9,8 @@ import { getAirtableTable } from "./Helpers/Airtable";
 import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
 import { FIELDS } from "./Utils/constants";
-import sendMail from "./sendMail";
-import createGoogleForm from "./createGoogleForm";
+import sendMail from "./Helpers/sendMail";
+import createGoogleForm from "./Helpers/createGoogleForm";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);

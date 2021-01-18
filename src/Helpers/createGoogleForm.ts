@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import getAuth from "./Config/google-auth";
+import getAuth from "../Config/google-auth";
 import fetch from "node-fetch";
 
 export default async function (projectName:string, surveyPeriod:string, questions:Array<string>) {
