@@ -18,5 +18,6 @@
     ".lintstagedrc": "json",
 
     ".snyk": "yaml"
-  }
+  },
+  "markdown.extension.toc.levels": "1..3"
 }
