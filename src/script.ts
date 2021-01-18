@@ -9,8 +9,8 @@ import { getAirtableTable } from "./Helpers/Airtable";
 import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
 import { FIELDS } from "./Utils/constants";
-import sendMail from "./Helpers/sendMail";
-import createGoogleForm from "./Helpers/createGoogleForm";
+import sendMail from "./Helpers/send-mail";
+import createGoogleForm from "./Helpers/create-google-form";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -30,7 +30,7 @@ const script = async () => {
     "5 Months",
     ["How satisfied are you i=with the product?", "Any Crashes?"]
   );
-  await sendMail("sd7843@pleasantonusd.net", publishedUrl, 0);
+  await sendMail("avhack4impact@gmail.com", publishedUrl, 0);
   const sheets = await setUpSheets();
   const sheetData = await getSheetData(sheets);
 

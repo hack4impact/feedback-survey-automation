@@ -1,10 +1,11 @@
+// Externals
 import fetch from "node-fetch";
 
-export default async function (
+const createGoogleForm = async (
   projectName: string,
   surveyPeriod: string,
   questions: Array<string>
-): Promise<{ editUrl: string; publishedUrl: string }> {
+): Promise<{ editUrl: string; publishedUrl: string }> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
   const data = await fetch(scriptURL, {
     method: "POST",
@@ -20,6 +21,9 @@ export default async function (
   });
 
   const dataText = await data.text();
-  const formurls = JSON.parse(dataText);
-  return formurls;
-}
+  const formUrls = JSON.parse(dataText);
+
+  return formUrls;
+};
+
+export default createGoogleForm;

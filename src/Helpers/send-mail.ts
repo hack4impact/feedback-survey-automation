@@ -1,15 +1,16 @@
+// Externals
 import mail from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 
-let transporter: Mail | undefined = undefined;
-
 // create reusable transporter object using the default SMTP transport
+let transporter: Mail;
 
-export default async function sendMail(
+//check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
+const sendMail = async (
   email: string,
   publishedFormUrl: string,
   templateType: number
-): Promise<void> {
+): Promise<void> => {
   if (!transporter) transporter = await createTransport();
   await transporter.sendMail({
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
@@ -17,11 +18,9 @@ export default async function sendMail(
     subject: "Hi There", // Subject line
     text: publishedFormUrl, // plain text body
   });
-}
+};
 
-async function createTransport() {
-  //let testAccount = await mail.createTestAccount();
-
+const createTransport = async () => {
   const transporter = mail.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
@@ -33,6 +32,6 @@ async function createTransport() {
   });
 
   return transporter;
-}
+};
 
-//check sent messages from test account here : https://ethereal.email/ ... just login with the user and pass in createTransport
+export default sendMail;
