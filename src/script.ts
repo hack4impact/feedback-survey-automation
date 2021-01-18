@@ -5,7 +5,6 @@ import yargs from "yargs/yargs";
 import Airtable from "airtable";
 
 // Internals
-import createGoogleForm from "./createGoogleForm";
 import { getAirtableTable } from "./Helpers/Airtable";
 import { getSheetData, daysBetween } from "./Helpers/General";
 import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
@@ -38,6 +37,8 @@ const script = async () => {
       const questions: string[] = FIELDS.questions.map((question) =>
         record.get(question)
       );
+
+      console.log(daysAgo, lastSent, questions);
     });
 
     nextPage();

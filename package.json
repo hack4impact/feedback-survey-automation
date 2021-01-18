@@ -2,10 +2,11 @@
   "name": "airtable-automation",
   "private": true,
   "scripts": {
+    "make": "node out/script.js",
+    "make-ts": "ts-node src/script.ts",
     "start": "tsc -p ./ -w",
     "build": "tsc -p ./",
-    "make": "node out/script.js",
-    "make-ts": "ts-node src/script.ts"
+    "lint": "bash scripts/lint.sh"
   },
   "dependencies": {
     "airtable": "^0.10.1",

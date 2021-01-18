@@ -4,8 +4,8 @@ const getAirtableTable = async (
   airtable: ReturnType<typeof Airtable.base>,
   tableName: string,
   callback: Parameters<Query["eachPage"]>[0]
-) => {
-  airtable(tableName).select().eachPage(callback);
+): Promise<void> => {
+  return airtable(tableName).select().eachPage(callback);
 };
 
 export default getAirtableTable;
