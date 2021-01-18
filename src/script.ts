@@ -6,7 +6,11 @@ import Airtable from "airtable";
 
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
-import { getSheetData, daysBetween } from "./Helpers/General";
+import {
+  getSheetData,
+  checkSurveyNeeded,
+  normalizeDate,
+} from "./Helpers/General";
 import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
@@ -29,16 +33,18 @@ const script = async () => {
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach((record) => {
       const id = record.getId();
-      const releaseDate: string = record.get(FIELDS.releaseDate);
-      const daysAgo = daysBetween(releaseDate);
+      const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
 
-      const lastSent = sheetData[id]?.["last-sent"];
+      const surveyType = checkSurveyNeeded(releaseDate, sheetData[id]);
 
-      const questions: string[] = FIELDS.questions.map((question) =>
-        record.get(question)
-      );
+      if (surveyType !== null) {
+        const questions: string[] = FIELDS.questions.map((question) =>
+          record.get(question)
+        );
 
-      console.log(daysAgo, lastSent, questions);
+        console.log(surveyType);
+        console.log(questions);
+      }
     });
 
     nextPage();

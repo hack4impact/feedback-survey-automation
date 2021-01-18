@@ -4,7 +4,7 @@ import { google } from "googleapis";
 // Internals
 import initializeAuth from "../../Config/google-auth";
 
-export type SheetData = Record<string, Record<string, string>>;
+export type SheetData = Record<string, Record<string, any>>;
 
 const getSheetData = async (sheetId: string): Promise<SheetData> => {
   const auth = await initializeAuth();
@@ -29,11 +29,20 @@ const getSheetData = async (sheetId: string): Promise<SheetData> => {
       ...obj,
       [row[0]]: row
         .slice(1)
-        .reduce((obj, value, i) => ({ ...obj, [headers[i + 1]]: value }), {}),
+        .reduce(
+          (obj, value, i) => ({ ...obj, [headers[i + 1]]: formatValue(value) }),
+          {}
+        ),
     };
   }, {});
 
   return sheetData;
+};
+
+const formatValue = (value: any): any => {
+  if (value === "TRUE") return true;
+  if (value === "FALSE") return false;
+  return value;
 };
 
 export default getSheetData;

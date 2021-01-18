@@ -36,3 +36,5 @@ export type NonprofitFocus =
   | "Criminal Justice";
 
 export type WillingToInterview = "Yes" | "No" | "Unsure";
+
+export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";

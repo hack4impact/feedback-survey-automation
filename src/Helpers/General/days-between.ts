@@ -2,13 +2,11 @@
 import moment from "moment";
 
 // Internals
-import { normalizeDate } from "./index";
-
-type DateParameter = Date | number | string;
+import { normalizeDate, DateParameter } from "./index";
 
 const daysBetween = (
   date1: DateParameter,
-  date2: Date | number | string = moment.now()
+  date2: DateParameter = moment.now()
 ): number => {
   date1 = normalizeDate(date1);
   date2 = normalizeDate(date2);

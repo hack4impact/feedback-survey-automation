@@ -1,13 +1,16 @@
 // Externals
-import moment from "moment";
+import moment, { Moment } from "moment";
 
-const normalizeDate = (date: Date | string | number): number => {
+export type DateParameter = Date | Moment | number | string;
+
+const normalizeDate = (date: DateParameter): number => {
   if (typeof date === "string") {
-    date = parseInt(moment(date).format("x"));
+    date = normalizeDate(moment(date));
   } else if (date instanceof Date) {
     date = date.getTime();
+  } else if (moment.isMoment(date)) {
+    date = parseInt(date.format("x"));
   }
-
   return date;
 };
 
