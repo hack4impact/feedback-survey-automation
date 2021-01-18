@@ -8,7 +8,7 @@ import moment from "moment";
 // Internals
 import createGoogleForm from "./createGoogleForm";
 import { FIELDS } from "./Utils/constants";
-import googleSheets from "./google-sheets";
+import getSheetData from "./get-sheet-data";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -23,8 +23,8 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  // await createGoogleForm();
-  await googleSheets();
+  await createGoogleForm();
+  const sheetData = await getSheetData();
 
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
@@ -42,12 +42,8 @@ const script = async () => {
 
           console.log(questions, moment(releaseDate).format("DD-MM-YYYY"));
           console.log(record.fields);
-          // console.log("Retrieved", record.get("Project Name"));
         });
 
-        // To fetch the next page of records, call `fetchNextPage`.
-        // If there are more records, `page` will get called again.
-        // If there are no more records, `done` will get called.
         nextPage();
       },
       (err) => {
