@@ -9,8 +9,7 @@ const initializeAuth = async () => {
     undefined,
     keyfile.private_key,
     [
-      "https://www.googleapis.com/auth/spreadsheets",
-      "https://www.googleapis.com/auth/script",
+      "https://www.googleapis.com/auth/spreadsheets"
     ]
   );
   await auth.authorize();
