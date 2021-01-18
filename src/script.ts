@@ -9,6 +9,7 @@ import moment from "moment";
 import createGoogleForm from "./createGoogleForm";
 import { FIELDS } from "./Utils/constants";
 import googleSheets from "./google-sheets";
+import sendMail from "./sendMail";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -23,8 +24,9 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  // await createGoogleForm();
+  const {editUrl, publishedUrl} = await createGoogleForm("Test 2", "5 Months", ["How satisfied are you i=with the product?", "Any Crashes?"]);
   await googleSheets();
+  await sendMail("sd7843@pleasantonusd.net", publishedUrl, 0);
 
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
