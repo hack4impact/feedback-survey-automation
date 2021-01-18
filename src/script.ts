@@ -6,10 +6,9 @@ import Airtable from "airtable";
 
 // Internals
 import createGoogleForm from "./createGoogleForm";
-import getSheetData from "./get-sheet-data";
-import getAirtableTable from "./Helpers/Airtable/get-airtable-table";
-import { daysSince } from "./Helpers/General";
-import { FIELDS } from "./Utils/constants";
+import { getAirtableTable } from "./Helpers/Airtable";
+import { getSheetData, daysSince } from "./Helpers/General";
+import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -24,7 +23,7 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  // const sheetData = await getSheetData();
+  const sheetData = await getSheetData(SPREADSHEET_ID);
 
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
