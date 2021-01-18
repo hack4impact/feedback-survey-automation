@@ -5,6 +5,7 @@
 - [Guide](#guide)
   - [Checkout Repository](#checkout-repository)
   - [Install Dependencies](#install-dependencies)
+  - [Get Secret Files](#get-secret-files)
   - [Build project](#build-project)
   - [Run](#run)
 
@@ -22,6 +23,14 @@ cd airtable-automation
 ```shell
 npm install
 ```
+
+### Get Secret Files
+
+- Login to Google Drive with avhack4impact@gmail.com
+- Navigate to the 'Secret Files' folder in the 'Airtable Automation' folder ([Link](https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB))
+- Copy Files:
+  - `.env` file to your root folder
+  - `serviceaccount.json` file to `src/Config/serviceaccount.json`
 
 ### Build project
 
