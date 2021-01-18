@@ -7,7 +7,7 @@ import Airtable from "airtable";
 // Internals
 import createGoogleForm from "./createGoogleForm";
 import { getAirtableTable } from "./Helpers/Airtable";
-import { getSheetData, daysSince } from "./Helpers/General";
+import { getSheetData, daysBetween } from "./Helpers/General";
 import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
@@ -29,8 +29,11 @@ const script = async () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach((record) => {
+      const id = record.getId();
       const releaseDate: string = record.get(FIELDS.releaseDate);
-      const daysAgo = daysSince(releaseDate);
+      const daysAgo = daysBetween(releaseDate);
+
+      const lastSent = sheetData[id]?.["last-sent"];
 
       const questions: string[] = FIELDS.questions.map((question) =>
         record.get(question)
