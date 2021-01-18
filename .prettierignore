@@ -8,3 +8,6 @@ coverage/
 dist/
 out/
 build/
+
+# misc
+serviceaccount.json

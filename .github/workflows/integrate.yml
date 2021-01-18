@@ -21,7 +21,7 @@ jobs:
           node-version: 15.x
 
       - name: Setup Service Account
-      - run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
 
       - name: Install Dependencies
         run: npm ci
