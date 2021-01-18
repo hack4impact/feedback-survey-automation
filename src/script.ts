@@ -25,7 +25,11 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  const {editUrl, publishedUrl} = await createGoogleForm("Test 2", "5 Months", ["How satisfied are you i=with the product?", "Any Crashes?"]);
+  const { editUrl, publishedUrl } = await createGoogleForm(
+    "Test 2",
+    "5 Months",
+    ["How satisfied are you i=with the product?", "Any Crashes?"]
+  );
   await sendMail("sd7843@pleasantonusd.net", publishedUrl, 0);
   const sheets = await setUpSheets();
   const sheetData = await getSheetData(sheets);

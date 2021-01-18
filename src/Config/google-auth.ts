@@ -5,8 +5,9 @@ import { JWT } from "googleapis-common";
 
 let auth: JWT | null = null;
 
-const getAuth = async () => {
-
+const getAuth = async (): Promise<
+  InstanceType<typeof google["auth"]["JWT"]>
+> => {
   if (!auth) {
     auth = new google.auth.JWT(
       keyfile.client_email,
@@ -14,7 +15,7 @@ const getAuth = async () => {
       keyfile.private_key,
       [
         "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/script.projects"
+        "https://www.googleapis.com/auth/script.projects",
       ]
     );
     await auth.authorize();
