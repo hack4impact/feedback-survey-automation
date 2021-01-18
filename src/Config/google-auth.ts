@@ -1,5 +1,4 @@
 // Externals
-import { join } from "path";
 import { google } from "googleapis";
 import keyfile from "./serviceaccount.json";
 import { JWT } from "googleapis-common";
