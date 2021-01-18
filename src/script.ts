@@ -6,11 +6,8 @@ import Airtable from "airtable";
 
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
-import {
-  getSheetData,
-  checkSurveyNeeded,
-  normalizeDate,
-} from "./Helpers/General";
+import { getSheetData, setUpSheets } from "./Helpers/Sheets";
+import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
 import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
@@ -26,7 +23,8 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  const sheetData = await getSheetData(SPREADSHEET_ID);
+  const sheets = await setUpSheets();
+  const sheetData = await getSheetData(sheets, SPREADSHEET_ID);
 
   const table = Airtable.base("app0TDYnyirqeRk1T");
 

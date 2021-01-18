@@ -1,19 +1,12 @@
 // Externals
-import { google } from "googleapis";
-
-// Internals
-import initializeAuth from "../../Config/google-auth";
+import { sheets_v4 } from "googleapis";
 
 export type SheetData = Record<string, Record<string, any>>;
 
-const getSheetData = async (sheetId: string): Promise<SheetData> => {
-  const auth = await initializeAuth();
-
-  const sheets = google.sheets({
-    version: "v4",
-    auth,
-  });
-
+const getSheetData = async (
+  sheets: sheets_v4.Sheets,
+  sheetId: string
+): Promise<SheetData> => {
   const { data } = await sheets.spreadsheets.values.get({
     spreadsheetId: sheetId,
     range: "A1:Z200",
