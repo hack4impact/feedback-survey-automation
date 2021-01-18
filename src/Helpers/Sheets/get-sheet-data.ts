@@ -1,19 +1,19 @@
 // Externals
 import { sheets_v4 } from "googleapis";
 
+// Internals
+import { SPREADSHEET_ID } from "../../Utils/constants";
+
 export type SheetData = Record<string, Record<string, any>>;
 
-const getSheetData = async (
-  sheets: sheets_v4.Sheets,
-  sheetId: string
-): Promise<SheetData> => {
+const getSheetData = async (sheets: sheets_v4.Sheets): Promise<SheetData> => {
   const { data } = await sheets.spreadsheets.values.get({
-    spreadsheetId: sheetId,
+    spreadsheetId: SPREADSHEET_ID,
     range: "A1:Z200",
   });
 
   if (!data.values)
-    throw new Error(`No values found for spreadsheet '${sheetId}'`);
+    throw new Error(`No values found for spreadsheet '${SPREADSHEET_ID}'`);
 
   const headers = data.values[0];
 

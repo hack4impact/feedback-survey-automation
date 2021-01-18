@@ -6,9 +6,9 @@ import Airtable from "airtable";
 
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
-import { getSheetData, setUpSheets } from "./Helpers/Sheets";
+import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
-import { FIELDS, SPREADSHEET_ID } from "./Utils/constants";
+import { FIELDS } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -24,12 +24,12 @@ yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
   const sheets = await setUpSheets();
-  const sheetData = await getSheetData(sheets, SPREADSHEET_ID);
+  const sheetData = await getSheetData(sheets);
 
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
-    records.forEach((record) => {
+    records.forEach(async (record) => {
       const id = record.getId();
       const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
 
@@ -42,6 +42,8 @@ const script = async () => {
 
         console.log(surveyType);
         console.log(questions);
+
+        await setSheetData(sheets, id, surveyType, sheetData[id]);
       }
     });
 
