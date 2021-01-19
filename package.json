@@ -4,9 +4,12 @@
   "scripts": {
     "make": "node out/script.js",
     "make-ts": "ts-node src/script.ts",
-    "start": "tsc -p ./ -w",
+    "start": "concurrently \"npm:compile\" \"npm:clasp\" -c \"blue.bold,green.bold\" --kill-others",
+    "compile": "tsc -p ./ -w",
+    "clasp": "clasp push -w",
     "build": "tsc -p ./",
-    "lint": "bash scripts/lint.sh"
+    "lint": "bash scripts/lint.sh",
+    "postinstall": "replace-in-file \"declare var console\" \"//declare var console\" node_modules/@types/google-apps-script/google-apps-script.base.d.ts"
   },
   "dependencies": {
     "airtable": "^0.10.1",
@@ -28,11 +31,13 @@
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
     "clasp": "^1.0.0",
+    "concurrently": "^5.3.0",
     "eslint": "^7.18.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
     "markdownlint-cli": "^0.26.0",
     "prettier": "^2.2.1",
+    "replace-in-file": "^6.1.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
