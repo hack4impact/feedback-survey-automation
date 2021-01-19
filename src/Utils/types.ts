@@ -40,10 +40,4 @@ export type WillingToInterview = "Yes" | "No" | "Unsure";
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
 // For looping through time periods
-export const TIME_PERIODS: Record<TimePeriod, null> = {
-  "1m": null,
-  "6m": null,
-  "1y": null,
-  "3y": null,
-  "5y": null,
-};
+export const TIME_PERIODS: TimePeriod[] = ["1m", "6m", "1y", "3y", "5y"];

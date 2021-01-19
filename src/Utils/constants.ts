@@ -4,6 +4,7 @@ export const FIELDS = {
   chapter: "Chapter",
   semester: "Creation Semester",
   releaseDate: "(Anticipated) Delivery Date",
+  lastSent: "Last Sent Out",
 
   // Project
   leads: "Project Leads (PM, Tech Lead, Designer)",

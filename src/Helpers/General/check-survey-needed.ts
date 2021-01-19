@@ -1,31 +1,43 @@
 // Externals
-import moment, { Moment } from "moment";
+import moment, { DurationInputArg2, Moment } from "moment";
 
 // Internals
 import { normalizeDate } from "./index";
-import { TimePeriod } from "../../Utils/types";
+import { TimePeriod, TIME_PERIODS } from "../../Utils/types";
 
 const checkSurveyNeeded = (
   releaseDate: number,
-  projectData?: Record<string, string>
-): TimePeriod | null => {
-  type Milestone = [Moment, TimePeriod];
+  lastSent?: TimePeriod
+): boolean => {
+  const milestones: Moment[] = TIME_PERIODS.map((timePeriod) => {
+    const timeAmount = timePeriod.slice(0, 1);
 
-  const milestones: Milestone[] = [
-    [moment().subtract(1, "month"), "1m"],
-    [moment().subtract(6, "months"), "6m"],
-    [moment().subtract(1, "year"), "1y"],
-    [moment().subtract(3, "years"), "3y"],
-    [moment().subtract(5, "years"), "5y"],
-  ];
-
-  const index = milestones.findIndex(([date, period]) => {
-    if (!projectData?.[period] && normalizeDate(date) > releaseDate)
-      return true;
-    return false;
+    return moment().subtract(parseInt(timeAmount), getTimeType(timePeriod));
   });
 
-  return index === -1 ? null : milestones[index][1];
+  console.log(milestones.map((m) => m.format("DD-MM-YYYY")));
+
+  const index =
+    typeof lastSent === "string" ? TIME_PERIODS.indexOf(lastSent) + 1 : 0;
+
+  if (index < TIME_PERIODS.length)
+    return normalizeDate(milestones[index]) > releaseDate;
+  return false;
+};
+
+const getTimeType = (timePeriod: TimePeriod): DurationInputArg2 => {
+  const timeType = timePeriod.slice(1, 2);
+  switch (timeType) {
+    case "m": {
+      return "months";
+    }
+    case "y": {
+      return "years";
+    }
+    default: {
+      throw new Error(`Unrecognized time type ${timeType}`);
+    }
+  }
 };
 
 export default checkSurveyNeeded;
