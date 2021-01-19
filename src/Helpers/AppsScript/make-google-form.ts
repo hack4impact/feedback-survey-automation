@@ -1,9 +1,14 @@
+export interface GoogleFormData {
+  editUrl: string;
+  publishedUrl: string;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function makeGoogleForm(request: any) {
+const makeGoogleForm = (request: any) => {
   const data = JSON.parse(request.postData.getDataAsString());
 
   if (data.password === "hack4impact") {
-    const form = FormApp.create(`${data.projectName} - ${data.surveyPeriod}`);
+    const form = FormApp.create(data.projectName);
 
     //form config
     form.setCollectEmail(true);
@@ -18,15 +23,13 @@ function makeGoogleForm(request: any) {
     // setting form to call airTable update func on submit
     // ScriptApp.newTrigger("updateProjectSuccessTable").forForm(form).onFormSubmit();
 
-    const publishedUrl = form.getPublishedUrl();
-    const editUrl = form.getEditUrl();
-    return ContentService.createTextOutput(
-      JSON.stringify({
-        publishedUrl: publishedUrl,
-        editUrl: editUrl,
-      })
-    );
+    const formData: GoogleFormData = {
+      publishedUrl: form.getPublishedUrl(),
+      editUrl: form.getEditUrl(),
+    };
+
+    return ContentService.createTextOutput(JSON.stringify(formData));
   } else {
     return ContentService.createTextOutput("Unauthorized");
   }
-}
+};

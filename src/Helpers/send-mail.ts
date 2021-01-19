@@ -6,17 +6,13 @@ import Mail from "nodemailer/lib/mailer";
 let transporter: Mail;
 
 //check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
-const sendMail = async (
-  email: string,
-  publishedFormUrl: string,
-  templateType: number
-): Promise<void> => {
+const sendMail = async (email: string, templateType: number): Promise<void> => {
   if (!transporter) transporter = await createTransport();
   await transporter.sendMail({
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
     to: email, // list of receivers
     subject: "Hi There", // Subject line
-    text: publishedFormUrl, // plain text body
+    text: "Testing", // plain text body
   });
 };
 

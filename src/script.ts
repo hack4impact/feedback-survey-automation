@@ -30,25 +30,25 @@ const script = async () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach(async (record) => {
+      const name = record.get(FIELDS.name);
+      const questions: string[] = FIELDS.questions.map((question) =>
+        record.get(question)
+      );
       const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
       const lastSent: TimePeriod | undefined = record.get(FIELDS.lastSent);
+      const googleFormUrl = record.get(FIELDS.googleFormUrl);
+
+      if (typeof googleFormUrl !== "string") {
+        const formData = await createGoogleForm(record, name, questions);
+        console.log(formData);
+      }
 
       const surveyNeeded = checkSurveyNeeded(releaseDate, lastSent);
 
       if (surveyNeeded) {
-        const questions: string[] = FIELDS.questions.map((question) =>
-          record.get(question)
-        );
-
-        const { editUrl, publishedUrl } = await createGoogleForm(
-          "Test 2",
-          "5 Months",
-          questions
-        );
-        await sendMail("avhack4impact@gmail.com", publishedUrl, 0);
+        await sendMail("avhack4impact@gmail.com", 0);
 
         console.log(surveyNeeded);
-        console.log(questions);
       }
     });
 

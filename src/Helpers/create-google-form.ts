@@ -1,11 +1,29 @@
 // Externals
 import fetch from "node-fetch";
+import Record from "airtable/lib/record";
+
+// Internals
+import { FIELDS } from "../Utils/constants";
+import { GoogleFormData } from "./AppsScript/make-google-form";
 
 const createGoogleForm = async (
+  record: Record,
   projectName: string,
-  surveyPeriod: string,
-  questions: Array<string>
-): Promise<{ editUrl: string; publishedUrl: string }> => {
+  questions: string[]
+): Promise<GoogleFormData> => {
+  const formData = await fetchGoogleForm(projectName, questions);
+
+  record = await record.updateFields({
+    [FIELDS.googleFormUrl]: formData.publishedUrl,
+  });
+
+  return formData;
+};
+
+const fetchGoogleForm = async (
+  projectName: string,
+  questions: string[]
+): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
   const data = await fetch(scriptURL, {
     method: "POST",
@@ -15,15 +33,14 @@ const createGoogleForm = async (
     body: JSON.stringify({
       password: process.env.APPS_SCRIPT_PASSWORD,
       projectName,
-      surveyPeriod,
       questions,
     }),
   });
 
   const dataText = await data.text();
-  const formUrls = JSON.parse(dataText);
+  const formData = JSON.parse(dataText);
 
-  return formUrls;
+  return formData;
 };
 
 export default createGoogleForm;

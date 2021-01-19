@@ -1,3 +1,4 @@
+// Externals
 import Query from "airtable/lib/query";
 
 const getAirtableTable = async (

@@ -15,8 +15,6 @@ const checkSurveyNeeded = (
     return moment().subtract(parseInt(timeAmount), getTimeType(timePeriod));
   });
 
-  console.log(milestones.map((m) => m.format("DD-MM-YYYY")));
-
   const index =
     typeof lastSent === "string" ? TIME_PERIODS.indexOf(lastSent) + 1 : 0;
 
