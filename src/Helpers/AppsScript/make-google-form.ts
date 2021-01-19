@@ -1,7 +1,4 @@
-export interface GoogleFormData {
-  editUrl: string;
-  publishedUrl: string;
-}
+import { GoogleFormData } from "../../Utils/types";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const makeGoogleForm = (request: any) => {

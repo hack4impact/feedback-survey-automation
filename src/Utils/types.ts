@@ -37,6 +37,11 @@ export type NonprofitFocus =
 
 export type WillingToInterview = "Yes" | "No" | "Unsure";
 
+export interface GoogleFormData {
+  editUrl: string;
+  publishedUrl: string;
+}
+
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
 // For looping through time periods

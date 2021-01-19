@@ -4,7 +4,7 @@ import Record from "airtable/lib/record";
 
 // Internals
 import { FIELDS } from "../Utils/constants";
-import { GoogleFormData } from "./AppsScript/make-google-form";
+import { GoogleFormData } from "../Utils/types";
 
 const createGoogleForm = async (
   record: Record,
