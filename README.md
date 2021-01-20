@@ -96,6 +96,8 @@ We also use [Husky] and [Lint-Staged] to run our linters and fixers on all stage
 
 We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build errors, and push the latest versions of our Apps Scripts every time a push is made to the `main` branch.
 
+Additionally, every day at 11:30 PST, we run our script with a [scheduled GitHub Action].
+
 <!-- Reference Links -->
 
 [git]: https://git-scm.com/
@@ -116,3 +118,4 @@ We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build error
 [technical debt]: https://www.productplan.com/glossary/technical-debt/
 [github actions]: https://github.com/features/actions
 [ci/cd pipeline]: https://semaphoreci.com/blog/cicd-pipeline
+[scheduled github action]: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
