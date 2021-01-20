@@ -38,6 +38,8 @@ const fetchGoogleForm = async (
   });
 
   const dataText = await data.text();
+  if (dataText === "Unauthorized")
+    throw new Error("The APPS_SCRIPT_PASSWORD is incorrect");
   const formData = JSON.parse(dataText);
 
   return formData;

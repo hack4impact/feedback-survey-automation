@@ -4,7 +4,7 @@
   "scripts": {
     "make": "node out/script.js",
     "make:ts": "ts-node src/script.ts",
-    "start": "concurrently \"npm:compile:watch\" \"npm:clasp:watch\" -c \"blue.bold,green.bold\" --kill-others",
+    "start": "concurrently \"npm:compile:watch\" -c \"blue.bold,green.bold\" --kill-others",
     "compile": "tsc -p ./",
     "compile:watch": "tsc -p ./ -w",
     "clasp": "clasp push --force",

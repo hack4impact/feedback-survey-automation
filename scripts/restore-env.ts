@@ -23,15 +23,17 @@ const restoreEnv = async () => {
       countMatches: true,
     });
 
-    result.forEach(async ({ file, hasChanged }) => {
-      if (hasChanged) {
-        const contents = await readFile(file, "utf-8");
-        const newContents = contents.replace(/"(process.env.\w+)"/g, "$1");
-        await writeFile(file, newContents, "utf-8");
-      }
-    });
+    await Promise.all(
+      result.map(async ({ file, hasChanged }) => {
+        if (hasChanged) {
+          const contents = await readFile(file, "utf-8");
+          const newContents = contents.replace(/"(process.env.\w+)"/g, "$1");
+          await writeFile(file, newContents, "utf-8");
+        }
+      })
+    );
 
-    rm(OUTPUT_ENV_PATH);
+    await rm(OUTPUT_ENV_PATH);
 
     console.log(result);
   }
