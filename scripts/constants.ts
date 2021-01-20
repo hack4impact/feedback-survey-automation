@@ -9,10 +9,12 @@ export const APPS_SCRIPT_PATH = join(
   "..",
   "src",
   "Helpers",
-  "AppsScript"
+  "AppsScript",
+  "src"
 );
 export const APPS_SCRIPT_CONFIG_PATH = join(
   APPS_SCRIPT_PATH,
+  "..",
   "appsscript.json"
 );
 
