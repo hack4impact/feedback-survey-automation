@@ -1,4 +1,6 @@
-# Airtable Automation <!-- omit in toc -->
+<p align="center"><img width="200" src="https://raw.githubusercontent.com/YashTotale/airtable-automation/main/static/images/icon.png"></img></p>
+
+<h1 align="center">Airtable Automation</h1>
 
 ## Contents <!-- omit in toc -->
 
