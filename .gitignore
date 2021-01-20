@@ -19,7 +19,8 @@ node_modules/
 .env
 .env.test
 
-# Script outputs
+# Outputs
+out/
 output/
 
 # Secrets
