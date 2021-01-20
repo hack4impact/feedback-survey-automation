@@ -90,6 +90,8 @@ We use the [Nodemailer NPM package] to send feedback survey emails to nonprofits
 
 We use [Prettier], [ESLint], [MarkdownLint], and [EditorConfig] to ensure our code style is uniform throughout the project. These tools also help us avoid [Technical Debt] in our code and increase maintainability.
 
+We also use [Husky] and [Lint-Staged] to run our linters and fixers on all staged files before every commit.
+
 ### GitHub Actions
 
 We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build errors, and push the latest versions of our Apps Scripts every time a push is made to the `main` branch.
@@ -109,6 +111,8 @@ We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build error
 [eslint]: https://eslint.org/
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [editorconfig]: https://editorconfig.org/
+[husky]: https://typicode.github.io/husky/#/
+[lint-staged]: https://github.com/okonet/lint-staged
 [technical debt]: https://www.productplan.com/glossary/technical-debt/
 [github actions]: https://github.com/features/actions
 [ci/cd pipeline]: https://semaphoreci.com/blog/cicd-pipeline
