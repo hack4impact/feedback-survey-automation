@@ -72,7 +72,7 @@ npm run make
 
 ### TypeScript
 
-We use [TypeScript] to add type checking to makes our code more robust and maintainable.
+We use [TypeScript] to add type checking to make our code more robust and maintainable.
 
 ### Airtable API
 
