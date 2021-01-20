@@ -8,7 +8,7 @@ import { TimePeriod, TIME_PERIODS } from "../../Utils/types";
 const checkSurveyNeeded = (
   releaseDate: number,
   lastSent?: TimePeriod
-): boolean => {
+): TimePeriod | false => {
   const milestones: Moment[] = TIME_PERIODS.map((timePeriod) => {
     const timeAmount = timePeriod.slice(0, 1);
 
@@ -18,8 +18,10 @@ const checkSurveyNeeded = (
   const index =
     typeof lastSent === "string" ? TIME_PERIODS.indexOf(lastSent) + 1 : 0;
 
-  if (index < TIME_PERIODS.length)
-    return normalizeDate(milestones[index]) > releaseDate;
+  if (index < TIME_PERIODS.length) {
+    const milestone = milestones[index];
+    return normalizeDate(milestone) > releaseDate ? TIME_PERIODS[index] : false;
+  }
   return false;
 };
 

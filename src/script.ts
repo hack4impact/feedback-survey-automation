@@ -36,35 +36,32 @@ const script = async () => {
         .map((question) => record.get(question))
         .filter((question) => typeof question === "string" && question.length);
 
-      console.log(questions);
       const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
       const lastSent: TimePeriod | undefined = record.get(FIELDS.lastSent);
       const googleFormUrl = record.get(FIELDS.googleFormUrl);
 
       if (typeof googleFormUrl !== "string") {
-        const formData = await createGoogleForm(
-          record,
-          projectName,
-          id,
-          questions
-        );
-        console.log(formData);
+        await createGoogleForm(record, projectName, id, questions);
       }
 
       const surveyNeeded = checkSurveyNeeded(releaseDate, lastSent);
 
-      if (surveyNeeded) {
+      if (surveyNeeded !== false) {
         const nonprofitEmail = record.get(FIELDS.nonprofitContactEmail);
         const nonprofitName = record.get(FIELDS.nonprofitName);
         const nonprofitContactName = record.get(FIELDS.nonprofitContactName);
+
         await sendNonprofitMail(
           nonprofitEmail,
           projectName,
           nonprofitName,
-          nonprofitContactName
+          nonprofitContactName,
+          surveyNeeded
         );
 
-        console.log(surveyNeeded);
+        await record.updateFields({
+          [FIELDS.lastSent]: surveyNeeded,
+        });
       }
     });
 
