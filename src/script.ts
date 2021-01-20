@@ -32,9 +32,11 @@ const script = async () => {
     records.forEach(async (record) => {
       const id = record.getId();
       const projectName = record.get(FIELDS.projectName);
-      const questions: string[] = FIELDS.questions.map((question) =>
-        record.get(question)
-      );
+      const questions: string[] = FIELDS.questions
+        .map((question) => record.get(question))
+        .filter((question) => typeof question === "string" && question.length);
+
+      console.log(questions);
       const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
       const lastSent: TimePeriod | undefined = record.get(FIELDS.lastSent);
       const googleFormUrl = record.get(FIELDS.googleFormUrl);
