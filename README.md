@@ -36,7 +36,7 @@ npm install
 ### Set up Clasp
 
 ```shell
-  npm run clasp:login
+npm run clasp:login
 ```
 
 - This will redirect to a Google Sign in screen. Sign in with avhack4impact@gmail.com
