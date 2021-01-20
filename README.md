@@ -5,7 +5,8 @@
 - [Guide](#guide)
   - [Checkout Repository](#checkout-repository)
   - [Install Dependencies](#install-dependencies)
-  - [Get Secret Files](#get-secret-files)
+  - [Set up Secret Files](#set-up-secret-files)
+  - [Set up Clasp](#set-up-clasp)
   - [Build project](#build-project)
   - [Run](#run)
 
@@ -24,13 +25,22 @@ cd airtable-automation
 npm install
 ```
 
-### Get Secret Files
+### Set up Secret Files
 
 - Login to Google Drive with avhack4impact@gmail.com
 - Navigate to the 'Secret Files' folder in the 'Airtable Automation' folder ([Link](https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB))
 - Copy Files:
   - `.env` file to your root folder
   - `serviceaccount.json` file to `src/Config/serviceaccount.json`
+
+### Set up Clasp
+
+```shell
+  npm run clasp:login
+```
+
+- This will redirect to a Google Sign in screen. Sign in with avhack4impact@gmail.com
+- Click 'Allow' to allow all permissions
 
 ### Build project
 
