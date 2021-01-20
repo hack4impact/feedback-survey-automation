@@ -23,6 +23,9 @@ jobs:
       - name: Setup Service Account
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
 
+      - name: Setup Clasp
+        run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
+
       - name: Install Dependencies
         run: npm ci
 
