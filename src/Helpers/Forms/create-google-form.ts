@@ -3,15 +3,16 @@ import fetch from "node-fetch";
 import Record from "airtable/lib/record";
 
 // Internals
-import { FIELDS } from "../Utils/constants";
-import { GoogleFormData } from "../Utils/types";
+import { FIELDS } from "../../Utils/constants";
+import { GoogleFormData } from "../../Utils/types";
 
 const createGoogleForm = async (
   record: Record,
   projectName: string,
+  projectId: string,
   questions: string[]
 ): Promise<GoogleFormData> => {
-  const formData = await fetchGoogleForm(projectName, questions);
+  const formData = await fetchGoogleForm(projectName, projectId, questions);
 
   record = await record.updateFields({
     [FIELDS.googleFormUrl]: formData.publishedUrl,
@@ -22,6 +23,7 @@ const createGoogleForm = async (
 
 const fetchGoogleForm = async (
   projectName: string,
+  projectId: string,
   questions: string[]
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
@@ -33,6 +35,7 @@ const fetchGoogleForm = async (
     body: JSON.stringify({
       password: process.env.APPS_SCRIPT_PASSWORD,
       projectName,
+      projectId,
       questions,
     }),
   });

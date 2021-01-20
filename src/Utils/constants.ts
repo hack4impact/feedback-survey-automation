@@ -1,6 +1,6 @@
 export const FIELDS = {
   // Basic
-  name: "Project Name",
+  projectName: "Project Name",
   chapter: "Chapter",
   semester: "Creation Semester",
   releaseDate: "(Anticipated) Delivery Date",

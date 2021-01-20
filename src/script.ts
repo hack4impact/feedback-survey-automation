@@ -8,8 +8,8 @@ import Airtable from "airtable";
 import { getAirtableTable } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
-import sendMail from "./Helpers/send-mail";
-import createGoogleForm from "./Helpers/create-google-form";
+import { sendNonprofitMail } from "./Helpers/Email/";
+import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
 import { TimePeriod } from "./Utils/types";
 
@@ -30,7 +30,8 @@ const script = async () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach(async (record) => {
-      const name = record.get(FIELDS.name);
+      const id = record.getId();
+      const projectName = record.get(FIELDS.projectName);
       const questions: string[] = FIELDS.questions.map((question) =>
         record.get(question)
       );
@@ -39,14 +40,27 @@ const script = async () => {
       const googleFormUrl = record.get(FIELDS.googleFormUrl);
 
       if (typeof googleFormUrl !== "string") {
-        const formData = await createGoogleForm(record, name, questions);
+        const formData = await createGoogleForm(
+          record,
+          projectName,
+          id,
+          questions
+        );
         console.log(formData);
       }
 
       const surveyNeeded = checkSurveyNeeded(releaseDate, lastSent);
 
       if (surveyNeeded) {
-        await sendMail("avhack4impact@gmail.com", 0);
+        const nonprofitEmail = record.get(FIELDS.nonprofitContactEmail);
+        const nonprofitName = record.get(FIELDS.nonprofitName);
+        const nonprofitContactName = record.get(FIELDS.nonprofitContactName);
+        await sendNonprofitMail(
+          nonprofitEmail,
+          projectName,
+          nonprofitName,
+          nonprofitContactName
+        );
 
         console.log(surveyNeeded);
       }
