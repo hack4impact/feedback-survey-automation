@@ -32,7 +32,15 @@ const sendNonprofitMail = async (
   const transporter = setUpEmail();
 
   let htmlTemplate = await readFile(
-    join(__dirname, "..", "..", "..", "static", "mail-template.html"),
+    join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "static",
+      "templates",
+      "mail-template.html"
+    ),
     "utf-8"
   );
 
