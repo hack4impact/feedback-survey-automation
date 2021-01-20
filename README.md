@@ -42,7 +42,7 @@ npm install
 ### Set up Secret Files
 
 - Login to Google Drive with avhack4impact@gmail.com
-- Navigate to the ['Secret Files' folder] in the 'Airtable Automation' folder
+- Navigate to the ['Secret Files' folder] in the 'Airtable Automation' folder in Drive
 - Copy Files:
   - `.env` file to your root folder
   - `serviceaccount.json` file to `src/Config/serviceaccount.json`
