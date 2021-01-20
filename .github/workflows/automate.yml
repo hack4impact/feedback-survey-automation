@@ -1,12 +1,8 @@
-name: Node CI
+name: Automated Run
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  schedule:
+    - cron: "30 18 * * *"
 
 jobs:
   build:
@@ -23,17 +19,14 @@ jobs:
       - name: Setup Service Account
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
 
-      - name: Setup Clasp
-        run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
-
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint Project
-        run: npm run lint
+      - name: Compile Project
+        run: npm run compile
 
-      - name: Build Project
-        run: npm run build
+      - name: Run Script
+        run: npm run make
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           APPS_SCRIPT_PASSWORD: ${{ secrets.APPS_SCRIPT_PASSWORD }}
