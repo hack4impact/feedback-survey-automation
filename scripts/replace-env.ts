@@ -10,12 +10,7 @@ import { resolve } from "path";
 import { replaceInFile } from "replace-in-file";
 
 // Internals
-import {
-  OUTPUT_PATH,
-  OUTPUT_ENV_PATH,
-  getAppScriptPaths,
-  APPS_SCRIPT_CONFIG_PATH,
-} from "./constants";
+import { OUTPUT_PATH, OUTPUT_ENV_PATH, getAppScriptPaths } from "./constants";
 
 config();
 
@@ -30,7 +25,7 @@ const replaceEnv = async () => {
 
   const result = await replaceInFile({
     files,
-    from: [/process\.env\.(\w+)/gm],
+    from: [/process\.env\.(\w+)/g],
     to: (match) => {
       const sliced = match.slice(12);
 
@@ -52,7 +47,10 @@ const replaceEnv = async () => {
 
       return `"${envVar}"` as string;
     },
+    countMatches: true,
   });
+
+  console.log(result);
 };
 
 replaceEnv();

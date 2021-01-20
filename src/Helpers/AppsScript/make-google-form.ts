@@ -4,7 +4,7 @@ import { GoogleFormData } from "../../Utils/types";
 const makeGoogleForm = (request: any) => {
   const data = JSON.parse(request.postData.getDataAsString());
 
-  if (data.password === "hack4impact") {
+  if (data.password === process.env.APPS_SCRIPT_PASSWORD) {
     const form = FormApp.create(data.projectName);
 
     //form config
@@ -42,7 +42,7 @@ function updateProjectSuccessTable(form: any) {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer keyWt5lrjRSF1z1Ci",
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       },
       payload: JSON.stringify({
         records: [
@@ -77,7 +77,7 @@ function addRowToIdStore(formId: string, projectId: string) {
 }
 
 function getProjectData(projectId: string) {
-  const AUTH_HEADER = "Bearer keyWt5lrjRSF1z1Ci";
+  const AUTH_HEADER = `Bearer ${process.env.AIRTABLE_API_KEY}`;
   const targetURL = `https://api.airtable.com/v0/app0TDYnyirqeRk1T/Projects/${projectId}`;
   const res = UrlFetchApp.fetch(targetURL, {
     headers: {
@@ -102,7 +102,7 @@ function addRecordToAirTable(data: any) {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer keyWt5lrjRSF1z1Ci",
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       },
 
       payload: JSON.stringify({

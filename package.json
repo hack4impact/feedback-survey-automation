@@ -8,7 +8,7 @@
     "compile": "tsc -p ./ -w",
     "clasp": "clasp push -w",
     "prebuild": "ts-node scripts/replace-env.ts",
-    "build": "tsc -p ./ && clasp push",
+    "build": "tsc -p ./ && clasp push --force",
     "postbuild": "ts-node scripts/restore-env.ts",
     "lint": "bash scripts/lint.sh",
     "postinstall": "replace-in-file \"declare var console\" \"//declare var console\" node_modules/@types/google-apps-script/google-apps-script.base.d.ts"
