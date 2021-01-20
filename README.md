@@ -1,6 +1,13 @@
-<p align="center"><img width="200" src="https://raw.githubusercontent.com/YashTotale/airtable-automation/main/static/images/icon.png"></img></p>
+<p align="center"><img alt="Icon" width="200" src="https://raw.githubusercontent.com/YashTotale/airtable-automation/main/static/images/icon.png"></img></p>
 
 <h1 align="center">Airtable Automation</h1>
+
+<p align="center">
+<a href="https://github.com/YashTotale/airtable-automation/actions?query=workflow%3A%22Automated+Run%22"><img src="https://img.shields.io/github/workflow/status/YashTotale/airtable-automation/Automated%20Run?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Automated%20Run
+"></img></a>
+<a href="https://github.com/YashTotale/airtable-automation/actions?query=workflow%3A%22Node+CI%22"><img src="https://img.shields.io/github/workflow/status/YashTotale/airtable-automation/Node%20CI?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Node%20CI
+"></img></a>
+</p>
 
 ## Contents <!-- omit in toc -->
 
