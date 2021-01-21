@@ -6,6 +6,7 @@ import { green } from "chalk";
 // Internals
 import { setUpEmail } from "./index";
 import { ProjectData, TimePeriod } from "../../Utils/types";
+import { READABLE_TIME_PERIODS } from "../../Utils/constants";
 
 interface MailResponse {
   accepted: string[];
@@ -27,7 +28,7 @@ const sendReminderEmail = async (
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
-  const email = await setUpTemplate(data);
+  const email = await setUpTemplate(data, timePeriod);
 
   const potentialSends = [data.registrerEmail, data.chapterEmail?.[0]];
   const sendTo: string[] = [];
@@ -37,9 +38,9 @@ const sendReminderEmail = async (
   });
 
   const result: MailResponse = await transporter.sendMail({
-    from: '"Hack4Impact" <contact@hack4impact.org>',
+    from: "contact@hack4impact.org",
     to: sendTo,
-    subject: `${data.projectName} Feedback Survey Reminder`,
+    subject: `Feedback Reminder for ${data.projectName}`,
     html: email,
   });
 
@@ -52,7 +53,7 @@ const sendReminderEmail = async (
   return result;
 };
 
-const setUpTemplate = async (data: ProjectData) => {
+const setUpTemplate = async (data: ProjectData, timePeriod: TimePeriod) => {
   let htmlTemplate = await readFile(
     join(
       __dirname,
@@ -67,9 +68,17 @@ const setUpTemplate = async (data: ProjectData) => {
   );
 
   const HTML_TEMPLATE_VARIABLES = {
-    "nonprofit-name": data.nonprofitName,
+    "nonprofit-name": data.nonprofitName ?? "Unknown Nonprofit",
+    "nonprofit-website": data.nonprofitWebsite ?? "Unknown",
+    "nonprofit-contact-name": data.nonprofitContactName ?? "Unknown",
+    "nonprofit-contact-email": data.nonprofitContactEmail ?? "Unknown",
+    "nonprofit-focus": data.nonprofitFocus ?? "Unknown",
+    "nonprofit-willing-to-interview": data.willingToInterview ?? "Unknown",
     "form-published-url": data.googleFormPublishedUrl,
-    "project-name": data.projectName,
+    "form-edit-url": data.googleFormEditUrl,
+    "project-name": data.projectName ?? "Unknown Project",
+    "readable-time-period":
+      READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",
   };
 
   Object.entries(HTML_TEMPLATE_VARIABLES).forEach(([key, value]) => {

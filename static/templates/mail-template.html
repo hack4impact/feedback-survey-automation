@@ -5,7 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <h1>Feedback for ${{project-name}}</h1>
-    <p>View the <a href="${{form-published-url}}">feedback form</a></p>
+    <h1>Feedback Reminder for ${{project-name}}</h1>
+    <p>
+      It has been ${{readable-time-period}} since you completed the project
+      '${{project-name}}' for the nonprofit '${{nonprofit-name}}'. Could you
+      send them an email asking them to fill out a feedback survey form?
+    </p>
+    <p>Here's the data we have about the nonprofit:</p>
+    <ul>
+      <li>Nonprofit Name: <strong>${{nonprofit-name}}</strong></li>
+      <li>Nonprofit Website: <strong>${{nonprofit-website}}</strong></li>
+      <li>
+        Nonprofit Point of Contact Name:
+        <strong>${{nonprofit-contact-name}}</strong>
+      </li>
+      <li>
+        Nonprofit Point of Contact Email:
+        <strong>${{nonprofit-contact-email}}</strong>
+      </li>
+      <li>Nonprofit Focus: <strong>${{nonprofit-focus}}</strong></li>
+      <li>
+        Was the Nonprofit willing to interview with Nationals?:
+        <strong>${{nonprofit-willing-to-interview}}</strong>
+      </li>
+    </ul>
+    <p>Thanks,<br />Hack4Impact Social Impact Department</p>
+    <p>Links:</p>
+    <ul>
+      <li>
+        <a href="${{form-published-url}}">Published Feedback Form</a>
+      </li>
+      <li>
+        <a href="${{form-edit-url}}">Editable Feedback Form</a>
+      </li>
+    </ul>
   </body>
 </html>
