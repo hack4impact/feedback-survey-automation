@@ -1,28 +1,25 @@
 // Externals
-import moment, { DurationInputArg2, Moment } from "moment";
+import moment, { DurationInputArg2 } from "moment";
 
 // Internals
 import { normalizeDate } from "./index";
 import { TimePeriod, TIME_PERIODS } from "../../Utils/types";
 
 const checkSurveyNeeded = (
-  releaseDate: number,
+  deliveryDate: number,
   lastSent?: TimePeriod
-): TimePeriod | false => {
-  const milestones: Moment[] = TIME_PERIODS.map((timePeriod) => {
+): TimePeriod | null => {
+  for (const timePeriod of TIME_PERIODS) {
+    if (timePeriod === lastSent) break;
     const timeAmount = timePeriod.slice(0, 1);
 
-    return moment().subtract(parseInt(timeAmount), getTimeType(timePeriod));
-  });
+    const milestone = normalizeDate(
+      moment().subtract(parseInt(timeAmount), getTimeType(timePeriod))
+    );
 
-  const index =
-    typeof lastSent === "string" ? TIME_PERIODS.indexOf(lastSent) + 1 : 0;
-
-  if (index < TIME_PERIODS.length) {
-    const milestone = milestones[index];
-    return normalizeDate(milestone) > releaseDate ? TIME_PERIODS[index] : false;
+    if (milestone > deliveryDate) return timePeriod;
   }
-  return false;
+  return null;
 };
 
 const getTimeType = (timePeriod: TimePeriod): DurationInputArg2 => {

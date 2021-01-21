@@ -8,10 +8,10 @@ import Airtable from "airtable";
 import { getAirtableTable } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
-import { sendNonprofitMail } from "./Helpers/Email/";
+import { sendReminderEmail } from "./Helpers/Email/";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
-import { TimePeriod } from "./Utils/types";
+import { ProjectData, TimePeriod } from "./Utils/types";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -30,36 +30,39 @@ const script = async () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach(async (record) => {
+      const data = Object.entries(FIELDS).reduce((obj, [key, value]) => {
+        if (typeof value === "string")
+          return { ...obj, [key]: record.get(value) };
+        if (Array.isArray(value))
+          return {
+            ...obj,
+            [key]: value
+              .map((v) => record.get(v))
+              .filter((v) => v !== undefined),
+          };
+        return obj;
+      }, {} as ProjectData);
+
       const id = record.getId();
-      const projectName = record.get(FIELDS.projectName);
-      const questions: string[] = FIELDS.questions
-        .map((question) => record.get(question))
-        .filter((question) => typeof question === "string" && question.length);
+      const deliveryDate = normalizeDate(data.deliveryDate as string);
 
-      const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
-      const lastSent: TimePeriod | undefined = record.get(FIELDS.lastSent);
-      let googleFormUrl = record.get(FIELDS.googleFormUrl);
-
-      if (typeof googleFormUrl !== "string") {
-        await createGoogleForm(record, projectName, id, questions);
-        googleFormUrl = record.get(FIELDS.googleFormUrl);
+      if (typeof data.googleFormUrl !== "string") {
+        await createGoogleForm(
+          record,
+          data.projectName as string,
+          id,
+          data.questions as string[]
+        );
+        data.googleFormUrl = record.get(FIELDS.googleFormUrl);
       }
 
-      const surveyNeeded = checkSurveyNeeded(releaseDate, lastSent);
+      const surveyNeeded = checkSurveyNeeded(
+        deliveryDate,
+        data.lastSent as TimePeriod | undefined
+      );
 
-      if (surveyNeeded !== false) {
-        const nonprofitEmail = record.get(FIELDS.nonprofitContactEmail);
-        const nonprofitName = record.get(FIELDS.nonprofitName);
-        const nonprofitContactName = record.get(FIELDS.nonprofitContactName);
-
-        await sendNonprofitMail(
-          nonprofitEmail,
-          projectName,
-          nonprofitName,
-          nonprofitContactName,
-          googleFormUrl,
-          surveyNeeded
-        );
+      if (surveyNeeded !== null) {
+        await sendReminderEmail(data, surveyNeeded);
 
         await record.updateFields({
           [FIELDS.lastSent]: surveyNeeded,

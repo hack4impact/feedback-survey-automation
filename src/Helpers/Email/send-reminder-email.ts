@@ -5,7 +5,7 @@ import { green } from "chalk";
 
 // Internals
 import { setUpEmail } from "./index";
-import { TimePeriod } from "../../Utils/types";
+import { ProjectData, TimePeriod } from "../../Utils/types";
 
 interface MailResponse {
   accepted: string[];
@@ -22,16 +22,32 @@ interface MailResponse {
 }
 
 //check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
-const sendNonprofitMail = async (
-  nonprofitEmail: string,
-  projectName: string,
-  nonprofitName: string,
-  nonprofitContactName: string,
-  formPublishedUrl: string,
+const sendReminderEmail = async (
+  data: ProjectData,
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
+  const email = await setUpTemplate(data);
 
+  const sendTo = [data.registrerEmail as string, data.chapterEmail as string];
+
+  const result: MailResponse = await transporter.sendMail({
+    from: '"Hack4Impact" <contact@hack4impact.org>',
+    to: sendTo,
+    subject: `${data.projectName} Feedback Survey Reminder`,
+    html: email,
+  });
+
+  console.log(
+    `${green(
+      `Email sent to '${sendTo}' as a reminder for feedback on '${data.projectName}'!`
+    )} (Time Period: ${timePeriod})`
+  );
+
+  return result;
+};
+
+const setUpTemplate = async (data: ProjectData) => {
   let htmlTemplate = await readFile(
     join(
       __dirname,
@@ -46,32 +62,19 @@ const sendNonprofitMail = async (
   );
 
   const HTML_TEMPLATE_VARIABLES = {
-    "nonprofit-name": nonprofitName,
-    "form-published-url": formPublishedUrl,
-    "project-name": projectName,
+    "nonprofit-name": data.nonprofitName,
+    "form-published-url": data.googleFormUrl,
+    "project-name": data.projectName,
   };
 
   Object.entries(HTML_TEMPLATE_VARIABLES).forEach(([key, value]) => {
     htmlTemplate = htmlTemplate.replace(
       new RegExp(`\\$\\{\\{${key}\\}\\}`, "g"),
-      value
+      value as string
     );
   });
 
-  const result: MailResponse = await transporter.sendMail({
-    from: '"Hack4Impact" <contact@hack4impact.org>',
-    to: `"${nonprofitContactName}" <${nonprofitEmail}>`,
-    subject: `${projectName} Feedback Survey`,
-    html: htmlTemplate,
-  });
-
-  console.log(
-    `${green(
-      `Email sent to '${nonprofitName}' for feedback on project '${projectName}'!`
-    )} (Time Period: ${timePeriod})`
-  );
-
-  return result;
+  return htmlTemplate;
 };
 
-export default sendNonprofitMail;
+export default sendReminderEmail;

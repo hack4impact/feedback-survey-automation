@@ -1,15 +1,27 @@
 export const FIELDS = {
-  // Basic
-  projectName: "Project Name",
-  chapter: "Chapter",
-  semester: "Creation Semester",
-  releaseDate: "(Anticipated) Delivery Date",
-  lastSent: "Last Sent Out",
+  // Register Info
+  registrerName: "Registrer Name",
+  registrerEmail: "Registrer Email",
 
-  // Project
-  leads: "Project Leads (PM, Tech Lead, Designer)",
-  status: "Project Status",
-  members: "Team Members",
+  // Project Info
+  projectName: "Project Name",
+  projectStatus: "Project Status",
+  teamMembers: "Team Members",
+  deliveryDate: "(Anticipated) Delivery Date",
+  creationSemester: "Creation Semester",
+  projectLeads: "Project Leads (PM, Tech Lead, Designer)",
+  prd: "PRD",
+
+  // Questions Info
+  questions: [...Array(8)].map((x, i) => `Success Metric Question ${i + 1}`),
+  googleFormUrl: "Google Form URL",
+  lastSent: "Last Sent Out",
+  projectSuccessData: "Project Success Data",
+
+  // Chapter Info
+  chapter: "Chapter",
+  chapterName: "Chapter Name",
+  chapterEmail: "Chapter Email",
 
   // Nonprofit
   nonprofitName: "Nonprofit Partner Name",
@@ -17,10 +29,7 @@ export const FIELDS = {
   nonprofitFocus: "Nonprofit Focus",
   nonprofitContactName: "Nonprofit Point of Contact Name",
   nonprofitContactEmail: "Nonprofit Point of Contact Email",
-
-  // Misc
-  questions: [...Array(8)].map((x, i) => `Success Metric Question ${i + 1}`),
-  googleFormUrl: "Google Form URL",
+  willingToInterview: "Willing to Interview?",
 };
 
 export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";
