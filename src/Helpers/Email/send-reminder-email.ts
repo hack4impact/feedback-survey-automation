@@ -29,7 +29,12 @@ const sendReminderEmail = async (
   const transporter = setUpEmail();
   const email = await setUpTemplate(data);
 
-  const sendTo = [data.registrerEmail as string, data.chapterEmail as string];
+  const potentialSends = [data.registrerEmail, data.chapterEmail?.[0]];
+  const sendTo: string[] = [];
+
+  potentialSends.forEach((potential) => {
+    if (typeof potential === "string") sendTo.push(potential);
+  });
 
   const result: MailResponse = await transporter.sendMail({
     from: '"Hack4Impact" <contact@hack4impact.org>',
