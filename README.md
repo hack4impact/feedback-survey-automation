@@ -14,9 +14,10 @@
   - [Checkout Repository](#checkout-repository)
   - [Install Dependencies](#install-dependencies)
   - [Set up Secret Files](#set-up-secret-files)
-  - [Set up Clasp](#set-up-clasp)
-  - [Build project](#build-project)
+  - [Compile project](#compile-project)
   - [Run](#run)
+- [Guide to Developing Locally](#guide-to-developing-locally)
+  - [Set up Clasp](#set-up-clasp)
 - [Tools & Technologies](#tools--technologies)
   - [TypeScript](#typescript)
   - [Airtable API](#airtable-api)
@@ -54,6 +55,22 @@ npm install
   - `.env` file to your root folder
   - `serviceaccount.json` file to `src/Config/serviceaccount.json`
 
+### Compile project
+
+```shell
+npm run compile
+```
+
+### Run
+
+```shell
+npm run make
+```
+
+## Guide to Developing Locally
+
+**FOLLOW ALL ['Guide to Running Locally'](#guide-to-running-locally) STEPS FIRST**
+
 ### Set up Clasp
 
 ```shell
@@ -62,18 +79,6 @@ npm run clasp:login
 
 - This will redirect to a Google Sign in screen. Sign in with avhack4impact@gmail.com
 - Click 'Allow' to allow all permissions
-
-### Build project
-
-```shell
-npm run build
-```
-
-### Run
-
-```shell
-npm run make
-```
 
 ## Tools & Technologies
 
