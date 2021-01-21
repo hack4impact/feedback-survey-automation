@@ -46,14 +46,13 @@ const script = async () => {
       const id = record.getId();
       const deliveryDate = normalizeDate(data.deliveryDate as string);
 
-      if (typeof data.googleFormUrl !== "string") {
-        await createGoogleForm(
-          record,
-          data.projectName as string,
-          id,
-          data.questions as string[]
-        );
-        data.googleFormUrl = record.get(FIELDS.googleFormUrl);
+      if (
+        typeof data.googleFormPublishedUrl !== "string" ||
+        typeof data.googleFormEditUrl !== "string"
+      ) {
+        await createGoogleForm(record, data, id);
+        data.googleFormPublishedUrl = record.get(FIELDS.googleFormPublishedUrl);
+        data.googleFormEditUrl = record.get(FIELDS.googleFormEditUrl);
       }
 
       const surveyNeeded = checkSurveyNeeded(

@@ -4,25 +4,29 @@ import Record from "airtable/lib/record";
 
 // Internals
 import { FIELDS } from "../../Utils/constants";
-import { GoogleFormData } from "../../Utils/types";
+import { GoogleFormData, ProjectData } from "../../Utils/types";
 import { green } from "chalk";
 
 const createGoogleForm = async (
   record: Record,
-  projectName: string,
-  projectId: string,
-  questions: string[]
+  data: ProjectData,
+  projectId: string
 ): Promise<GoogleFormData> => {
-  const formData = await fetchGoogleForm(projectName, projectId, questions);
+  const formData = await fetchGoogleForm(
+    data.projectName as string,
+    projectId,
+    data.questions as string[]
+  );
 
   console.log(
     `${green(
-      `Google Form created for '${projectName}'!`
+      `Google Form created for '${data.projectName}'!`
     )} View published form: ${formData.publishedUrl}`
   );
 
   record = await record.updateFields({
-    [FIELDS.googleFormUrl]: formData.publishedUrl,
+    [FIELDS.googleFormPublishedUrl]: formData.publishedUrl,
+    [FIELDS.googleFormEditUrl]: formData.editUrl,
   });
 
   return formData;

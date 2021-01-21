@@ -68,7 +68,7 @@ const setUpTemplate = async (data: ProjectData) => {
 
   const HTML_TEMPLATE_VARIABLES = {
     "nonprofit-name": data.nonprofitName,
-    "form-published-url": data.googleFormUrl,
+    "form-published-url": data.googleFormPublishedUrl,
     "project-name": data.projectName,
   };
 
