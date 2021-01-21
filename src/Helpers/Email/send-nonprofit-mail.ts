@@ -27,6 +27,7 @@ const sendNonprofitMail = async (
   projectName: string,
   nonprofitName: string,
   nonprofitContactName: string,
+  formPublishedUrl: string,
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
@@ -46,6 +47,8 @@ const sendNonprofitMail = async (
 
   const HTML_TEMPLATE_VARIABLES = {
     "nonprofit-name": nonprofitName,
+    "form-published-url": formPublishedUrl,
+    "project-name": projectName,
   };
 
   Object.entries(HTML_TEMPLATE_VARIABLES).forEach(([key, value]) => {

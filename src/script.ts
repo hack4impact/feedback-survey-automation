@@ -38,10 +38,11 @@ const script = async () => {
 
       const releaseDate = normalizeDate(record.get(FIELDS.releaseDate));
       const lastSent: TimePeriod | undefined = record.get(FIELDS.lastSent);
-      const googleFormUrl = record.get(FIELDS.googleFormUrl);
+      let googleFormUrl = record.get(FIELDS.googleFormUrl);
 
       if (typeof googleFormUrl !== "string") {
         await createGoogleForm(record, projectName, id, questions);
+        googleFormUrl = record.get(FIELDS.googleFormUrl);
       }
 
       const surveyNeeded = checkSurveyNeeded(releaseDate, lastSent);
@@ -56,6 +57,7 @@ const script = async () => {
           projectName,
           nonprofitName,
           nonprofitContactName,
+          googleFormUrl,
           surveyNeeded
         );
 
