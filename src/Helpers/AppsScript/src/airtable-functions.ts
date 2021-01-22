@@ -1,6 +1,6 @@
 const airtableAuth = `Bearer ${process.env.AIRTABLE_API_KEY}`;
 
-function addRecordToAirTable(data: any) {
+const addRecordToAirTable = (data: any) => {
   const res = UrlFetchApp.fetch(
     "https://api.airtable.com/v0/app0TDYnyirqeRk1T/Project%20Success%20Data",
     {
@@ -22,9 +22,9 @@ function addRecordToAirTable(data: any) {
 
   const resData = JSON.parse(res.getBlob().getDataAsString());
   return resData;
-}
+};
 
-function getProjectData(projectId: string) {
+const getProjectData = (projectId: string) => {
   const targetURL = `https://api.airtable.com/v0/app0TDYnyirqeRk1T/Projects/${projectId}`;
   const res = UrlFetchApp.fetch(targetURL, {
     headers: {
@@ -35,15 +35,15 @@ function getProjectData(projectId: string) {
     const data = JSON.parse(res.getBlob().getDataAsString());
     return data;
   } else {
-    throw new Error("Air table project found.");
+    throw new Error("No Air table project found.");
   }
-}
+};
 
-function createAirtableRecordFields(
+const createAirtableRecordFields = (
   questionResponsePairs: any,
   response: any,
   projectData: Record<string, unknown>
-) {
+) => {
   const projectFields: any = projectData.fields;
   const feedbackDate: any = response.getTimestamp();
 
@@ -104,4 +104,4 @@ function createAirtableRecordFields(
   }
 
   return body;
-}
+};

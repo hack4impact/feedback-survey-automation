@@ -4,7 +4,12 @@ import Record from "airtable/lib/record";
 
 // Internals
 import { FIELDS } from "../../Utils/constants";
-import { GoogleFormData, ProjectData } from "../../Utils/types";
+import {
+  APPS_SCRIPT_ERRORS,
+  GoogleFormData,
+  GoogleFormPostData,
+  ProjectData,
+} from "../../Utils/types";
 import { green } from "chalk";
 
 const createGoogleForm = async (
@@ -12,11 +17,7 @@ const createGoogleForm = async (
   data: ProjectData,
   projectId: string
 ): Promise<GoogleFormData> => {
-  const formData = await fetchGoogleForm(
-    data.projectName as string,
-    projectId,
-    data.questions as string[]
-  );
+  const formData = await fetchGoogleForm(data, projectId);
 
   console.log(
     `${green(
@@ -33,9 +34,8 @@ const createGoogleForm = async (
 };
 
 const fetchGoogleForm = async (
-  projectName: string,
-  projectId: string,
-  questions: string[]
+  projectData: ProjectData,
+  projectId: string
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
   const data = await fetch(scriptURL, {
@@ -45,10 +45,8 @@ const fetchGoogleForm = async (
     },
     body: JSON.stringify({
       password: process.env.APPS_SCRIPT_PASSWORD,
-      projectName,
-      projectId,
-      questions,
-    }),
+      projectData: projectData,
+    } as GoogleFormPostData),
   });
 
   if (!data.ok) {
@@ -57,8 +55,11 @@ const fetchGoogleForm = async (
   }
 
   const dataText = await data.text();
-  if (dataText === "Unauthorized")
-    throw new Error("The APPS_SCRIPT_PASSWORD is incorrect");
+
+  APPS_SCRIPT_ERRORS.forEach((err) => {
+    if (dataText === err) throw new Error(err);
+  });
+  console.log(dataText);
   const formData = JSON.parse(dataText);
 
   return formData;
