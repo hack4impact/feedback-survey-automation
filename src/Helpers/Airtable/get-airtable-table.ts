@@ -1,7 +1,7 @@
 // Externals
 import Query from "airtable/lib/query";
 
-const getAirtableTable = async (
+const getAirtableTable = (
   airtable: ReturnType<typeof Airtable.base>,
   tableName: string,
   callback: Parameters<Query["eachPage"]>[0]

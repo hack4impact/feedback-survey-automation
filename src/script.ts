@@ -25,7 +25,7 @@ process.on("uncaughtException", (e) => {
 
 yargs(process.argv.slice(2)).argv;
 
-const script = async () => {
+const script = () => {
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
