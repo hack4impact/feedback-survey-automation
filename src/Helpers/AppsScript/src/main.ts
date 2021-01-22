@@ -28,7 +28,7 @@ const doPost = (request: any) => {
   const newFormId = DriveApp.getFileById(
     "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs"
   )
-    .makeCopy("${projectData.projectName} Feedback Survey")
+    .makeCopy(`${projectData.projectName} Feedback Survey`)
     .getId(); // change to drive app
   const form = FormApp.openById(newFormId);
 
