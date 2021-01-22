@@ -19,11 +19,8 @@ const createGoogleForm = async (
 ): Promise<GoogleFormData> => {
   const formData = await fetchGoogleForm(data, projectId);
 
-  console.log(
-    `${green(
-      `Google Form created for '${data.projectName}'!`
-    )} View published form: ${formData.publishedUrl}`
-  );
+  console.log(green(`Google Form created for '${data.projectName}'!`));
+  console.log(formData);
 
   record = await record.updateFields({
     [FIELDS.googleFormPublishedUrl]: formData.publishedUrl,
@@ -46,6 +43,7 @@ const fetchGoogleForm = async (
     body: JSON.stringify({
       password: process.env.APPS_SCRIPT_PASSWORD,
       projectData: projectData,
+      projectId,
     } as GoogleFormPostData),
   });
 
@@ -59,7 +57,6 @@ const fetchGoogleForm = async (
   APPS_SCRIPT_ERRORS.forEach((err) => {
     if (dataText === err) throw new Error(err);
   });
-  console.log(dataText);
   const formData = JSON.parse(dataText);
 
   return formData;
