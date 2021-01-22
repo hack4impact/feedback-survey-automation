@@ -62,11 +62,13 @@ export type AppsScriptError =
   | "No Project ID found"
   | "No Project Name found"
   | "Wrong APPS_SCRIPT_PASSWORD"
-  | "No Success Metric Questions found";
+  | "No Success Metric Questions found"
+  | "No Standard Questions found";
 
 export const APPS_SCRIPT_ERRORS: AppsScriptError[] = [
   "No Project ID found",
   "No Project Name found",
   "Wrong APPS_SCRIPT_PASSWORD",
   "No Success Metric Questions found",
+  "No Standard Questions found",
 ];
