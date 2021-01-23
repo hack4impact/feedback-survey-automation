@@ -15,6 +15,7 @@ import {
   getProjectData,
   postProjectSuccessData,
 } from "./airtable-helpers";
+import { storeForm, getFormStore } from "./form-store";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const doPost = (request: any) => {
@@ -64,7 +65,7 @@ const doPost = (request: any) => {
     .create();
 
   // coupling form id with projectId
-  addRowToIdStore(form.getId(), projectId);
+  storeForm(form.getId(), projectId, timePeriod);
 
   const formData: GoogleFormData = {
     publishedUrl: form.getPublishedUrl(),
@@ -83,7 +84,7 @@ const updateProjectSuccessTable = (
   const form = event.source;
   const formId = form.getId();
 
-  const projectId = getProjectId(formId);
+  const [projectId, timePeriod] = getFormStore(formId);
   const projectData = getProjectData(projectId);
   const allSuccessQs = Object.keys(projectData.fields).filter(
     (field) => field.indexOf("Success Metric Question ") != -1
@@ -127,6 +128,7 @@ const updateProjectSuccessTable = (
   });
 
   body["Responder Email"] = response.getRespondentEmail();
+  body["Response Time Period"] = timePeriod;
 
   const result = postProjectSuccessData(body);
   Logger.log(result);
