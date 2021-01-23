@@ -3,6 +3,11 @@ import {
   GoogleFormData,
   GoogleFormPostData,
 } from "../../../Utils/types";
+import {
+  initializeForm,
+  createStandardQuestion,
+  getStandardQuestionResponse,
+} from "./form-data";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const doPost = (request: any) => {
@@ -21,20 +26,7 @@ const doPost = (request: any) => {
   if (password !== process.env.APPS_SCRIPT_PASSWORD)
     return createError("Wrong APPS_SCRIPT_PASSWORD");
 
-  // copying a template form (cant change color with script)
-  const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
-    .makeCopy(`${projectData.projectName} Feedback Survey`)
-    .getId();
-
-  const form = FormApp.openById(newFormId);
-
-  //form config
-  form.setTitle(`${projectData.projectName} Feedback Survey`);
-  form.setCollectEmail(true);
-  form.setLimitOneResponsePerUser(false);
-  form.setDescription(
-    `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}.`
-  );
+  const form = initializeForm(projectData);
 
   //standard beginning questions
   const standardQuestions = getStandardQuestions();
@@ -66,8 +58,6 @@ const doPost = (request: any) => {
 
   return ContentService.createTextOutput(JSON.stringify(formData));
 };
-
-const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const updateProjectSuccessTable = (

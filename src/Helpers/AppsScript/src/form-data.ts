@@ -1,8 +1,32 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const createStandardQuestion = (
+import { ProjectData } from "../../../Utils/types";
+
+const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
+
+export const initializeForm = (
+  projectData: ProjectData
+): GoogleAppsScript.Forms.Form => {
+  // copying a template form (cant change color with script)
+  const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
+    .makeCopy(`${projectData.projectName} Feedback Survey`)
+    .getId();
+
+  const form = FormApp.openById(newFormId);
+
+  //form config
+  form.setTitle(`${projectData.projectName} Feedback Survey`);
+  form.setCollectEmail(true);
+  form.setLimitOneResponsePerUser(false);
+  form.setDescription(
+    `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}.`
+  );
+
+  return form;
+};
+
+export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
   question: StandardQuestionFields
-) => {
+): void => {
   const { Question, Type } = question;
   let formQuestion;
 
@@ -40,11 +64,10 @@ const createStandardQuestion = (
   formQuestion.setRequired(true);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getStandardQuestionResponse = (
+export const getStandardQuestionResponse = (
   standardQuestion: StandardQuestionFields,
   itemResponse: GoogleAppsScript.Forms.ItemResponse
-) => {
+): string | number | string[] | string[][] => {
   const { Type } = standardQuestion;
   switch (Type) {
     case "Single Line Text": {

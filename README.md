@@ -79,6 +79,11 @@ npm run clasp:login
 
 - This will redirect to a Google Sign in screen. Sign in with avhack4impact@gmail.com
 - Click 'Allow' to allow all permissions
+- To confirm that you're logged in:
+
+  ```shell
+  npm run clasp:status
+  ```
 
 ## Tools & Technologies
 
@@ -102,7 +107,7 @@ We use the [Nodemailer NPM package] to send feedback survey emails to nonprofits
 
 We use [Prettier], [ESLint], [MarkdownLint], and [EditorConfig] to ensure our code style is uniform throughout the project. These tools also help us avoid [Technical Debt] in our code and increase maintainability.
 
-We also use [Husky] and [Lint-Staged] to run our linters and fixers on all staged files before every commit.
+We also use [Husky] and [Lint-Staged] to run our linters and formatters on all staged files before every commit.
 
 ### GitHub Actions
 

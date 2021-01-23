@@ -10,7 +10,11 @@ import { resolve } from "path";
 import { replaceInFile } from "replace-in-file";
 
 // Internals
-import { OUTPUT_PATH, OUTPUT_ENV_PATH, getAppScriptPaths } from "./constants";
+import {
+  OUTPUT_PATH,
+  OUTPUT_ENV_PATH,
+  getAppScriptPaths,
+} from "./Helpers/constants";
 
 config();
 

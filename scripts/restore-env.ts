@@ -8,7 +8,7 @@ import { readFile, rm, writeFile } from "fs/promises";
 import { replaceInFile } from "replace-in-file";
 
 // Internals
-import { getAppScriptPaths, OUTPUT_ENV_PATH } from "./constants";
+import { getAppScriptPaths, OUTPUT_ENV_PATH } from "./Helpers/constants";
 
 const restoreEnv = async () => {
   if (existsSync(OUTPUT_ENV_PATH)) {

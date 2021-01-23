@@ -2,10 +2,11 @@
 import { readdir } from "fs/promises";
 import { join, resolve } from "path";
 
-export const OUTPUT_PATH = join(__dirname, "..", "output");
+export const OUTPUT_PATH = join(__dirname, "..", "..", "output");
 export const OUTPUT_ENV_PATH = join(OUTPUT_PATH, "env.json");
 export const APPS_SCRIPT_PATH = join(
   __dirname,
+  "..",
   "..",
   "src",
   "Helpers",
