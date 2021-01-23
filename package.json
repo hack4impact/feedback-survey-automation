@@ -11,7 +11,7 @@
     "clasp": "npm run clasp:push && npm run clasp:deploy",
     "postclasp": "ts-node scripts/restore-env.ts",
     "clasp:push": "clasp push --force",
-    "clasp:deploy": "export $(cat .env | xargs) && clasp deploy --deploymentId $APPS_SCRIPT_ID",
+    "clasp:deploy": "bash scripts/clasp-deploy.sh",
     "clasp:watch": "clasp push -w",
     "clasp:login": "clasp login",
     "clasp:status": "clasp login --status",
@@ -46,6 +46,7 @@
     "lint-staged": "^10.5.3",
     "markdownlint-cli": "^0.26.0",
     "prettier": "^2.2.1",
+    "prettier-plugin-sh": "^0.6.0",
     "replace-in-file": "^6.1.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
