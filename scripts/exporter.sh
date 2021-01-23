@@ -1,3 +1,5 @@
+set -e
+
 do-export() {
   export $(cat .env | xargs)
 }
