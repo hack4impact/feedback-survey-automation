@@ -29,8 +29,9 @@ interface StandardQuestion {
 
 interface StandardQuestionFields {
   Question: string;
-  Type: "Single Line Text" | "Multi Line Text" | "Integer" | "Yes/No" | "0-10";
-  Order: number;
+  Type?: "Single Line Text" | "Multi Line Text" | "Integer" | "Yes/No" | "0-10";
+  Order?: number;
+  Required?: "True" | "False";
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,7 +52,7 @@ const getStandardQuestions = () => {
 
     return records
       .map((record) => record.fields)
-      .sort(({ Order: a }, { Order: b }) => a - b);
+      .sort(({ Order: a }, { Order: b }) => (a ?? 0) - (b ?? 0));
   }
 
   throw new Error("An error occurred when fetching standard questions");

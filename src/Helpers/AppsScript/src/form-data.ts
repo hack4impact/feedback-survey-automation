@@ -17,7 +17,7 @@ export const initializeForm = (
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(false);
   form.setDescription(
-    `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}.`
+    `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}. This information helps us serve our clients better in the future.`
   );
 
   return form;
@@ -27,7 +27,7 @@ export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
   question: StandardQuestionFields
 ): void => {
-  const { Question, Type } = question;
+  const { Question, Type, Required } = question;
   let formQuestion;
 
   switch (Type) {
@@ -61,7 +61,9 @@ export const createStandardQuestion = (
   }
 
   formQuestion.setTitle(Question);
-  formQuestion.setRequired(true);
+  formQuestion.setRequired(
+    typeof Required === "string" ? JSON.parse(Required.toLowerCase()) : true
+  );
 };
 
 export const getStandardQuestionResponse = (
