@@ -30,17 +30,17 @@ const script = () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach(async (record) => {
-      const data = Object.entries(FIELDS).reduce((obj, [key, value]) => {
+      const data = Object.entries(FIELDS).reduce((data, [key, value]) => {
         if (typeof value === "string")
-          return { ...obj, [key]: record.get(value) };
+          return { ...data, [key]: record.get(value) };
         if (Array.isArray(value))
           return {
-            ...obj,
+            ...data,
             [key]: value
               .map((v) => record.get(v))
               .filter((v) => v !== undefined),
           };
-        return obj;
+        return data;
       }, {} as ProjectData);
 
       const id = record.getId();
@@ -49,9 +49,7 @@ const script = () => {
       const surveyNeeded = checkSurveyNeeded(deliveryDate, data);
 
       if (surveyNeeded !== null) {
-        await createGoogleForm(record, data, id);
-        data.googleFormPublishedUrl = record.get(FIELDS.googleFormPublishedUrl);
-        data.googleFormEditUrl = record.get(FIELDS.googleFormEditUrl);
+        await createGoogleForm(record, data, id, surveyNeeded);
         await sendReminderEmail(data, surveyNeeded);
 
         await record.updateFields({

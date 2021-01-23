@@ -40,10 +40,10 @@ export const FIELDS = {
 
 export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";
 
-export const READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
-  "1m": "1 month",
-  "6m": "6 months",
-  "1y": "1 year",
-  "3y": "3 years",
-  "5y": "5 years",
-};
+export enum READABLE_TIME_PERIODS {
+  "1m" = "1 month",
+  "6m" = "6 months",
+  "1y" = "1 year",
+  "3y" = "3 years",
+  "5y" = "5 years",
+}

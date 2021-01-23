@@ -1,7 +1,10 @@
+import { StandardQuestion, StandardQuestionFields } from "../../../Utils/types";
+
 const airtableAuth = `Bearer ${process.env.AIRTABLE_API_KEY}`;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getProjectData = (projectId: string) => {
+export const getProjectData = (
+  projectId: string
+): Airtable.Record<Record<string, unknown>> => {
   const targetURL = `https://api.airtable.com/v0/app0TDYnyirqeRk1T/Projects/${projectId}`;
   const res = UrlFetchApp.fetch(targetURL, {
     headers: {
@@ -10,9 +13,7 @@ const getProjectData = (projectId: string) => {
   });
 
   if (res.getResponseCode() === 200) {
-    const data: Airtable.Record<Record<string, unknown>> = JSON.parse(
-      res.getBlob().getDataAsString()
-    );
+    const data = JSON.parse(res.getBlob().getDataAsString());
     return data;
   }
 
@@ -21,21 +22,7 @@ const getProjectData = (projectId: string) => {
   );
 };
 
-interface StandardQuestion {
-  id: string;
-  fields: StandardQuestionFields;
-  createdTime: string;
-}
-
-interface StandardQuestionFields {
-  Question: string;
-  Type?: "Single Line Text" | "Multi Line Text" | "Integer" | "Yes/No" | "0-10";
-  Order?: number;
-  Required?: "True" | "False";
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getStandardQuestions = () => {
+export const getStandardQuestions = (): StandardQuestionFields[] => {
   const targetURL =
     "https://api.airtable.com/v0/app0TDYnyirqeRk1T/Standard%20Questions";
 
@@ -58,8 +45,7 @@ const getStandardQuestions = () => {
   throw new Error("An error occurred when fetching standard questions");
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const postProjectSuccessData = (data: Record<string, unknown>) => {
+export const postProjectSuccessData = (data: Record<string, unknown>): any => {
   Logger.log(data);
   const res = UrlFetchApp.fetch(
     "https://api.airtable.com/v0/app0TDYnyirqeRk1T/Project%20Success%20Data",

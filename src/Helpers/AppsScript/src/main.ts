@@ -8,12 +8,20 @@ import {
   createStandardQuestion,
   getStandardQuestionResponse,
 } from "./form-data";
+import {
+  getStandardQuestions,
+  getProjectData,
+  postProjectSuccessData,
+} from "./airtable-helpers";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const doPost = (request: any) => {
-  const { password, projectData, projectId }: GoogleFormPostData = JSON.parse(
-    request.postData.getDataAsString()
-  );
+  const {
+    password,
+    projectData,
+    projectId,
+    timePeriod,
+  }: GoogleFormPostData = JSON.parse(request.postData.getDataAsString());
 
   if (typeof projectId !== "string") return createError("No Project ID found");
 
@@ -23,6 +31,9 @@ const doPost = (request: any) => {
   if (!Array.isArray(projectData.successQuestions))
     return createError("No Success Metric Questions found");
 
+  if (typeof timePeriod !== "string")
+    return createError("No Time Period Found");
+
   if (password !== process.env.APPS_SCRIPT_PASSWORD)
     return createError("Wrong APPS_SCRIPT_PASSWORD");
 
@@ -31,7 +42,7 @@ const doPost = (request: any) => {
   //standard beginning questions
   const standardQuestions = getStandardQuestions();
   for (const question of standardQuestions) {
-    createStandardQuestion(form, question);
+    createStandardQuestion(form, question, timePeriod);
   }
 
   //form success metric questions

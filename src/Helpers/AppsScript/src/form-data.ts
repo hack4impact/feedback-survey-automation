@@ -1,4 +1,8 @@
-import { ProjectData } from "../../../Utils/types";
+import {
+  ProjectData,
+  StandardQuestionFields,
+  TimePeriod,
+} from "../../../Utils/types";
 
 const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
 
@@ -7,7 +11,10 @@ export const initializeForm = (
 ): GoogleAppsScript.Forms.Form => {
   // copying a template form (cant change color with script)
   const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
-    .makeCopy(`${projectData.projectName} Feedback Survey`)
+    .makeCopy(
+      `${projectData.projectName} Feedback Survey`,
+      DriveApp.getFolderById("1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf")
+    )
     .getId();
 
   const form = FormApp.openById(newFormId);
@@ -25,9 +32,13 @@ export const initializeForm = (
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
-  question: StandardQuestionFields
+  question: StandardQuestionFields,
+  timePeriod: TimePeriod
 ): void => {
-  const { Question, Type, Required } = question;
+  const { Question, Type, Required, "Time Periods": timePeriods } = question;
+
+  if (Array.isArray(timePeriods) && !timePeriods.includes(timePeriod)) return;
+
   let formQuestion;
 
   switch (Type) {

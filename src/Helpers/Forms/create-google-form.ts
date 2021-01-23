@@ -9,15 +9,17 @@ import {
   GoogleFormData,
   GoogleFormPostData,
   ProjectData,
+  TimePeriod,
 } from "../../Utils/types";
 import { green } from "chalk";
 
 const createGoogleForm = async (
   record: Record,
   data: ProjectData,
-  projectId: string
+  projectId: string,
+  timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {
-  const formData = await fetchGoogleForm(data, projectId);
+  const formData = await fetchGoogleForm(data, projectId, timePeriod);
 
   console.log(green(`Google Form created for '${data.projectName}'!`));
   console.log(formData);
@@ -27,24 +29,32 @@ const createGoogleForm = async (
     [FIELDS.googleFormEditUrl]: formData.editUrl,
   });
 
+  data.googleFormPublishedUrl = formData.publishedUrl;
+  data.googleFormEditUrl = formData.editUrl;
+
   return formData;
 };
 
 const fetchGoogleForm = async (
   projectData: ProjectData,
-  projectId: string
+  projectId: string,
+  timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
+
+  const body: GoogleFormPostData = {
+    password: process.env.APPS_SCRIPT_PASSWORD ?? "",
+    projectData: projectData,
+    projectId,
+    timePeriod,
+  };
+
   const data = await fetch(scriptURL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      password: process.env.APPS_SCRIPT_PASSWORD,
-      projectData: projectData,
-      projectId,
-    } as GoogleFormPostData),
+    body: JSON.stringify(body),
   });
 
   if (!data.ok) {
