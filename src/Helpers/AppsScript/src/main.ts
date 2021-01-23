@@ -7,6 +7,8 @@ import {
   initializeForm,
   createStandardQuestion,
   getStandardQuestionResponse,
+  createMiscQuestions,
+  getMiscQuestionResponse,
 } from "./form-data";
 import {
   getStandardQuestions,
@@ -37,7 +39,9 @@ const doPost = (request: any) => {
   if (password !== process.env.APPS_SCRIPT_PASSWORD)
     return createError("Wrong APPS_SCRIPT_PASSWORD");
 
-  const form = initializeForm(projectData);
+  const form = initializeForm(projectData, timePeriod);
+
+  createMiscQuestions(form);
 
   //standard beginning questions
   const standardQuestions = getStandardQuestions();
@@ -116,9 +120,13 @@ const updateProjectSuccessTable = (
         body[successQuestion.replace("Metric Question", "Rating")] = parseInt(
           itemResponse.getResponse() as string
         );
+      } else {
+        getMiscQuestionResponse(question, itemResponse, body);
       }
     }
   });
+
+  body["Responder Email"] = response.getRespondentEmail();
 
   const result = postProjectSuccessData(body);
   Logger.log(result);

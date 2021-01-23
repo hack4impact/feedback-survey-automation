@@ -6,13 +6,25 @@ import {
 
 const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
 
+const _READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
+  "1m": "1 month",
+  "6m": "6 months",
+  "1y": "1 year",
+  "3y": "3 years",
+  "5y": "5 years",
+};
+
+export const READABLE_TIME_PERIODS = { ..._READABLE_TIME_PERIODS };
+
 export const initializeForm = (
-  projectData: ProjectData
+  projectData: ProjectData,
+  timePeriod: TimePeriod
 ): GoogleAppsScript.Forms.Form => {
+  const title = `${projectData.projectName} Feedback Survey - ${_READABLE_TIME_PERIODS[timePeriod]}`;
   // copying a template form (cant change color with script)
   const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
     .makeCopy(
-      `${projectData.projectName} Feedback Survey`,
+      title,
       DriveApp.getFolderById("1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf")
     )
     .getId();
@@ -20,9 +32,10 @@ export const initializeForm = (
   const form = FormApp.openById(newFormId);
 
   //form config
-  form.setTitle(`${projectData.projectName} Feedback Survey`);
+  form.setTitle(title);
   form.setCollectEmail(true);
-  form.setLimitOneResponsePerUser(false);
+  form.setLimitOneResponsePerUser(true);
+  form.setAllowResponseEdits(true);
   form.setDescription(
     `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}. This information helps us serve our clients better in the future.`
   );
@@ -77,6 +90,30 @@ export const createStandardQuestion = (
   );
 };
 
+interface MiscQuestion {
+  title: string;
+  field: string;
+  required: boolean;
+}
+
+const MISC_QUESTIONS: MiscQuestion[] = [
+  {
+    title: "Your Name",
+    required: true,
+    field: "Responder Name",
+  },
+];
+
+export const createMiscQuestions = (
+  form: GoogleAppsScript.Forms.Form
+): void => {
+  MISC_QUESTIONS.forEach(({ title, required }) => {
+    const item = form.addTextItem();
+    item.setTitle(title);
+    item.setRequired(required);
+  });
+};
+
 export const getStandardQuestionResponse = (
   standardQuestion: StandardQuestionFields,
   itemResponse: GoogleAppsScript.Forms.ItemResponse
@@ -101,5 +138,18 @@ export const getStandardQuestionResponse = (
     default: {
       return itemResponse.getResponse();
     }
+  }
+};
+
+export const getMiscQuestionResponse = (
+  question: string,
+  itemResponse: GoogleAppsScript.Forms.ItemResponse,
+  body: Record<string, unknown>
+): void => {
+  const misc = MISC_QUESTIONS.find(({ title }) => question === title);
+
+  if (misc !== undefined) {
+    const response = itemResponse.getResponse();
+    body[misc.field] = response;
   }
 };

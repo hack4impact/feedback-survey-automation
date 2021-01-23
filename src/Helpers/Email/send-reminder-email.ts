@@ -6,7 +6,7 @@ import { green } from "chalk";
 // Internals
 import { setUpEmail } from "./index";
 import { ProjectData, TimePeriod } from "../../Utils/types";
-import { READABLE_TIME_PERIODS } from "../../Utils/constants";
+import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 interface MailResponse {
   accepted: string[];
