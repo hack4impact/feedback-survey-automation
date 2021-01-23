@@ -55,20 +55,18 @@ export interface GoogleFormPostData {
 
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
-// For looping through time periods
+// For looping through time periods (MUST be largest to smallest)
 export const TIME_PERIODS: TimePeriod[] = ["5y", "3y", "1y", "6m", "1m"];
 
 export type AppsScriptError =
   | "No Project ID found"
   | "No Project Name found"
   | "Wrong APPS_SCRIPT_PASSWORD"
-  | "No Success Metric Questions found"
-  | "No Standard Questions found";
+  | "No Success Metric Questions found";
 
 export const APPS_SCRIPT_ERRORS: AppsScriptError[] = [
   "No Project ID found",
   "No Project Name found",
   "Wrong APPS_SCRIPT_PASSWORD",
   "No Success Metric Questions found",
-  "No Standard Questions found",
 ];

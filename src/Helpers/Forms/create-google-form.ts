@@ -57,6 +57,7 @@ const fetchGoogleForm = async (
   APPS_SCRIPT_ERRORS.forEach((err) => {
     if (dataText === err) throw new Error(err);
   });
+  console.log(dataText);
   const formData = JSON.parse(dataText);
 
   return formData;

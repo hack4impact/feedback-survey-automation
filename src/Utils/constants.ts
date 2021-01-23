@@ -19,7 +19,6 @@ export const FIELDS = {
   successQuestions: [...Array(8)].map(
     (x, i) => `Success Metric Question ${i + 1}`
   ),
-  standardQuestions: [],
   googleFormPublishedUrl: "Google Form Published URL",
   googleFormEditUrl: "Google Form Edit URL",
   lastSent: "Last Sent Out",

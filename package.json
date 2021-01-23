@@ -8,7 +8,7 @@
     "compile": "tsc -p ./",
     "compile:watch": "tsc -p ./ -w",
     "preclasp": "ts-node scripts/replace-env.ts",
-    "clasp": "clasp push --force && clasp deploy",
+    "clasp": "clasp push --force",
     "postclasp": "ts-node scripts/restore-env.ts",
     "clasp:watch": "clasp push -w",
     "clasp:login": "clasp login",
