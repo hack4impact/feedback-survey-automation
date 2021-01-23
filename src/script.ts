@@ -11,7 +11,7 @@ import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email/";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
-import { ProjectData, TimePeriod } from "./Utils/types";
+import { ProjectData } from "./Utils/types";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -46,21 +46,12 @@ const script = () => {
       const id = record.getId();
       const deliveryDate = normalizeDate(data.deliveryDate as string);
 
-      if (
-        typeof data.googleFormPublishedUrl !== "string" ||
-        typeof data.googleFormEditUrl !== "string"
-      ) {
+      const surveyNeeded = checkSurveyNeeded(deliveryDate, data);
+
+      if (surveyNeeded !== null) {
         await createGoogleForm(record, data, id);
         data.googleFormPublishedUrl = record.get(FIELDS.googleFormPublishedUrl);
         data.googleFormEditUrl = record.get(FIELDS.googleFormEditUrl);
-      }
-
-      const surveyNeeded = checkSurveyNeeded(
-        deliveryDate,
-        data.lastSent as TimePeriod | undefined
-      );
-
-      if (surveyNeeded !== null) {
         await sendReminderEmail(data, surveyNeeded);
 
         await record.updateFields({

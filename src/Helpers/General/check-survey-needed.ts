@@ -3,12 +3,13 @@ import moment, { DurationInputArg2 } from "moment";
 
 // Internals
 import { normalizeDate } from "./index";
-import { TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { ProjectData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
 
 const checkSurveyNeeded = (
   deliveryDate: number,
-  lastSent?: TimePeriod
+  data: ProjectData
 ): TimePeriod | null => {
+  const lastSent = data.lastSent as TimePeriod | undefined;
   for (const timePeriod of TIME_PERIODS) {
     if (timePeriod === lastSent) break;
     const timeAmount = timePeriod.slice(0, 1);
