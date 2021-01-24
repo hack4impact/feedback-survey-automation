@@ -21,12 +21,16 @@ export const initializeForm = (
   timePeriod: TimePeriod
 ): GoogleAppsScript.Forms.Form => {
   const title = `${projectData.projectName} Feedback Survey - ${_READABLE_TIME_PERIODS[timePeriod]}`;
+  const editors = [projectData.chapterEmail, projectData.registrerEmail].filter(
+    (editor): editor is string => typeof editor === "string"
+  );
   // copying a template form (cant change color with script)
   const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
     .makeCopy(
       title,
       DriveApp.getFolderById("1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf")
     )
+    .addEditors(editors)
     .getId();
 
   const form = FormApp.openById(newFormId);
