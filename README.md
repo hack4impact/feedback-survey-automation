@@ -10,14 +10,7 @@
 ## Contents <!-- omit in toc -->
 
 - [Guide to Running Locally](#guide-to-running-locally)
-  - [Required Technologies](#required-technologies)
-  - [Checkout Repository](#checkout-repository)
-  - [Install Dependencies](#install-dependencies)
-  - [Set up Secret Files](#set-up-secret-files)
-  - [Compile project](#compile-project)
-  - [Run](#run)
 - [Guide to Developing Locally](#guide-to-developing-locally)
-  - [Set up Clasp](#set-up-clasp)
 - [Tools & Technologies](#tools--technologies)
   - [TypeScript](#typescript)
   - [Airtable API](#airtable-api)
@@ -28,62 +21,11 @@
 
 ## Guide to Running Locally
 
-### Required Technologies
-
-- [Git], version `>=2.x`
-- [Node.JS], version `>=15.x`
-- [NPM], version `>=6.x`
-
-### Checkout Repository
-
-```shell
-git clone https://github.com/YashTotale/airtable-automation.git
-cd airtable-automation
-```
-
-### Install Dependencies
-
-```shell
-npm install
-```
-
-### Set up Secret Files
-
-- Login to Google Drive with avhack4impact@gmail.com
-- Navigate to the ['Secret Files' folder] in the 'Airtable Automation' folder in Drive
-- Copy Files:
-  - `.env` file to your root folder
-  - `serviceaccount.json` file to `src/Config/serviceaccount.json`
-
-### Compile project
-
-```shell
-npm run compile
-```
-
-### Run
-
-```shell
-npm run make
-```
+See the detailed [Guide to Running Locally GitHub Wiki]
 
 ## Guide to Developing Locally
 
-**FOLLOW ALL ['Guide to Running Locally'](#guide-to-running-locally) STEPS FIRST**
-
-### Set up Clasp
-
-```shell
-npm run clasp:login
-```
-
-- This will redirect to a Google Sign in screen. Sign in with avhack4impact@gmail.com
-- Click 'Allow' to allow all permissions
-- To confirm that you're logged in:
-
-  ```shell
-  npm run clasp:status
-  ```
+See the detailed [Guide to Developing Locally GitHub Wiki]
 
 ## Tools & Technologies
 
@@ -117,6 +59,8 @@ Additionally, every day at 11:30 PST, we run our script with a [scheduled GitHub
 
 <!-- Reference Links -->
 
+[guide to developing locally github wiki]: https://github.com/YashTotale/airtable-automation/wiki/Guide-to-Developing-Locally
+[guide to running locally github wiki]: https://github.com/YashTotale/airtable-automation/wiki/Guide-to-Running-Locally
 [git]: https://git-scm.com/
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
