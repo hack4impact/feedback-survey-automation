@@ -17,7 +17,8 @@
     ".huskyrc": "json",
     ".lintstagedrc": "json",
 
-    ".snyk": "yaml"
+    ".snyk": "yaml",
+    ".imgbotconfig": "json"
   },
   "markdown.extension.toc.levels": "1..3"
 }
