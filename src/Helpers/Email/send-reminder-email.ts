@@ -5,7 +5,7 @@ import { green } from "chalk";
 
 // Internals
 import { setUpEmail } from "./index";
-import { ProjectData, TimePeriod } from "../../Utils/types";
+import { CheckedData, TimePeriod } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 interface MailResponse {
@@ -24,7 +24,7 @@ interface MailResponse {
 
 //check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
 const sendReminderEmail = async (
-  data: ProjectData,
+  data: CheckedData,
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
@@ -53,7 +53,7 @@ const sendReminderEmail = async (
   return result;
 };
 
-const setUpTemplate = async (data: ProjectData, timePeriod: TimePeriod) => {
+const setUpTemplate = async (data: CheckedData, timePeriod: TimePeriod) => {
   let htmlTemplate = await readFile(
     join(
       __dirname,
@@ -76,7 +76,7 @@ const setUpTemplate = async (data: ProjectData, timePeriod: TimePeriod) => {
     "nonprofit-willing-to-interview": data.willingToInterview ?? "Unknown",
     "form-published-url": data.googleFormPublishedUrl,
     "form-edit-url": data.googleFormEditUrl,
-    "project-name": data.projectName ?? "Unknown Project",
+    "project-name": data.projectName,
     "readable-time-period":
       READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",
   };

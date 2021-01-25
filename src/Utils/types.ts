@@ -3,6 +3,17 @@ import { FIELDS } from "./constants";
 
 export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 
+interface CheckedFields {
+  projectName: string;
+  deliveryDate: string;
+  googleFormPublishedUrl?: string;
+  googleFormEditUrl?: string;
+  lastSent?: TimePeriod;
+}
+
+export type CheckedData = Omit<ProjectData, keyof CheckedFields> &
+  CheckedFields;
+
 export type Chapter =
   | "Cal Poly"
   | "Georgia Tech"
@@ -53,7 +64,7 @@ export interface GoogleFormData {
 
 export interface GoogleFormPostData {
   password: string;
-  projectData: ProjectData;
+  projectData: CheckedData;
   projectId: string;
   timePeriod: TimePeriod;
 }

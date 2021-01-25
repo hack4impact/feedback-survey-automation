@@ -65,7 +65,7 @@ const doPost = (request: any) => {
     .create();
 
   // coupling form id with projectId
-  storeForm(form.getId(), projectId, timePeriod);
+  storeForm([form.getId(), projectId, timePeriod]);
 
   const formData: GoogleFormData = {
     publishedUrl: form.getPublishedUrl(),

@@ -1,5 +1,5 @@
 import {
-  ProjectData,
+  CheckedData,
   StandardQuestionFields,
   TimePeriod,
 } from "../../../Utils/types";
@@ -14,10 +14,11 @@ const _READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
   "5y": "5 years",
 };
 
+// Can only export it this way because exporting a variable (not a function) masks the variable when the Apps Scripts are compiled
 export const READABLE_TIME_PERIODS = { ..._READABLE_TIME_PERIODS };
 
 export const initializeForm = (
-  projectData: ProjectData,
+  projectData: CheckedData,
   timePeriod: TimePeriod
 ): GoogleAppsScript.Forms.Form => {
   const title = `${projectData.projectName} Feedback Survey - ${_READABLE_TIME_PERIODS[timePeriod]}`;
@@ -39,7 +40,7 @@ export const initializeForm = (
   form.setTitle(title);
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
-  form.setAllowResponseEdits(true);
+  form.setAllowResponseEdits(false);
   form.setDescription(
     `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}. This information helps us serve our clients better in the future.`
   );

@@ -2,7 +2,7 @@
 import Query from "airtable/lib/query";
 
 const getAirtableTable = (
-  airtable: ReturnType<typeof Airtable.base>,
+  airtable: Airtable.Base,
   tableName: string,
   callback: Parameters<Query["eachPage"]>[0]
 ): Promise<void> => {

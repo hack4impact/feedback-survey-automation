@@ -17,12 +17,7 @@ export const getFormStore = (desiredFormId: string): RowSliced => {
   throw new Error(`Unable to find Project ID for Form ID ${desiredFormId}`);
 };
 
-export const storeForm = (
-  formId: string,
-  projectId: string,
-  timePeriod: TimePeriod
-): void => {
+export const storeForm = (row: Row): void => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const row: Row = [formId, projectId, timePeriod];
   idStore.appendRow(row);
 };

@@ -6,16 +6,16 @@ import Record from "airtable/lib/record";
 import { FIELDS } from "../../Utils/constants";
 import {
   APPS_SCRIPT_ERRORS,
+  CheckedData,
   GoogleFormData,
   GoogleFormPostData,
-  ProjectData,
   TimePeriod,
 } from "../../Utils/types";
 import { green } from "chalk";
 
 const createGoogleForm = async (
   record: Record,
-  data: ProjectData,
+  data: CheckedData,
   projectId: string,
   timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {
@@ -36,7 +36,7 @@ const createGoogleForm = async (
 };
 
 const fetchGoogleForm = async (
-  projectData: ProjectData,
+  projectData: CheckedData,
   projectId: string,
   timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {
@@ -44,7 +44,7 @@ const fetchGoogleForm = async (
 
   const body: GoogleFormPostData = {
     password: process.env.APPS_SCRIPT_PASSWORD ?? "",
-    projectData: projectData,
+    projectData,
     projectId,
     timePeriod,
   };
@@ -57,11 +57,6 @@ const fetchGoogleForm = async (
     body: JSON.stringify(body),
   });
 
-  if (!data.ok) {
-    console.error(data);
-    process.exit(1);
-  }
-
   const dataText = await data.text();
 
   APPS_SCRIPT_ERRORS.forEach((err) => {
@@ -70,7 +65,6 @@ const fetchGoogleForm = async (
 
   try {
     const formData = JSON.parse(dataText);
-
     return formData;
   } catch (e) {
     console.log(dataText);

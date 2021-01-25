@@ -7,11 +7,12 @@ import Airtable from "airtable";
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
-import { checkSurveyNeeded, normalizeDate } from "./Helpers/General";
+import { checkSurveyNeeded } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email/";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
 import { ProjectData } from "./Utils/types";
+import checkRequiredFields from "./Helpers/General/check-required-fields";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -43,14 +44,15 @@ const script = () => {
         return data;
       }, {} as ProjectData);
 
-      const id = record.getId();
-      const deliveryDate = normalizeDate(data.deliveryDate as string);
+      const checkedData = checkRequiredFields(data);
 
-      const surveyNeeded = checkSurveyNeeded(deliveryDate, data);
+      const id = record.getId();
+
+      const surveyNeeded = checkSurveyNeeded(checkedData);
 
       if (surveyNeeded !== null) {
-        await createGoogleForm(record, data, id, surveyNeeded);
-        await sendReminderEmail(data, surveyNeeded);
+        await createGoogleForm(record, checkedData, id, surveyNeeded);
+        await sendReminderEmail(checkedData, surveyNeeded);
 
         await record.updateFields({
           [FIELDS.lastSent]: surveyNeeded,

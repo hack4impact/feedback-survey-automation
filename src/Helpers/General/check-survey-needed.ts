@@ -3,19 +3,17 @@ import moment, { DurationInputArg2 } from "moment";
 
 // Internals
 import { normalizeDate } from "./index";
-import { ProjectData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { CheckedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
 
-const checkSurveyNeeded = (
-  deliveryDate: number,
-  data: ProjectData
-): TimePeriod | null => {
-  const lastSent = data.lastSent as TimePeriod | undefined;
+const checkSurveyNeeded = (data: CheckedData): TimePeriod | null => {
+  const deliveryDate = normalizeDate(data.deliveryDate);
+  const lastSent = data.lastSent;
   for (const timePeriod of TIME_PERIODS) {
     if (timePeriod === lastSent) break;
-    const timeAmount = timePeriod.slice(0, 1);
+    const timeAmount = parseInt(timePeriod.slice(0, 1));
 
     const milestone = normalizeDate(
-      moment().subtract(parseInt(timeAmount), getTimeType(timePeriod))
+      moment().subtract(timeAmount, getTimeUnit(timePeriod))
     );
 
     if (milestone > deliveryDate) return timePeriod;
@@ -23,9 +21,9 @@ const checkSurveyNeeded = (
   return null;
 };
 
-const getTimeType = (timePeriod: TimePeriod): DurationInputArg2 => {
-  const timeType = timePeriod.slice(1, 2);
-  switch (timeType) {
+const getTimeUnit = (timePeriod: TimePeriod): DurationInputArg2 => {
+  const timeUnit = timePeriod.slice(1, 2);
+  switch (timeUnit) {
     case "m": {
       return "months";
     }
@@ -33,7 +31,7 @@ const getTimeType = (timePeriod: TimePeriod): DurationInputArg2 => {
       return "years";
     }
     default: {
-      throw new Error(`Unrecognized time type ${timeType}`);
+      throw new Error(`Unrecognized time unit ${timeUnit}`);
     }
   }
 };
