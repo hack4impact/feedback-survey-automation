@@ -7,12 +7,11 @@ import Airtable from "airtable";
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
-import { checkSurveyNeeded } from "./Helpers/General";
+import { checkSurveyNeeded, checkRequiredFields } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email/";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
 import { ProjectData } from "./Utils/types";
-import checkRequiredFields from "./Helpers/General/check-required-fields";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);

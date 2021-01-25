@@ -1,3 +1,4 @@
+// Internals
 import { ProjectData, CheckedData, TIME_PERIODS } from "../../Utils/types";
 
 const checkRequiredFields = (data: ProjectData): CheckedData => {

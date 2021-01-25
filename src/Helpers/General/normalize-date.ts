@@ -1,7 +1,8 @@
 // Externals
-import moment, { Moment } from "moment";
+import moment from "moment";
 
-export type DateParameter = Date | Moment | number | string;
+// Internals
+import { DateParameter } from "../../Utils/types";
 
 const normalizeDate = (date: DateParameter): number => {
   if (typeof date === "string") {

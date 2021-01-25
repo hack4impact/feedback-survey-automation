@@ -1,3 +1,6 @@
+// Externals
+import { Moment } from "moment";
+
 // Internals
 import { FIELDS } from "./constants";
 
@@ -97,3 +100,5 @@ export interface StandardQuestionFields {
   Order?: number;
   Required?: "True" | "False";
 }
+
+export type DateParameter = Date | Moment | number | string;

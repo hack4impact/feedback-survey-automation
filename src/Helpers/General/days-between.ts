@@ -2,7 +2,8 @@
 import moment from "moment";
 
 // Internals
-import { normalizeDate, DateParameter } from "./index";
+import { normalizeDate } from "./index";
+import { DateParameter } from "../../Utils/types";
 
 const daysBetween = (
   date1: DateParameter,
