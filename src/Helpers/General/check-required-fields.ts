@@ -22,29 +22,37 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
     );
   }
 
-  if (googleFormEditUrl !== undefined && typeof googleFormEditUrl) {
+  if (
+    googleFormEditUrl !== undefined &&
+    typeof googleFormEditUrl !== "string"
+  ) {
     throw new Error(
       `${projectName} has a non-string Google Form Edit URL (${googleFormEditUrl})`
     );
   }
 
-  if (googleFormPublishedUrl !== undefined && typeof googleFormPublishedUrl) {
+  if (
+    googleFormPublishedUrl !== undefined &&
+    typeof googleFormPublishedUrl !== "string"
+  ) {
     throw new Error(
       `${projectName} has a non-string Google Form Published URL (${googleFormPublishedUrl})`
     );
   }
 
-  if (lastSent !== undefined && typeof lastSent !== "string") {
-    throw new Error(
-      `${projectName} has a non-string Last Sent value (${lastSent})`
-    );
-  }
+  if (lastSent !== undefined) {
+    if (typeof lastSent !== "string") {
+      throw new Error(
+        `${projectName} has a non-string Last Sent value (${lastSent})`
+      );
+    }
 
-  // @ts-expect-error Trying to check if lastSent is a valid time period
-  if (!TIME_PERIODS.includes(lastSent)) {
-    throw new Error(
-      `${projectName} does not have a valid time period for its Last Sent value (${lastSent})`
-    );
+    // @ts-expect-error Trying to check if lastSent is a valid time period
+    if (!TIME_PERIODS.includes(lastSent)) {
+      throw new Error(
+        `${projectName} does not have a valid time period for its Last Sent value (${lastSent})`
+      );
+    }
   }
 
   return data as CheckedData;
