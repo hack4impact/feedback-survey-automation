@@ -21,3 +21,18 @@ export const storeForm = (row: Row): void => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
   idStore.appendRow(row);
 };
+
+export const modifyFormRow = (rowIndex: number, values: Array<string>) => {
+  const numberOfCols = values.length;
+  const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const rangeNotation = `A${rowIndex}:${
+    getLetterNumerically(numberOfCols) + rowIndex
+  }`;
+  const range = idStore.getRange(rangeNotation);
+  range.setValues([values]);
+};
+
+export const getLetterNumerically = (num: number) => {
+  const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return LETTERS[num];
+};
