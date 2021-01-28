@@ -7,11 +7,14 @@ import Airtable from "airtable";
 // Internals
 import { getAirtableTable } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
-import { checkSurveyNeeded, checkRequiredFields } from "./Helpers/General";
-import { sendReminderEmail } from "./Helpers/Email/";
+import {
+  checkSurveyNeeded,
+  checkRequiredFields,
+  parseRecord,
+} from "./Helpers/General";
+import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
-import { ProjectData } from "./Utils/types";
 
 process.on("unhandledRejection", (e) => {
   console.error(e);
@@ -30,18 +33,7 @@ const script = () => {
 
   getAirtableTable(table, "Projects", (records, nextPage) => {
     records.forEach(async (record) => {
-      const data = Object.entries(FIELDS).reduce((data, [key, value]) => {
-        if (typeof value === "string")
-          return { ...data, [key]: record.get(value) };
-        if (Array.isArray(value))
-          return {
-            ...data,
-            [key]: value
-              .map((v) => record.get(v))
-              .filter((v) => v !== undefined),
-          };
-        return data;
-      }, {} as ProjectData);
+      const data = parseRecord(record);
 
       const checkedData = checkRequiredFields(data);
 

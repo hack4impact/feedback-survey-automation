@@ -1,3 +1,4 @@
+export { default as parseRecord } from "./parse-record";
 export { default as normalizeDate } from "./normalize-date";
 export { default as daysBetween } from "./days-between";
 export { default as checkSurveyNeeded } from "./check-survey-needed";
