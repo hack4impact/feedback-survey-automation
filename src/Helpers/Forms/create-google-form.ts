@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import Record from "airtable/lib/record";
 
 // Internals
-import { FIELDS } from "../../Utils/constants";
+import { createPublishedURLField, FIELDS } from "../../Utils/constants";
 import {
   APPS_SCRIPT_ERRORS,
   CheckedData,
@@ -22,13 +22,24 @@ const createGoogleForm = async (
   const formData = await fetchGoogleForm(data, projectId, timePeriod);
 
   console.log(green(`Google Form created for '${data.projectName}'!`));
-  console.log(formData);
+  console.log(`Published URL: ${formData.publishedUrl}`);
+
+  const expectedUrlField = createPublishedURLField(timePeriod);
+
+  const publishedUrlField = FIELDS.googleFormPublishedUrls.find(
+    (val) => val === expectedUrlField
+  );
+
+  if (publishedUrlField === undefined)
+    throw new Error(
+      `Unable to find Google Form Published URL field: '${expectedUrlField}'`
+    );
 
   record = await record.updateFields({
-    [FIELDS.googleFormPublishedUrl]: formData.publishedUrl,
+    [publishedUrlField]: formData.publishedUrl,
   });
 
-  data.googleFormPublishedUrl = formData.publishedUrl;
+  data[publishedUrlField] = formData.publishedUrl;
 
   return formData;
 };

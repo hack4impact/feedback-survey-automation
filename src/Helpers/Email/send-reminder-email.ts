@@ -7,6 +7,7 @@ import { green } from "chalk";
 import { setUpEmail } from "./index";
 import { CheckedData, TimePeriod } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
+import { createPublishedURLField } from "../../Utils/constants";
 
 interface MailResponse {
   accepted: string[];
@@ -30,12 +31,9 @@ const sendReminderEmail = async (
   const transporter = setUpEmail();
   const email = await setUpTemplate(data, timePeriod);
 
-  const potentialSends = [data.registrerEmail, data.chapterEmail?.[0]];
-  const sendTo: string[] = [];
-
-  potentialSends.forEach((potential) => {
-    if (typeof potential === "string") sendTo.push(potential);
-  });
+  const sendTo = [data.registrerEmail, data.chapterEmail?.[0]].filter(
+    (potential): potential is string => typeof potential === "string"
+  );
 
   const result: MailResponse = await transporter.sendMail({
     from: "contact@hack4impact.org",
@@ -74,7 +72,8 @@ const setUpTemplate = async (data: CheckedData, timePeriod: TimePeriod) => {
     "nonprofit-contact-email": data.nonprofitContactEmail ?? "Unknown",
     "nonprofit-focus": data.nonprofitFocus ?? "Unknown",
     "nonprofit-willing-to-interview": data.willingToInterview ?? "Unknown",
-    "form-published-url": data.googleFormPublishedUrl,
+    "form-published-url":
+      data[createPublishedURLField(timePeriod)] ?? "Unknown",
     "project-name": data.projectName,
     "readable-time-period":
       READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",

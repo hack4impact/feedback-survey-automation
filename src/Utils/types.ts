@@ -9,7 +9,6 @@ export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 interface CheckedFields {
   projectName: string;
   deliveryDate: string;
-  googleFormPublishedUrl?: string;
   lastSent?: TimePeriod;
 }
 

@@ -1,3 +1,8 @@
+import { TimePeriod, TIME_PERIODS } from "./types";
+
+export const createPublishedURLField = (timePeriod: TimePeriod): string =>
+  `(${timePeriod}) Google Form Published URL`;
+
 export const FIELDS = {
   // Register Info
   registrerName: "Registrer Name",
@@ -16,7 +21,7 @@ export const FIELDS = {
   successQuestions: [...Array(8)].map(
     (x, i) => `Success Metric Question ${i + 1}`
   ),
-  googleFormPublishedUrl: "Google Form Published URL",
+  googleFormPublishedUrls: TIME_PERIODS.map(createPublishedURLField),
   lastSent: "Last Sent Out",
   projectSuccessData: "Project Success Data",
 
