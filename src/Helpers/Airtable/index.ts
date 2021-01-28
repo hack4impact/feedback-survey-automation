@@ -1,1 +1,1 @@
-export { default as getAirtableTable } from "./get-airtable-table";
+export { default as getProjectSuccessData } from "./get-project-success-data";

@@ -9,6 +9,8 @@ export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 interface CheckedFields {
   projectName: string;
   deliveryDate: string;
+  projectStatus?: ProjectStatus;
+  projectSuccessData?: string[];
   lastSent?: TimePeriod;
 }
 
@@ -37,6 +39,15 @@ export type ProjectStatus =
   | "Abandoned by Nonprofit"
   | "Unknown";
 
+// For looping through project statuses
+export const PROJECT_STATUSES: ProjectStatus[] = [
+  "In Progress",
+  "Delivered",
+  "Abandoned by Dev Team",
+  "Abandoned by Nonprofit",
+  "Unknown",
+];
+
 export type NonprofitFocus =
   | "Environmental Justice"
   | "Racial Justice"
@@ -58,6 +69,7 @@ export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
 // For looping through time periods (MUST be largest to smallest)
 export const TIME_PERIODS: TimePeriod[] = ["5y", "3y", "1y", "6m", "1m"];
+
 export interface GoogleFormData {
   id: string;
   title: string;

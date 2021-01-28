@@ -5,12 +5,13 @@ import yargs from "yargs/yargs";
 import Airtable from "airtable";
 
 // Internals
-import { getAirtableTable } from "./Helpers/Airtable";
+import { getProjectSuccessData } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import {
   checkSurveyNeeded,
   checkRequiredFields,
   parseRecord,
+  checkProjectStatus,
 } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
@@ -31,28 +32,36 @@ yargs(process.argv.slice(2)).argv;
 const script = () => {
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
-  getAirtableTable(table, "Projects", (records, nextPage) => {
-    records.forEach(async (record) => {
-      const data = parseRecord(record);
+  table("Projects")
+    .select()
+    .eachPage((records, nextPage) => {
+      records.forEach(async (record) => {
+        const data = parseRecord(record);
 
-      const checkedData = checkRequiredFields(data);
+        const checkedData = checkRequiredFields(data);
+        const { projectStatus, projectSuccessData } = checkedData;
 
-      const id = record.getId();
+        // If project is abandoned, don't perform any actions
+        if (!checkProjectStatus(projectStatus)) return;
 
-      const surveyNeeded = checkSurveyNeeded(checkedData);
+        await getProjectSuccessData(table, projectSuccessData);
 
-      if (surveyNeeded !== null) {
-        await createGoogleForm(record, checkedData, id, surveyNeeded);
-        await sendReminderEmail(checkedData, surveyNeeded);
+        const id = record.getId();
 
-        await record.updateFields({
-          [FIELDS.lastSent]: surveyNeeded,
-        });
-      }
+        const surveyNeeded = checkSurveyNeeded(checkedData);
+
+        if (surveyNeeded !== null) {
+          await createGoogleForm(record, checkedData, id, surveyNeeded);
+          await sendReminderEmail(checkedData, surveyNeeded);
+
+          await record.updateFields({
+            [FIELDS.lastSent]: surveyNeeded,
+          });
+        }
+      });
+
+      nextPage();
     });
-
-    nextPage();
-  });
 };
 
 script();
