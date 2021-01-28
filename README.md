@@ -43,7 +43,7 @@ We use [Google Apps Scripts] to create Google Forms (as there is no Google Forms
 
 ### Nodemailer
 
-We use the [Nodemailer NPM package] to send feedback survey emails to nonprofits.
+We use the [Nodemailer NPM package] to send reminder feedback survey emails to Hack4Impact chapters.
 
 ### Linters
 

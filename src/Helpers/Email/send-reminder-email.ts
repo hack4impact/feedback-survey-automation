@@ -75,7 +75,6 @@ const setUpTemplate = async (data: CheckedData, timePeriod: TimePeriod) => {
     "nonprofit-focus": data.nonprofitFocus ?? "Unknown",
     "nonprofit-willing-to-interview": data.willingToInterview ?? "Unknown",
     "form-published-url": data.googleFormPublishedUrl,
-    "form-edit-url": data.googleFormEditUrl,
     "project-name": data.projectName,
     "readable-time-period":
       READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",

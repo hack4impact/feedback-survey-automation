@@ -10,7 +10,6 @@ interface CheckedFields {
   projectName: string;
   deliveryDate: string;
   googleFormPublishedUrl?: string;
-  googleFormEditUrl?: string;
   lastSent?: TimePeriod;
 }
 
@@ -61,8 +60,12 @@ export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 // For looping through time periods (MUST be largest to smallest)
 export const TIME_PERIODS: TimePeriod[] = ["5y", "3y", "1y", "6m", "1m"];
 export interface GoogleFormData {
+  id: string;
+  title: string;
+  description: string;
   editUrl: string;
   publishedUrl: string;
+  summaryUrl: string;
 }
 
 export interface GoogleFormPostData {

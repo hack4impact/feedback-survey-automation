@@ -17,7 +17,6 @@ export const FIELDS = {
     (x, i) => `Success Metric Question ${i + 1}`
   ),
   googleFormPublishedUrl: "Google Form Published URL",
-  googleFormEditUrl: "Google Form Edit URL",
   lastSent: "Last Sent Out",
   projectSuccessData: "Project Success Data",
 

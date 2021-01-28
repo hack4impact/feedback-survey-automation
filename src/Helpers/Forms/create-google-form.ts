@@ -26,11 +26,9 @@ const createGoogleForm = async (
 
   record = await record.updateFields({
     [FIELDS.googleFormPublishedUrl]: formData.publishedUrl,
-    [FIELDS.googleFormEditUrl]: formData.editUrl,
   });
 
   data.googleFormPublishedUrl = formData.publishedUrl;
-  data.googleFormEditUrl = formData.editUrl;
 
   return formData;
 };

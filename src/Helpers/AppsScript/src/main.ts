@@ -68,8 +68,12 @@ const doPost = (request: any) => {
   storeForm([form.getId(), projectId, timePeriod]);
 
   const formData: GoogleFormData = {
+    id: form.getId(),
+    title: form.getTitle(),
+    description: form.getDescription(),
     publishedUrl: form.getPublishedUrl(),
     editUrl: form.getEditUrl(),
+    summaryUrl: form.getSummaryUrl(),
   };
 
   return ContentService.createTextOutput(JSON.stringify(formData));

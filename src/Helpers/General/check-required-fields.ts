@@ -2,13 +2,7 @@
 import { ProjectData, CheckedData, TIME_PERIODS } from "../../Utils/types";
 
 const checkRequiredFields = (data: ProjectData): CheckedData => {
-  const {
-    projectName,
-    deliveryDate,
-    googleFormEditUrl,
-    googleFormPublishedUrl,
-    lastSent,
-  } = data;
+  const { projectName, deliveryDate, googleFormPublishedUrl, lastSent } = data;
 
   if (typeof projectName !== "string") {
     throw new Error(
@@ -19,15 +13,6 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   if (typeof deliveryDate !== "string") {
     throw new Error(
       `${projectName} does not have a string delivery date (${deliveryDate})`
-    );
-  }
-
-  if (
-    googleFormEditUrl !== undefined &&
-    typeof googleFormEditUrl !== "string"
-  ) {
-    throw new Error(
-      `${projectName} has a non-string Google Form Edit URL (${googleFormEditUrl})`
     );
   }
 
