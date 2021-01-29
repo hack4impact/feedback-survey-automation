@@ -39,4 +39,9 @@ export const FIELDS = {
   willingToInterview: "Willing to Interview?",
 };
 
+export const DATA_FIELDS = {
+  projectName: "Project Name",
+  isStillUsing: "Are you still using the product?",
+};
+
 export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";

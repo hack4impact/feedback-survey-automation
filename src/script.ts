@@ -10,9 +10,10 @@ import { getProjectSuccessData } from "./Helpers/Airtable";
 import {
   checkSurveyNeeded,
   checkRequiredFields,
-  parseRecord,
   checkProjectStatus,
-} from "./Helpers/General";
+  checkInUse,
+} from "./Helpers/Checks";
+import { parseProject } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
 import { FIELDS } from "./Utils/constants";
@@ -34,9 +35,9 @@ const script = () => {
 
   table("Projects")
     .select()
-    .eachPage((records, nextPage) => {
-      records.forEach(async (record) => {
-        const data = parseRecord(record);
+    .eachPage((projects, nextPage) => {
+      projects.forEach(async (project) => {
+        const data = parseProject(project);
 
         const checkedData = checkRequiredFields(data);
         const { projectStatus, projectSuccessData } = checkedData;
@@ -44,17 +45,23 @@ const script = () => {
         // If project is abandoned, don't perform any actions
         if (!checkProjectStatus(projectStatus)) return;
 
-        await getProjectSuccessData(table, projectSuccessData);
+        const successData = await getProjectSuccessData(
+          table,
+          projectSuccessData
+        );
 
-        const id = record.getId();
+        // If project is not in use by nonprofit, don't perform any actions
+        if (!(await checkInUse(successData, project))) return;
+
+        const id = project.getId();
 
         const surveyNeeded = checkSurveyNeeded(checkedData);
 
         if (surveyNeeded !== null) {
-          await createGoogleForm(record, checkedData, id, surveyNeeded);
+          await createGoogleForm(project, checkedData, id, surveyNeeded);
           await sendReminderEmail(checkedData, surveyNeeded);
 
-          await record.updateFields({
+          await project.updateFields({
             [FIELDS.lastSent]: surveyNeeded,
           });
         }

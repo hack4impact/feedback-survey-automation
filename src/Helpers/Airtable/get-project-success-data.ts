@@ -1,7 +1,11 @@
+// Externals
+import Airtable from "airtable";
+import { default as AirtableRecord } from "airtable/lib/record";
+
 const getProjectSuccessData = async (
-  table: Airtable.Base,
+  table: ReturnType<typeof Airtable.base>,
   dataIds?: string[]
-): Promise<Airtable.Record<unknown>[]> => {
+): Promise<AirtableRecord[]> => {
   if (!Array.isArray(dataIds)) return [];
 
   const projectSuccessData = await Promise.all(

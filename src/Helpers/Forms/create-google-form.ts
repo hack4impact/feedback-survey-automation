@@ -14,7 +14,7 @@ import {
 import { green } from "chalk";
 
 const createGoogleForm = async (
-  record: Record,
+  project: Record,
   data: CheckedData,
   projectId: string,
   timePeriod: TimePeriod
@@ -35,7 +35,7 @@ const createGoogleForm = async (
       `Unable to find Google Form Published URL field: '${expectedUrlField}'`
     );
 
-  record = await record.updateFields({
+  project = await project.updateFields({
     [publishedUrlField]: formData.publishedUrl,
   });
 

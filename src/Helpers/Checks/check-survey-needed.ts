@@ -2,7 +2,7 @@
 import moment, { DurationInputArg2 } from "moment";
 
 // Internals
-import { normalizeDate } from "./index";
+import { normalizeDate } from "../General/index";
 import { CheckedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
 
 const checkSurveyNeeded = (data: CheckedData): TimePeriod | null => {
