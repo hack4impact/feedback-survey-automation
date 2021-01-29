@@ -13,9 +13,10 @@ import {
   checkProjectStatus,
   checkInUse,
 } from "./Helpers/Checks";
-import { parseProject } from "./Helpers/General";
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
+import { parseProject } from "./Helpers/General";
+import { setUpLogs } from "./Helpers/Logger";
 import { FIELDS } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
@@ -30,7 +31,8 @@ process.on("uncaughtException", (e) => {
 
 yargs(process.argv.slice(2)).argv;
 
-const script = () => {
+const script = async () => {
+  await setUpLogs();
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   table("Projects")
