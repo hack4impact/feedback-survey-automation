@@ -65,7 +65,7 @@ const doPost = (request: any) => {
     .create();
 
   // coupling form id with projectId
-  storeForm([form.getId(), projectId, timePeriod]);
+  storeForm([form.getId(), projectId, timePeriod, Date.now().toString(), "No"]);
 
   const formData: GoogleFormData = {
     id: form.getId(),
@@ -80,12 +80,12 @@ const doPost = (request: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const updateProjectSuccessTable = (
-  event: GoogleAppsScript.Events.FormsOnFormSubmit
-) => {
-  const response = event.response;
+export const updateProjectSuccessTable = (
+  //  event: GoogleAppsScript.Events.FormsOnFormSubmit
+  form: GoogleAppsScript.Forms.Form,
+  response: GoogleAppsScript.Forms.FormResponse
+): void => {
   const feedbackDate = response.getTimestamp();
-  const form = event.source;
   const formId = form.getId();
 
   const [projectId, timePeriod] = getFormStore(formId);
