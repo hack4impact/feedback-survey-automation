@@ -26,8 +26,9 @@ export const modifyFormRow = (rowIndex: number, values: Array<string>) => {
   const numberOfCols = values.length;
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
   const rangeNotation = `A${rowIndex}:${
-    getLetterNumerically(numberOfCols) + rowIndex
+    getLetterNumerically(numberOfCols - 1) + rowIndex
   }`;
+  Logger.log(rangeNotation);
   const range = idStore.getRange(rangeNotation);
   range.setValues([values]);
 };

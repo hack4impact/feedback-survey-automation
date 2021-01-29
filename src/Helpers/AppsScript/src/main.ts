@@ -59,10 +59,10 @@ const doPost = (request: any) => {
   }
 
   // setting form to call airTable update func on submit
-  ScriptApp.newTrigger("updateProjectSuccessTable")
-    .forForm(form)
-    .onFormSubmit()
-    .create();
+  // ScriptApp.newTrigger("updateProjectSuccessTable")
+  //   .forForm(form)
+  //   .onFormSubmit()
+  //   .create();
 
   // coupling form id with projectId
   storeForm([form.getId(), projectId, timePeriod, Date.now().toString(), "No"]);
