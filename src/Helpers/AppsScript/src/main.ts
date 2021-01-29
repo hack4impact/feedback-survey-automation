@@ -65,7 +65,14 @@ const doPost = (request: any) => {
   //   .create();
 
   // coupling form id with projectId
-  storeForm([form.getId(), projectId, timePeriod, Date.now().toString(), "No"]);
+  storeForm([
+    form.getId(),
+    projectId,
+    timePeriod,
+    Date.now().toString(),
+    "No",
+    form.getEditUrl(),
+  ]);
 
   const formData: GoogleFormData = {
     id: form.getId(),

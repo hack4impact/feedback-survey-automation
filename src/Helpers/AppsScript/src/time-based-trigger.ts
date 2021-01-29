@@ -3,7 +3,14 @@ import { updateProjectSuccessTable } from "./main";
 
 const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
 
-export type Row = [string, string, string, string, RespondedStatus];
+// formId,
+// projectId,
+// timePeriod,
+// sentDateString,
+// responded,
+// formEditLink
+
+export type Row = [string, string, string, string, RespondedStatus, string];
 interface RowWithSheetIndex {
   row: Row;
   sheetIndex: number;
@@ -17,7 +24,7 @@ const cronTrigger = () => {
 
 const checkForNewResponses = () => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const data = idStore.getRange("A2:E1500").getValues() as Row[];
+  const data = idStore.getRange("A2:F1500").getValues() as Row[];
 
   let notRespondedToYet: Array<RowWithSheetIndex> = [];
   Logger.log(data.slice(0, 8));
@@ -40,6 +47,7 @@ const checkForNewResponses = () => {
       timePeriod,
       sentDateString,
       responded,
+      formEditLink,
     ] = rowWithSheetIndex.row;
     const form = FormApp.openById(formId);
     const formResponses = form.getResponses();
@@ -54,6 +62,7 @@ const checkForNewResponses = () => {
           timePeriod,
           sentDateString,
           "Yes",
+          formEditLink,
         ];
 
         //+2 because 0 based index and sheets 1st row is named, doesn't count
@@ -68,6 +77,7 @@ const checkForNewResponses = () => {
         timePeriod,
         sentDateString,
         "Expired",
+        formEditLink,
       ];
       modifyFormRow(rowWithSheetIndex.sheetIndex + 2, newRow);
     }

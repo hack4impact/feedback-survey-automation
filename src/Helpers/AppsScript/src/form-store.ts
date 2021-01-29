@@ -7,7 +7,7 @@ type RowSliced = [string, TimePeriod];
 
 export const getFormStore = (desiredFormId: string): RowSliced => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const data = idStore.getRange("A2:E1500").getValues() as Row[];
+  const data = idStore.getRange("A2:F1500").getValues() as Row[];
   for (let i = 0; i < data.length; i++) {
     const [formId] = data[i];
     if (formId == desiredFormId) {
