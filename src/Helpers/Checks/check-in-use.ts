@@ -1,8 +1,8 @@
 // Externals
 import { default as AirtableRecord } from "airtable/lib/record";
-import { yellow } from "chalk";
 
 // Internals
+import Logger from "../Logger";
 import { DATA_FIELDS, FIELDS } from "../../Utils/constants";
 import { ProjectStatus } from "../../Utils/types";
 
@@ -15,10 +15,8 @@ const checkInUse = async (
     const projectName = data.get(DATA_FIELDS.projectName);
 
     if (inUseResponse === "No") {
-      console.log(
-        yellow(
-          `${projectName} is not in use anymore. Feedback forms and reminder emails for this project will cease.`
-        )
+      Logger.warning(
+        `${projectName} is not in use anymore. Feedback forms and reminder emails for this project will cease.`
       );
 
       await project.updateFields({

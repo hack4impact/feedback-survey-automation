@@ -1,13 +1,13 @@
 // Externals
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { green } from "chalk";
 
 // Internals
 import { setUpEmail } from "./index";
 import { CheckedData, TimePeriod } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 import { createPublishedURLField } from "../../Utils/constants";
+import Logger from "../Logger";
 
 interface MailResponse {
   accepted: string[];
@@ -42,10 +42,9 @@ const sendReminderEmail = async (
     html: email,
   });
 
-  console.log(
-    `${green(
-      `Email sent to '${sendTo}' as a reminder for feedback on '${data.projectName}'!`
-    )} (Time Period: ${timePeriod})`
+  Logger.success(
+    `Reminder email sent for feedback on '${data.projectName}'! (Time Period: ${timePeriod})`,
+    { content: email, recipients: sendTo }
   );
 
   return result;

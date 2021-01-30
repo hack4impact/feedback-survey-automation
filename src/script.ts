@@ -16,7 +16,7 @@ import {
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
 import { parseProject } from "./Helpers/General";
-import { setUpLogs } from "./Helpers/Logger";
+import Logger from "./Helpers/Logger";
 import { FIELDS } from "./Utils/constants";
 
 process.on("unhandledRejection", (e) => {
@@ -32,45 +32,50 @@ process.on("uncaughtException", (e) => {
 yargs(process.argv.slice(2)).argv;
 
 const script = async () => {
-  await setUpLogs();
+  await Logger.setUp();
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   table("Projects")
     .select()
-    .eachPage((projects, nextPage) => {
-      projects.forEach(async (project) => {
-        const data = parseProject(project);
+    .eachPage(
+      async (projects, nextPage) => {
+        for (const project of projects) {
+          const data = parseProject(project);
 
-        const checkedData = checkRequiredFields(data);
-        const { projectStatus, projectSuccessData } = checkedData;
+          // Log the project's name
+          console.log(`\n${Logger.bold(data.projectName)}`);
 
-        // If project is abandoned, don't perform any actions
-        if (!checkProjectStatus(projectStatus)) return;
+          const checkedData = checkRequiredFields(data);
+          const { projectStatus, projectSuccessData } = checkedData;
 
-        const successData = await getProjectSuccessData(
-          table,
-          projectSuccessData
-        );
+          // If project is abandoned, don't perform any actions
+          if (!checkProjectStatus(projectStatus)) return;
 
-        // If project is not in use by nonprofit, don't perform any actions
-        if (!(await checkInUse(successData, project))) return;
+          const successData = await getProjectSuccessData(
+            table,
+            projectSuccessData
+          );
 
-        const id = project.getId();
+          // If project is not in use by nonprofit, don't perform any actions
+          if (!(await checkInUse(successData, project))) return;
 
-        const surveyNeeded = checkSurveyNeeded(checkedData);
+          const surveyNeeded = checkSurveyNeeded(checkedData);
 
-        if (surveyNeeded !== null) {
-          await createGoogleForm(project, checkedData, id, surveyNeeded);
-          await sendReminderEmail(checkedData, surveyNeeded);
+          if (surveyNeeded !== null) {
+            const id = project.getId();
+            await createGoogleForm(project, checkedData, id, surveyNeeded);
+            await sendReminderEmail(checkedData, surveyNeeded);
 
-          await project.updateFields({
-            [FIELDS.lastSent]: surveyNeeded,
-          });
+            await project.updateFields({
+              [FIELDS.lastSent]: surveyNeeded,
+            });
+          }
         }
-      });
 
-      nextPage();
-    });
+        nextPage();
+      },
+      () => Logger.viewLogs()
+    );
 };
 
 script();

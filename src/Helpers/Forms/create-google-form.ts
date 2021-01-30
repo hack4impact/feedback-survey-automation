@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import Record from "airtable/lib/record";
 
 // Internals
+import Logger from "../Logger";
 import { createPublishedURLField, FIELDS } from "../../Utils/constants";
 import {
   APPS_SCRIPT_ERRORS,
@@ -11,7 +12,6 @@ import {
   GoogleFormPostData,
   TimePeriod,
 } from "../../Utils/types";
-import { green } from "chalk";
 
 const createGoogleForm = async (
   project: Record,
@@ -21,8 +21,7 @@ const createGoogleForm = async (
 ): Promise<GoogleFormData> => {
   const formData = await fetchGoogleForm(data, projectId, timePeriod);
 
-  console.log(green(`Google Form created for '${data.projectName}'!`));
-  console.log(`Published URL: ${formData.publishedUrl}`);
+  Logger.success(`Google Form created for '${data.projectName}'!`, formData);
 
   const expectedUrlField = createPublishedURLField(timePeriod);
 
