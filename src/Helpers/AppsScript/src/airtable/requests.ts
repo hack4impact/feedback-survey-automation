@@ -1,3 +1,4 @@
+import { FIELDS } from "../../../../Utils/constants";
 import {
   StandardQuestion,
   StandardQuestionFields,
@@ -6,7 +7,7 @@ import { airtableRequest } from "./helpers";
 
 export const getProjectData = (
   projectId: string
-): Airtable.Record<Record<string, unknown>> => {
+): Airtable.Record<Record<string, typeof FIELDS[keyof typeof FIELDS]>> => {
   const res = airtableRequest(`Projects/${projectId}`);
 
   if (res.getResponseCode() === 200) {
@@ -20,7 +21,7 @@ export const getProjectData = (
 };
 
 export const getStandardQuestions = (): StandardQuestionFields[] => {
-  const res = airtableRequest("Standard%20Questions");
+  const res = airtableRequest("Standard Questions");
 
   if (res.getResponseCode() === 200) {
     const records: StandardQuestion[] = JSON.parse(
@@ -39,7 +40,7 @@ export const postProjectSuccessData = (data: Record<string, unknown>): any => {
   Logger.log(data);
 
   const res = airtableRequest(
-    "Project%20Success%20Data",
+    "Project Success Data",
     {
       "Content-Type": "application/json",
     },

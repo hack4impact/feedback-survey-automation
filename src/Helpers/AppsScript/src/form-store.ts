@@ -22,15 +22,20 @@ export const storeForm = (row: Row): void => {
   idStore.appendRow(row);
 };
 
-export const modifyFormRow = (rowIndex: number, values: Array<string>) => {
-  const numberOfCols = values.length;
+export const modifyFormRow = (
+  row: Row,
+  rowIndex: number
+): GoogleAppsScript.Spreadsheet.Range => {
+  const numberOfCols = row.length;
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
+
   const rangeNotation = `A${rowIndex}:${
-    getLetterNumerically(numberOfCols - 1) + rowIndex
+    // +2 because 0 based index and the 1st row is column names (doesn't count)
+    getLetterNumerically(numberOfCols - 1) + rowIndex + 2
   }`;
-  Logger.log(rangeNotation);
+
   const range = idStore.getRange(rangeNotation);
-  range.setValues([values]);
+  return range.setValues([row]);
 };
 
 export const getLetterNumerically = (num: number): string => {

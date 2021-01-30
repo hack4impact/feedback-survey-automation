@@ -4,6 +4,29 @@ import { Moment } from "moment";
 // Internals
 import { FIELDS } from "./constants";
 
+// export type ProjectFields =
+//   | "Representative Name"
+//   | "Representative Email"
+//   | "Project Name"
+//   | "Project Status"
+//   | "Team Members"
+//   | "(Anticipated) Delivery Date"
+//   | "Creation Semester"
+//   | "Project Leads (PM, Tech Lead, Designer)"
+//   | "PRD"
+//   | "Last Sent Out"
+//   | "Project Success Data"
+//   | "Chapter"
+//   | "Chapter Name"
+//   | "Chapter Email"
+//   | "Nonprofit Partner Name"
+//   | "Nonprofit Partner Website"
+//   | "Nonprofit Focus"
+//   | "Nonprofit Point of Contact Name"
+//   | "Nonprofit Point of Contact Email"
+//   | "Willing to Interview?"
+//   | "Onboarded?";
+
 export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 
 interface CheckedFields {

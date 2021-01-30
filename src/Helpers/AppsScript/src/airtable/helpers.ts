@@ -7,7 +7,7 @@ export const airtableRequest = (
   headers?: Record<string, unknown>,
   params?: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions
 ): ReturnType<typeof UrlFetchApp.fetch> => {
-  return UrlFetchApp.fetch(`${BASE_API_URL}/${table}`, {
+  return UrlFetchApp.fetch(`${BASE_API_URL}/${encodeURI(table)}`, {
     headers: {
       Authorization: AIRTABLE_AUTH,
       ...headers,
