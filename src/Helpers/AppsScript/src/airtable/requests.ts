@@ -1,16 +1,13 @@
-import { StandardQuestion, StandardQuestionFields } from "../../../Utils/types";
-
-const airtableAuth = `Bearer ${process.env.AIRTABLE_API_KEY}`;
+import {
+  StandardQuestion,
+  StandardQuestionFields,
+} from "../../../../Utils/types";
+import { airtableRequest } from "./helpers";
 
 export const getProjectData = (
   projectId: string
 ): Airtable.Record<Record<string, unknown>> => {
-  const targetURL = `https://api.airtable.com/v0/app0TDYnyirqeRk1T/Projects/${projectId}`;
-  const res = UrlFetchApp.fetch(targetURL, {
-    headers: {
-      Authorization: airtableAuth,
-    },
-  });
+  const res = airtableRequest(`Projects/${projectId}`);
 
   if (res.getResponseCode() === 200) {
     const data = JSON.parse(res.getBlob().getDataAsString());
@@ -23,14 +20,7 @@ export const getProjectData = (
 };
 
 export const getStandardQuestions = (): StandardQuestionFields[] => {
-  const targetURL =
-    "https://api.airtable.com/v0/app0TDYnyirqeRk1T/Standard%20Questions";
-
-  const res = UrlFetchApp.fetch(targetURL, {
-    headers: {
-      Authorization: airtableAuth,
-    },
-  });
+  const res = airtableRequest("Standard%20Questions");
 
   if (res.getResponseCode() === 200) {
     const records: StandardQuestion[] = JSON.parse(
@@ -47,14 +37,13 @@ export const getStandardQuestions = (): StandardQuestionFields[] => {
 
 export const postProjectSuccessData = (data: Record<string, unknown>): any => {
   Logger.log(data);
-  const res = UrlFetchApp.fetch(
-    "https://api.airtable.com/v0/app0TDYnyirqeRk1T/Project%20Success%20Data",
+
+  const res = airtableRequest(
+    "Project%20Success%20Data",
     {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: airtableAuth,
-      },
+      "Content-Type": "application/json",
+    },
+    {
       payload: JSON.stringify({
         records: [
           {

@@ -1,6 +1,6 @@
 // Externals
-import { readdir } from "fs/promises";
-import { join, resolve } from "path";
+import { join } from "path";
+import recursive from "recursive-readdir";
 
 export const OUTPUT_PATH = join(__dirname, "..", "..", "output");
 export const OUTPUT_ENV_PATH = join(OUTPUT_PATH, "env.json");
@@ -19,10 +19,6 @@ export const APPS_SCRIPT_CONFIG_PATH = join(
   "appsscript.json"
 );
 
-export const getAppScriptPaths = async (): Promise<string[]> => {
-  const files = await readdir(APPS_SCRIPT_PATH, "utf-8");
-
-  return files.map((file) =>
-    resolve(process.cwd(), join(APPS_SCRIPT_PATH, file))
-  );
+export const getAppScriptPaths = (): Promise<string[]> => {
+  return recursive(APPS_SCRIPT_PATH);
 };

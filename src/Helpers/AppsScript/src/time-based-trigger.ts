@@ -1,5 +1,4 @@
-import Mail from "nodemailer/lib/mailer";
-import { getProjectData } from "./airtable-helpers";
+import { getProjectData } from "./airtable/requests";
 import { modifyFormRow } from "./form-store";
 import { updateProjectSuccessTable } from "./main";
 
