@@ -8,7 +8,7 @@ import Airtable from "airtable";
 import { getProjectSuccessData } from "./Helpers/Airtable";
 // import { getSheetData, setSheetData, setUpSheets } from "./Helpers/Sheets";
 import {
-  checkSurveyNeeded,
+  checkReminderNeeded,
   checkRequiredFields,
   checkProjectStatus,
   checkInUse,
@@ -45,6 +45,7 @@ const script = async () => {
           // Log the project's name
           Logger.bold(data.projectName);
 
+          // Make sure the project has all required fields. If not, throw an error.
           const checkedData = checkRequiredFields(data);
           const { projectStatus, projectSuccessData } = checkedData;
 
@@ -57,15 +58,20 @@ const script = async () => {
 
             // If project is in use by nonprofit, continue
             if (await checkInUse(successData, project)) {
-              const surveyNeeded = checkSurveyNeeded(checkedData);
+              const reminderNeeded = checkReminderNeeded(checkedData);
 
-              if (surveyNeeded !== null) {
+              if (reminderNeeded !== null) {
                 const id = project.getId();
-                await createGoogleForm(project, checkedData, id, surveyNeeded);
-                await sendReminderEmail(checkedData, surveyNeeded);
+                await createGoogleForm(
+                  project,
+                  checkedData,
+                  id,
+                  reminderNeeded
+                );
+                await sendReminderEmail(checkedData, reminderNeeded);
 
                 await project.updateFields({
-                  [FIELDS.lastSent]: surveyNeeded,
+                  [FIELDS.lastSent]: reminderNeeded,
                 });
               }
             }

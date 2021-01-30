@@ -37,6 +37,7 @@ export const FIELDS = {
   nonprofitContactName: "Nonprofit Point of Contact Name",
   nonprofitContactEmail: "Nonprofit Point of Contact Email",
   willingToInterview: "Willing to Interview?",
+  onboarded: "Onboarded?",
 };
 
 export const DATA_FIELDS = {
