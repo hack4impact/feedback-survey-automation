@@ -1,3 +1,4 @@
+import { getProjectData } from "./airtable-helpers";
 import { modifyFormRow } from "./form-store";
 import { updateProjectSuccessTable } from "./main";
 
@@ -76,9 +77,20 @@ const checkForNewResponses = () => {
       hasItBeenXWeeks(2, currentDate, sentDate) &&
       responded === "No"
     ) {
-      Logger.log(
-        `Sending email to ${projectId} cuz their lazy bum hasnt sent out a form.`
-      );
+      const projectData = getProjectData(projectId);
+      const recipient = projectData.fields["Representative Email"] as string; // will probably change
+      const nonprofitName = projectData.fields[
+        "Nonprofit Partner Name"
+      ] as string;
+      const subject = `Reminder: Please send the ${timePeriod} survey to ${nonprofitName}`;
+      const body = `We haven't recieved a reponse from ${nonprofitName} yet. Please do so within the next couple of weeks. Otherwise, nationals won't be happy. If you have already sent the survey, you can ignore this email.`;
+
+      try {
+        MailApp.sendEmail(recipient, subject, body);
+      } catch (e) {
+        Logger.log(`Unable to send reminder email. Reason: ${e}`);
+      }
+
       const newRow: Row = [
         formId,
         projectId,
