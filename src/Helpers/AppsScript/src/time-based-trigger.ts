@@ -16,7 +16,7 @@ interface RowWithSheetIndex {
   sheetIndex: number;
 }
 
-type RespondedStatus = "Yes" | "No" | "Expired";
+type RespondedStatus = "Yes" | "No" | "Reminder Sent" | "Expired";
 
 const cronTrigger = () => {
   checkForNewResponses();
@@ -37,7 +37,9 @@ const checkForNewResponses = () => {
     notRespondedToYet.push(obj);
   });
 
-  notRespondedToYet = notRespondedToYet.filter((val) => val.row[4] === "No");
+  notRespondedToYet = notRespondedToYet.filter(
+    (val) => val.row[4] === "No" || val.row[4] === "Reminder Sent"
+  );
   Logger.log(notRespondedToYet);
 
   notRespondedToYet.forEach((rowWithSheetIndex) => {
@@ -70,6 +72,22 @@ const checkForNewResponses = () => {
       } catch (e) {
         Logger.log(`Error - ${e}`);
       }
+    } else if (
+      hasItBeenXWeeks(2, currentDate, sentDate) &&
+      responded === "No"
+    ) {
+      Logger.log(
+        `Sending email to ${projectId} cuz their lazy bum hasnt sent out a form.`
+      );
+      const newRow: Row = [
+        formId,
+        projectId,
+        timePeriod,
+        sentDateString,
+        "Reminder Sent",
+        formEditLink,
+      ];
+      modifyFormRow(rowWithSheetIndex.sheetIndex + 2, newRow);
     } else if (hasItBeenXMonths(6, currentDate, sentDate)) {
       const newRow: Row = [
         formId,
@@ -90,4 +108,8 @@ const hasItBeenXMonths = (
   sentDate: Date
 ) => {
   return currentDate.getTime() > sentDate.getTime() + months * 2629746000;
+};
+
+const hasItBeenXWeeks = (weeks: number, currentDate: Date, sentDate: Date) => {
+  return currentDate.getTime() > sentDate.getTime() + weeks * 604800000;
 };
