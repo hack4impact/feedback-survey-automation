@@ -43,33 +43,36 @@ const script = async () => {
           const data = parseProject(project);
 
           // Log the project's name
-          console.log(`\n${Logger.bold(data.projectName)}`);
+          Logger.bold(data.projectName);
 
           const checkedData = checkRequiredFields(data);
           const { projectStatus, projectSuccessData } = checkedData;
 
-          // If project is abandoned, don't perform any actions
-          if (!checkProjectStatus(projectStatus)) return;
+          // If project is not abandoned, continue
+          if (checkProjectStatus(projectStatus)) {
+            const successData = await getProjectSuccessData(
+              table,
+              projectSuccessData
+            );
 
-          const successData = await getProjectSuccessData(
-            table,
-            projectSuccessData
-          );
+            // If project is in use by nonprofit, continue
+            if (await checkInUse(successData, project)) {
+              const surveyNeeded = checkSurveyNeeded(checkedData);
 
-          // If project is not in use by nonprofit, don't perform any actions
-          if (!(await checkInUse(successData, project))) return;
+              if (surveyNeeded !== null) {
+                const id = project.getId();
+                await createGoogleForm(project, checkedData, id, surveyNeeded);
+                await sendReminderEmail(checkedData, surveyNeeded);
 
-          const surveyNeeded = checkSurveyNeeded(checkedData);
-
-          if (surveyNeeded !== null) {
-            const id = project.getId();
-            await createGoogleForm(project, checkedData, id, surveyNeeded);
-            await sendReminderEmail(checkedData, surveyNeeded);
-
-            await project.updateFields({
-              [FIELDS.lastSent]: surveyNeeded,
-            });
+                await project.updateFields({
+                  [FIELDS.lastSent]: surveyNeeded,
+                });
+              }
+            }
           }
+
+          // Empty for formatting purposes
+          console.log();
         }
 
         nextPage();

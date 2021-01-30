@@ -105,12 +105,12 @@ class Logger {
     return this.log(message, "info", extra);
   }
 
-  static bold(message: unknown): string {
-    return `${this.COLORS.Bright}${message}${this.COLORS.Reset}`;
+  static bold(message: unknown): void {
+    console.log(`${this.COLORS.Bright}${message}${this.COLORS.Reset}`);
   }
 
   static viewLogs(): void {
-    console.log(`\nView logs: ${this.LOGS_PATH}`);
+    console.log(`View logs: ${this.LOGS_PATH}`);
   }
 }
 
