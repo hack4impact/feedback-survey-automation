@@ -1,3 +1,4 @@
+import Mail from "nodemailer/lib/mailer";
 import { getProjectData } from "./airtable-helpers";
 import { modifyFormRow } from "./form-store";
 import { updateProjectSuccessTable } from "./main";
@@ -71,6 +72,15 @@ const checkForNewResponses = () => {
         //+2 because 0 based index and sheets 1st row is named, doesn't count
         modifyFormRow(rowWithSheetIndex.sheetIndex + 2, newRow);
       } catch (e) {
+        const recipient = "sd7843@pleasantonusd.net";
+        const subject = `Unable to process form ${formId}.`;
+        const body = `There was an error in adding the response to this form into the airtable. The error was: \n ${e} \n Here is the link to the form edit url: ${formEditLink} \n \n Please manually upload the response to the airtable.`;
+
+        try {
+          MailApp.sendEmail(recipient, subject, body);
+        } catch (e) {
+          Logger.log(`There was an error in sending the error email : ${e}`);
+        }
         Logger.log(`Error - ${e}`);
       }
     } else if (
