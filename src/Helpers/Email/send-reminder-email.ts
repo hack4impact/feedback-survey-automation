@@ -31,7 +31,7 @@ const sendReminderEmail = async (
   const transporter = setUpEmail();
   const email = await setUpTemplate(data, timePeriod);
 
-  const sendTo = [data.registrerEmail, data.chapterEmail?.[0]].filter(
+  const sendTo = [data.representativeEmail, data.chapterEmail?.[0]].filter(
     (potential): potential is string => typeof potential === "string"
   );
 

@@ -5,8 +5,8 @@ export const createPublishedURLField = (timePeriod: TimePeriod): string =>
 
 export const FIELDS = {
   // Register Info
-  registrerName: "Registrer Name",
-  registrerEmail: "Registrer Email",
+  representativeEmail: "Representative Name",
+  representativeName: "Representative Email",
 
   // Project Info
   projectName: "Project Name",
