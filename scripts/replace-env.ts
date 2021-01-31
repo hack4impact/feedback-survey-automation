@@ -8,12 +8,13 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { replaceInFile } from "replace-in-file";
+import recursive from "recursive-readdir";
 
 // Internals
 import {
   OUTPUT_PATH,
   OUTPUT_ENV_PATH,
-  getAppScriptPaths,
+  APPS_SCRIPT_PATH,
 } from "./Helpers/constants";
 
 config();
@@ -23,9 +24,11 @@ const replaceEnv = async () => {
     await mkdir(OUTPUT_PATH);
   }
 
-  await writeFile(OUTPUT_ENV_PATH, "{}", "utf-8");
+  if (!existsSync(OUTPUT_ENV_PATH)) {
+    await writeFile(OUTPUT_ENV_PATH, "{}", "utf-8");
+  }
 
-  const files = await getAppScriptPaths();
+  const files = await recursive(APPS_SCRIPT_PATH);
 
   const result = await replaceInFile({
     files,

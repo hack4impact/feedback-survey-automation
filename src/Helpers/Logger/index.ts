@@ -7,18 +7,22 @@ export type LogType = "success" | "info" | "error" | "warning";
 
 export type LogMessage = string | Record<string, any> | LogMessage[];
 
-export type LogExtra = unknown;
-
 export type LogTimestamp = number;
+
+export type LogIndex = number;
+
+export type LogExtra = unknown;
 
 export interface Log {
   message: LogMessage;
   type: LogType;
   timestamp: LogTimestamp;
+  index: LogIndex;
   extra: LogExtra;
 }
 
 class Logger {
+  static readonly logs: Log[] = [];
   static readonly COLORS = {
     Reset: "\x1b[0m",
     Bright: "\x1b[1m",
@@ -55,7 +59,7 @@ class Logger {
       await mkdir(this.OUTPUT_PATH);
     }
 
-    await this.writeLogs([]);
+    await this.writeLogs();
   }
 
   static async getLogs(): Promise<Log[]> {
@@ -63,8 +67,8 @@ class Logger {
     return JSON.parse(rawLogs) as Log[];
   }
 
-  static writeLogs(logs: Log[]): Promise<void> {
-    return writeFile(this.LOGS_PATH, JSON.stringify(logs), "utf-8");
+  static writeLogs(): Promise<void> {
+    return writeFile(this.LOGS_PATH, JSON.stringify(this.logs), "utf-8");
   }
 
   static async log(
@@ -72,17 +76,16 @@ class Logger {
     type: LogType,
     extra?: LogExtra
   ): Promise<Log> {
-    const logs = await this.getLogs();
-
     const log: Log = {
       message,
       type,
       timestamp: Date.now(),
       extra,
+      index: this.logs.length,
     };
 
-    logs.push(log);
-    await this.writeLogs(logs);
+    this.logs.push(log);
+    await this.writeLogs();
 
     console.log(`Logged ${type} message`);
 

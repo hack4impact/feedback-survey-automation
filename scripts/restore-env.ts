@@ -4,34 +4,25 @@
 
 // Externals
 import { existsSync } from "fs";
-import { readFile, rm, writeFile } from "fs/promises";
+import { readFile, rm } from "fs/promises";
 import { replaceInFile } from "replace-in-file";
+import recursive from "recursive-readdir";
 
 // Internals
-import { getAppScriptPaths, OUTPUT_ENV_PATH } from "./Helpers/constants";
+import { APPS_SCRIPT_PATH, OUTPUT_ENV_PATH } from "./Helpers/constants";
 
 const restoreEnv = async () => {
   if (existsSync(OUTPUT_ENV_PATH)) {
     const envStr = await readFile(OUTPUT_ENV_PATH, "utf-8");
     const env: Record<string, string> = JSON.parse(envStr);
-    const files = await getAppScriptPaths();
+    const files = await recursive(APPS_SCRIPT_PATH);
 
     const result = await replaceInFile({
       files,
-      from: Object.values(env).map((value) => new RegExp(value, "g")),
+      from: Object.values(env).map((value) => new RegExp(`"${value}"`, "g")),
       to: Object.keys(env).map((key) => `process.env.${key}`),
       countMatches: true,
     });
-
-    await Promise.all(
-      result.map(async ({ file, hasChanged }) => {
-        if (hasChanged) {
-          const contents = await readFile(file, "utf-8");
-          const newContents = contents.replace(/"(process.env.\w+)"/g, "$1");
-          await writeFile(file, newContents, "utf-8");
-        }
-      })
-    );
 
     await rm(OUTPUT_ENV_PATH);
 
