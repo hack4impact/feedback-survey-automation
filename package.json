@@ -1,6 +1,26 @@
 {
   "name": "airtable-automation",
+  "description": "Automates the process of creating, sending, and storing feedback surveys for all projects created by Hack4Impact chapters",
   "private": true,
+  "license": "MIT",
+  "homepage": "https://github.com/hack4impact/airtable-automation#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hack4impact/airtable-automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hack4impact/airtable-automation/issues"
+  },
+  "contributors": [
+    {
+      "name": "Yash Totale",
+      "url": "https://github.com/YashTotale"
+    },
+    {
+      "name": "Subha Das",
+      "url": "https://github.com/subatuba21"
+    }
+  ],
   "scripts": {
     "make": "node out/script.js",
     "make:ts": "ts-node src/script.ts",

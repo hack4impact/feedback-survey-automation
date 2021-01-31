@@ -1,12 +1,12 @@
 // Externals
-import mail from "nodemailer";
+import { createTransport } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 
 let transporter: Mail;
 
 const setUpEmail = (): Mail => {
   if (!transporter)
-    transporter = mail.createTransport({
+    transporter = createTransport({
       host: "smtp.ethereal.email",
       port: 587,
       secure: false, // true for 465, false for other ports
