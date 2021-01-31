@@ -18,7 +18,8 @@
     ".lintstagedrc": "json",
 
     ".snyk": "yaml",
-    ".imgbotconfig": "json"
+    ".imgbotconfig": "json",
+    ".all-contributorsrc": "json"
   },
   "markdown.extension.toc.levels": "1..3"
 }

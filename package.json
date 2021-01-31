@@ -37,7 +37,10 @@
     "clasp:status": "clasp login --status",
     "build": "npm run compile && npm run clasp",
     "lint": "npx lint-check",
-    "postinstall": "replace-in-file \"declare var console\" \"//declare var console\" node_modules/@types/google-apps-script/google-apps-script.base.d.ts"
+    "postinstall": "replace-in-file \"declare var console\" \"//declare var console\" node_modules/@types/google-apps-script/google-apps-script.base.d.ts",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate",
+    "contributors:check": "all-contributors check"
   },
   "dependencies": {
     "airtable": "^0.10.1",
@@ -59,6 +62,7 @@
     "@types/yargs": "^15.0.12",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
+    "all-contributors-cli": "^6.19.0",
     "clasp": "^1.0.0",
     "concurrently": "^5.3.0",
     "eslint": "^7.18.0",

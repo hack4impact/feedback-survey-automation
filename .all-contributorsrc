@@ -1,0 +1,61 @@
+{
+  "projectName": "airtable-automation",
+  "projectOwner": "hack4impact",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commitConvention": "none",
+  "types": {
+    "doc": {
+      "symbol": "📖",
+      "description": "Documentation",
+      "link": "https://github.com/hack4impact/airtable-automation/wiki/_history"
+    },
+    "ideas": {
+      "symbol": "🤔",
+      "description": "Ideas, Planning, & Feedback",
+      "link": "https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2"
+    },
+    "tool": {
+      "symbol": "🔧",
+      "description": "Tools",
+      "link": "<%= options.repoHost || \"https://github.com\" %>/<%= options.projectOwner %>/<%= options.projectName %>/commits?author=<%= contributor.login %>"
+    }
+  },
+  "contributors": [
+    {
+      "login": "YashTotale",
+      "name": "Yash Totale",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30784592?v=4",
+      "profile": "https://github.com/YashTotale",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas"
+      ]
+    },
+    {
+      "login": "subatuba21",
+      "name": "subatuba21",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34824571?v=4",
+      "profile": "https://github.com/subatuba21",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "ImgBotApp",
+      "name": "Imgbot",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31427850?v=4",
+      "profile": "https://imgbot.net/",
+      "contributions": [
+        "tool"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

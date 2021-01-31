@@ -18,6 +18,7 @@
   - [Nodemailer](#nodemailer)
   - [Linters](#linters)
   - [GitHub Actions](#github-actions)
+- [Contributors](#contributors)
 
 ## Guide to Running Locally
 
@@ -56,6 +57,28 @@ We also use [Husky] and [Lint-Staged] to run our linters and formatters on all s
 We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build errors, and push the latest versions of our Apps Scripts every time a push is made to the `main` branch.
 
 Additionally, every day at 11:30 PST, we run our script with a [scheduled GitHub Action].
+
+## Contributors
+
+Thanks goes to this project's contributors ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/YashTotale"><img src="https://avatars.githubusercontent.com/u/30784592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yash Totale</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=YashTotale" title="Code">💻</a> <a href="https://github.com/hack4impact/airtable-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/subatuba21"><img src="https://avatars.githubusercontent.com/u/34824571?v=4?s=100" width="100px;" alt=""/><br /><sub><b>subatuba21</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=subatuba21" title="Code">💻</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://imgbot.net/"><img src="https://avatars.githubusercontent.com/u/31427850?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Imgbot</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=ImgBotApp" title="Tools">🔧</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 <!-- Reference Links -->
 
