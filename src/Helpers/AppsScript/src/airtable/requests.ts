@@ -1,13 +1,10 @@
-import { FIELDS } from "../../../../Utils/constants";
 import {
   StandardQuestion,
   StandardQuestionFields,
 } from "../../../../Utils/types";
 import { airtableRequest } from "./helpers";
 
-export const getProjectData = (
-  projectId: string
-): Airtable.Record<Record<string, typeof FIELDS[keyof typeof FIELDS]>> => {
+export const getProjectData = (projectId: string): Airtable.Record<any> => {
   const res = airtableRequest(`Projects/${projectId}`);
 
   if (res.getResponseCode() === 200) {
@@ -17,6 +14,33 @@ export const getProjectData = (
 
   throw new Error(
     `An error occurred when fetching data for Project ID ${projectId}`
+  );
+};
+
+export const updateProject = (
+  projectId: string,
+  fields: Record<string, any>
+): any => {
+  const res = airtableRequest(
+    `Projects/${projectId}`,
+    {
+      "Content-Type": "application/json",
+    },
+    {
+      method: "patch",
+      payload: JSON.stringify({
+        fields,
+      }),
+    }
+  );
+
+  if (res.getResponseCode() === 200) {
+    const data = JSON.parse(res.getBlob().getDataAsString());
+    return data;
+  }
+
+  throw new Error(
+    `An error occurred when updating data for Project ID ${projectId}`
   );
 };
 
@@ -45,6 +69,7 @@ export const postProjectSuccessData = (data: Record<string, unknown>): any => {
       "Content-Type": "application/json",
     },
     {
+      method: "post",
       payload: JSON.stringify({
         records: [
           {

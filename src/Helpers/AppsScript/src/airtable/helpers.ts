@@ -4,7 +4,7 @@ const BASE_API_URL = "https://api.airtable.com/v0/app0TDYnyirqeRk1T";
 
 export const airtableRequest = (
   table: string,
-  headers?: Record<string, unknown>,
+  headers?: GoogleAppsScript.URL_Fetch.HttpHeaders,
   params?: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions
 ): ReturnType<typeof UrlFetchApp.fetch> => {
   return UrlFetchApp.fetch(`${BASE_API_URL}/${encodeURI(table)}`, {

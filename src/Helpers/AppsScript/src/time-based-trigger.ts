@@ -36,7 +36,7 @@ const cronTrigger = () => {
       const form = FormApp.openById(formId);
       const formResponses = form.getResponses();
 
-      if (formResponses.length >= 1) onResponse(form, formResponses, row, i);
+      if (formResponses.length > 0) onResponse(form, formResponses, row, i);
       else if (hasItBeenXWeeks(2, sentDate) && responded === "No")
         sendReminder(row, i);
       else if (hasItBeenXMonths(6, sentDate)) formExpired(row, i);
@@ -50,12 +50,24 @@ const onResponse = (
   row: Row,
   index: number
 ) => {
-  updateProjectSuccessTable(form, formResponses[0]);
+  try {
+    updateProjectSuccessTable(form, formResponses[0]);
 
-  // Responded: Yes
-  row[4] = "Yes";
+    // Responded: Yes
+    row[4] = "Yes";
 
-  modifyFormRow(row, index);
+    modifyFormRow(row, index);
+  } catch (e) {
+    const title = form.getTitle();
+    Logger.log(`An error occurred for form '${title}' (${e})`);
+
+    const recipient = "yt0569@pleasantonusd.net";
+    const subject = `Unable to process ${title}.`;
+    const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row[5]}\n\nPlease manually upload the response to the airtable.`; // row[5]: formEditLink
+
+    form.addEditor(recipient);
+    MailApp.sendEmail(recipient, subject, body);
+  }
 };
 
 const sendReminder = (row: Row, index: number) => {

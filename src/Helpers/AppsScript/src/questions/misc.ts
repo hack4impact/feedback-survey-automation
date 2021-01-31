@@ -1,4 +1,5 @@
 import { CheckedData } from "../../../../Utils/types";
+import { updateProject } from "../airtable/requests";
 
 interface MiscQuestion {
   title: string;
@@ -45,16 +46,19 @@ export const createMiscQuestions = (
 export const getMiscQuestionResponse = (
   question: string,
   itemResponse: GoogleAppsScript.Forms.ItemResponse,
-  body: Record<string, unknown>
+  body: Record<string, unknown>,
+  projectData: Airtable.Record<any>
 ): void => {
   if (question === ONBOARDED) {
-    Logger.log(question);
-    Logger.log(itemResponse.getResponse());
-  }
-  const misc = MISC_QUESTIONS.find(({ title }) => question === title);
+    updateProject(projectData.id, {
+      "Onboarded?": itemResponse.getResponse(),
+    });
+  } else {
+    const misc = MISC_QUESTIONS.find(({ title }) => question === title);
 
-  if (misc !== undefined) {
-    const response = itemResponse.getResponse();
-    body[misc.field] = response;
+    if (misc !== undefined) {
+      const response = itemResponse.getResponse();
+      body[misc.field] = response;
+    }
   }
 };
