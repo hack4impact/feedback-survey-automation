@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Setup Environment Variables
+        run: echo '${{ secrets.ENV_FILE }}' > .env
+
       - name: Setup Service Account
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
 
@@ -34,8 +37,3 @@ jobs:
 
       - name: Build Project
         run: npm run build
-        env:
-          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
-          APPS_SCRIPT_PASSWORD: ${{ secrets.APPS_SCRIPT_PASSWORD }}
-          APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
-          APPS_SCRIPT_ID: ${{ secrets.APPS_SCRIPT_ID }}
