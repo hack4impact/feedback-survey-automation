@@ -43,7 +43,7 @@ const script = async () => {
           const data = parseProject(project);
 
           // Log the project's name
-          Logger.bold(data.projectName);
+          Logger.bold(data.projectName.toString());
 
           // Make sure the project has all required fields. If not, throw an error.
           const checkedData = checkRequiredFields(data);
