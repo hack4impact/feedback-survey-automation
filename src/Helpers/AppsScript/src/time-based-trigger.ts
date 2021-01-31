@@ -61,7 +61,7 @@ const onResponse = (
     const title = form.getTitle();
     Logger.log(`An error occurred for form '${title}' (${e})`);
 
-    const recipient = "yt0569@pleasantonusd.net";
+    const recipient = process.env.UPLOAD_ERROR_EMAIL as string;
     const subject = `Unable to process ${title}.`;
     const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row[5]}\n\nPlease manually upload the response to the airtable.`; // row[5]: formEditLink
 
