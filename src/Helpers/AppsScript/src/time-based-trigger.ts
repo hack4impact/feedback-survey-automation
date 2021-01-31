@@ -30,20 +30,17 @@ const cronTrigger = () => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
   const data = idStore.getRange("A2:F1500").getValues() as Row[];
 
-  const notRespondedToYet = data.filter(
-    (row) => row[4] === "No" || row[4] === "Reminder Sent"
-  );
-
-  notRespondedToYet.forEach((row, i) => {
+  data.forEach((row, i) => {
     const [formId, , , sentDate, responded] = row;
+    if (responded === "No" || responded === "Reminder Sent") {
+      const form = FormApp.openById(formId);
+      const formResponses = form.getResponses();
 
-    const form = FormApp.openById(formId);
-    const formResponses = form.getResponses();
-
-    if (formResponses.length >= 1) onResponse(form, formResponses, row, i);
-    else if (hasItBeenXWeeks(2, sentDate) && responded === "No")
-      sendReminder(row, i);
-    else if (hasItBeenXMonths(6, sentDate)) formExpired(row, i);
+      if (formResponses.length >= 1) onResponse(form, formResponses, row, i);
+      else if (hasItBeenXWeeks(2, sentDate) && responded === "No")
+        sendReminder(row, i);
+      else if (hasItBeenXMonths(6, sentDate)) formExpired(row, i);
+    }
   });
 };
 
@@ -53,22 +50,12 @@ const onResponse = (
   row: Row,
   index: number
 ) => {
-  try {
-    updateProjectSuccessTable(form, formResponses[0]);
+  updateProjectSuccessTable(form, formResponses[0]);
 
-    // Responded: Yes
-    row[4] = "Yes";
+  // Responded: Yes
+  row[4] = "Yes";
 
-    modifyFormRow(row, index);
-  } catch (e) {
-    const recipient = "sd7843@pleasantonusd.net";
-    const subject = `Unable to process form ${row[0]}.`; // row[0]: formId
-    const body = `There was an error in adding the response to this form into the airtable. The error was: \n ${e} \n Here is the link to the form edit url: ${row[5]} \n \n Please manually upload the response to the airtable.`; // row[5]: formEditLink
-
-    MailApp.sendEmail(recipient, subject, body);
-
-    throw new Error(`Error - ${e}`);
-  }
+  modifyFormRow(row, index);
 };
 
 const sendReminder = (row: Row, index: number) => {

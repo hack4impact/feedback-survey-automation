@@ -1,3 +1,5 @@
+import { CheckedData } from "../../../../Utils/types";
+
 interface MiscQuestion {
   title: string;
   field: string;
@@ -12,14 +14,32 @@ const MISC_QUESTIONS: MiscQuestion[] = [
   },
 ];
 
+const ONBOARDED = "Have you onboarded the project?";
+
 export const createMiscQuestions = (
-  form: GoogleAppsScript.Forms.Form
+  form: GoogleAppsScript.Forms.Form,
+  projectData: CheckedData
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
     item.setTitle(title);
     item.setRequired(required);
   });
+  if (projectData.onboarded !== "Yes") {
+    const onboardedQuestion = form.addMultipleChoiceItem();
+    const yes = onboardedQuestion.createChoice(
+      "Yes",
+      FormApp.PageNavigationType.CONTINUE
+    );
+    const no = onboardedQuestion.createChoice(
+      "No",
+      FormApp.PageNavigationType.SUBMIT
+    );
+    onboardedQuestion.setChoices([yes, no]);
+    onboardedQuestion.setRequired(true);
+    onboardedQuestion.setTitle(ONBOARDED);
+    form.addPageBreakItem();
+  }
 };
 
 export const getMiscQuestionResponse = (
@@ -27,6 +47,10 @@ export const getMiscQuestionResponse = (
   itemResponse: GoogleAppsScript.Forms.ItemResponse,
   body: Record<string, unknown>
 ): void => {
+  if (question === ONBOARDED) {
+    Logger.log(question);
+    Logger.log(itemResponse.getResponse());
+  }
   const misc = MISC_QUESTIONS.find(({ title }) => question === title);
 
   if (misc !== undefined) {

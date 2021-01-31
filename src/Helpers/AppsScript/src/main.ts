@@ -41,7 +41,7 @@ const doPost = (request: any) => {
   const form = initializeForm(projectData, timePeriod);
 
   // Misc questions (name, email)
-  createMiscQuestions(form);
+  createMiscQuestions(form, projectData);
 
   // Standard beginning questions
   const standardQuestions = getStandardQuestions();
@@ -87,55 +87,65 @@ export const updateProjectSuccessTable = (
 ): void => {
   const feedbackDate = response.getTimestamp();
   const formId = form.getId();
+  const [, projectId, timePeriod, , , formEditLink] = getFormStore(formId);
 
-  const [projectId, timePeriod] = getFormStore(formId);
-  const projectData = getProjectData(projectId);
-  const allSuccessQs = Object.keys(projectData.fields).filter(
-    (field) => field.indexOf("Success Metric Question ") != -1
-  );
-
-  const standardQuestions = getStandardQuestions();
-  const itemResponses = response.getItemResponses();
-
-  const body: Record<string, unknown> = {
-    Project: [projectData.id],
-    "Feedback Date": `${
-      feedbackDate.getMonth() + 1
-    }/${feedbackDate.getDate()}/${feedbackDate.getFullYear()}`,
-  };
-
-  itemResponses.forEach((itemResponse) => {
-    const question = itemResponse.getItem().getTitle();
-
-    const standard = standardQuestions.find(
-      ({ Question }) => Question === question
+  try {
+    const projectData = getProjectData(projectId);
+    const allSuccessQs = Object.keys(projectData.fields).filter(
+      (field) => field.indexOf("Success Metric Question ") != -1
     );
 
-    if (standard !== undefined) {
-      body[standard.Question] = getStandardQuestionResponse(
-        standard,
-        itemResponse
-      );
-    } else {
-      const successQuestion = allSuccessQs.find(
-        (qNum) => projectData.fields[qNum] === question
+    const standardQuestions = getStandardQuestions();
+    const itemResponses = response.getItemResponses();
+
+    const body: Record<string, unknown> = {
+      Project: [projectData.id],
+      "Feedback Date": `${
+        feedbackDate.getMonth() + 1
+      }/${feedbackDate.getDate()}/${feedbackDate.getFullYear()}`,
+    };
+
+    itemResponses.forEach((itemResponse) => {
+      const question = itemResponse.getItem().getTitle();
+
+      const standard = standardQuestions.find(
+        ({ Question }) => Question === question
       );
 
-      if (successQuestion !== undefined) {
-        body[successQuestion.replace("Metric Question", "Rating")] = parseInt(
-          itemResponse.getResponse() as string
+      if (standard !== undefined) {
+        body[standard.Question] = getStandardQuestionResponse(
+          standard,
+          itemResponse
         );
       } else {
-        getMiscQuestionResponse(question, itemResponse, body);
+        const successQuestion = allSuccessQs.find(
+          (qNum) => projectData.fields[qNum] === question
+        );
+
+        if (successQuestion !== undefined) {
+          body[successQuestion.replace("Metric Question", "Rating")] = parseInt(
+            itemResponse.getResponse() as string
+          );
+        } else {
+          getMiscQuestionResponse(question, itemResponse, body);
+        }
       }
-    }
-  });
+    });
 
-  body["Responder Email"] = response.getRespondentEmail();
-  body["Response Time Period"] = timePeriod;
+    body["Responder Email"] = response.getRespondentEmail();
+    body["Response Time Period"] = timePeriod;
 
-  const result = postProjectSuccessData(body);
-  Logger.log(result);
+    const result = postProjectSuccessData(body);
+    Logger.log(result);
+  } catch (e) {
+    const recipient = "sd7843@pleasantonusd.net";
+    const subject = `Unable to process feedback form for ${projectId}.`;
+    const body = `There was an error in adding the response to this form into the airtable. The error was: \n ${e} \n Here is the link to the form edit url: ${formEditLink} \n \n Please manually upload the response to the airtable.`;
+
+    MailApp.sendEmail(recipient, subject, body);
+
+    throw new Error(e);
+  }
 };
 
 const createError = (err: AppsScriptError) =>
