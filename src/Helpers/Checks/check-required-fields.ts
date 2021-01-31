@@ -36,7 +36,7 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   if (projectStatus !== undefined) {
     if (typeof projectStatus !== "string") {
       throw new Error(
-        `${projectName} has a non-string Project Status value (${projectStatus})`
+        `${projectName} does not have a string Project Status value (${projectStatus})`
       );
     }
 
@@ -51,7 +51,7 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   if (lastSent !== undefined) {
     if (typeof lastSent !== "string") {
       throw new Error(
-        `${projectName} has a non-string Last Sent value (${lastSent})`
+        `${projectName} does not have a string Last Sent value (${lastSent})`
       );
     }
 

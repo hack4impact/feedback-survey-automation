@@ -43,8 +43,11 @@ const sendReminderEmail = async (
   });
 
   Logger.success(
-    `Reminder email sent for feedback on '${data.projectName}'! (Time Period: ${timePeriod})`,
-    { content: email, recipients: sendTo }
+    `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
+    {
+      content: email,
+      recipients: sendTo,
+    }
   );
 
   return result;

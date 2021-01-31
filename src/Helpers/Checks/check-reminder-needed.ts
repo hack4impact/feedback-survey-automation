@@ -3,7 +3,9 @@ import moment, { DurationInputArg2 } from "moment";
 
 // Internals
 import { normalizeDate } from "../General/index";
+import Logger from "../Logger";
 import { CheckedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const checkReminderNeeded = (data: CheckedData): TimePeriod | null => {
   const deliveryDate = normalizeDate(data.deliveryDate);
@@ -16,7 +18,12 @@ const checkReminderNeeded = (data: CheckedData): TimePeriod | null => {
       moment().subtract(timeAmount, getTimeUnit(timePeriod))
     );
 
-    if (milestone > deliveryDate) return timePeriod;
+    if (milestone > deliveryDate) {
+      Logger.info(
+        `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`
+      );
+      return timePeriod;
+    }
   }
   return null;
 };

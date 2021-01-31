@@ -12,15 +12,16 @@ const checkInUse = async (
 ): Promise<boolean> => {
   for (const data of successData) {
     const inUseResponse = data.get(DATA_FIELDS.isStillUsing);
-    const projectName = data.get(DATA_FIELDS.projectName);
 
     if (inUseResponse === "No") {
+      const abandonded: ProjectStatus = "Abandoned by Nonprofit";
+
       Logger.warning(
-        `${projectName} is not in use anymore. Feedback forms and reminder emails for this project will cease.`
+        `Not in use by nonprofit. Status updated as '${abandonded}'. No actions performed.`
       );
 
       await project.updateFields({
-        [FIELDS.projectStatus]: "Abandoned by Nonprofit" as ProjectStatus,
+        [FIELDS.projectStatus]: abandonded,
       });
 
       return false;

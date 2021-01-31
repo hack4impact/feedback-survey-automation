@@ -12,6 +12,7 @@ import {
   GoogleFormPostData,
   TimePeriod,
 } from "../../Utils/types";
+import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const createGoogleForm = async (
   project: Record,
@@ -21,7 +22,10 @@ const createGoogleForm = async (
 ): Promise<GoogleFormData> => {
   const formData = await fetchGoogleForm(data, projectId, timePeriod);
 
-  Logger.success(`Google Form created for '${data.projectName}'!`, formData);
+  Logger.success(
+    `Google Form created! (${READABLE_TIME_PERIODS[timePeriod]})`,
+    formData
+  );
 
   const expectedUrlField = createPublishedURLField(timePeriod);
 
@@ -75,7 +79,7 @@ const fetchGoogleForm = async (
     const formData = JSON.parse(dataText);
     return formData;
   } catch (e) {
-    console.log(dataText);
+    await Logger.error(dataText, body);
     throw new Error(e);
   }
 };

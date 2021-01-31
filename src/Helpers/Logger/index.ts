@@ -5,7 +5,7 @@ import { join } from "path";
 
 export type LogType = "success" | "info" | "error" | "warning";
 
-export type LogMessage = string | Record<string, any> | LogMessage[];
+export type LogMessage = string;
 
 export type LogTimestamp = number;
 
@@ -53,6 +53,7 @@ class Logger {
 
   static readonly OUTPUT_PATH = join(__dirname, "..", "..", "..", "output");
   static readonly LOGS_PATH = join(Logger.OUTPUT_PATH, "logs.json");
+  static readonly VIEW_LOGS_MESSAGE = " (View logs for details)";
 
   static async setUp(): Promise<void> {
     if (!existsSync(this.OUTPUT_PATH)) {
@@ -87,29 +88,49 @@ class Logger {
     this.logs.push(log);
     await this.writeLogs();
 
-    console.log(`Logged ${type} message`);
-
     return log;
   }
 
-  static success(message: LogMessage, extra?: LogExtra): Promise<Log> {
-    return this.log(message, "success", extra);
+  static coloredLog(
+    color: keyof typeof Logger.COLORS,
+    message: string,
+    extra = ""
+  ): void {
+    console.log(`${this.COLORS[color]}${message}${this.COLORS.Reset}${extra}`);
   }
 
-  static error(message: LogMessage, extra?: LogExtra): Promise<Log> {
-    return this.log(message, "error", extra);
+  static bold(message: LogMessage, extra = ""): void {
+    this.coloredLog("Bright", message, extra);
   }
 
-  static warning(message: LogMessage, extra?: LogExtra): Promise<Log> {
-    return this.log(message, "warning", extra);
+  private static async logWithType(
+    type: LogType,
+    color: keyof typeof Logger.COLORS,
+    message: LogMessage,
+    extra?: LogExtra
+  ) {
+    let extraLog = "";
+    if (extra !== undefined) {
+      await this.log(message, type, extra);
+      extraLog = this.VIEW_LOGS_MESSAGE;
+    }
+    this.coloredLog(color, message, extraLog);
   }
 
-  static info(message: LogMessage, extra?: LogExtra): Promise<Log> {
-    return this.log(message, "info", extra);
+  static success(message: LogMessage, extra?: LogExtra): Promise<void> {
+    return this.logWithType("success", "FgGreen", message, extra);
   }
 
-  static bold(message: unknown): void {
-    console.log(`${this.COLORS.Bright}${message}${this.COLORS.Reset}`);
+  static info(message: LogMessage, extra?: LogExtra): Promise<void> {
+    return this.logWithType("info", "FgBlue", message, extra);
+  }
+
+  static warning(message: LogMessage, extra?: LogExtra): Promise<void> {
+    return this.logWithType("warning", "FgYellow", message, extra);
+  }
+
+  static error(message: LogMessage, extra?: LogExtra): Promise<void> {
+    return this.logWithType("error", "FgRed", message, extra);
   }
 
   static viewLogs(): void {
