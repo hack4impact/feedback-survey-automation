@@ -11,3 +11,4 @@ build/
 
 # misc
 serviceaccount.json
+.env
