@@ -13,7 +13,6 @@ import {
   TimePeriod,
 } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
-import { getTemplate } from "../General";
 
 const createGoogleForm = async (
   project: Record,
@@ -55,18 +54,11 @@ const fetchGoogleForm = async (
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
 
-  const remindTemplate = await getTemplate(
-    "remind-template",
-    projectData,
-    timePeriod
-  );
-
   const body: GoogleFormPostData = {
     password: process.env.APPS_SCRIPT_PASSWORD ?? "",
     projectData,
     projectId,
     timePeriod,
-    remindTemplate,
   };
 
   const data = await fetch(scriptURL, {

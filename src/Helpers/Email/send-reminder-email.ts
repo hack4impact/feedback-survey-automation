@@ -25,23 +25,25 @@ const sendReminderEmail = async (
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
-  const email = await getTemplate("inform-email", data, timePeriod);
+  const [html, text] = await getTemplate("inform-mail", data, timePeriod);
 
   const sendTo = [data.representativeEmail, data.chapterEmail?.[0]].filter(
     (potential): potential is string => typeof potential === "string"
   );
 
   const result: MailResponse = await transporter.sendMail({
-    from: "contact@hack4impact.org",
+    from: "social-impact@hack4impact.org",
     to: sendTo,
     subject: `Feedback Reminder for ${data.projectName}`,
-    html: email,
+    html,
+    text,
   });
 
   Logger.success(
     `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
     {
-      content: email,
+      htmlContent: html,
+      textContent: text,
       recipients: sendTo,
     }
   );

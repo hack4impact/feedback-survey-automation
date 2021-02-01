@@ -71,15 +71,19 @@ const onResponse = (
 };
 
 const sendReminder = (row: Row, index: number) => {
-  const [, projectId, timePeriod] = row;
+  const [, projectId] = row;
 
   const projectData = getProjectData(projectId);
-  const recipient = projectData.fields["Representative Email"] as string; // will probably change
+  const to = projectData.fields["Representative Email"] as string; // will probably change
   const nonprofitName = projectData.fields["Nonprofit Partner Name"] as string;
-  const subject = `Reminder: Please send the ${timePeriod} survey to ${nonprofitName}`;
-  const body = `We haven't recieved a reponse from ${nonprofitName} yet. Please do so within the next couple of weeks. Otherwise, Nationals won't be happy. If you have already sent the survey, you can ignore this email.`;
+  const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
 
-  MailApp.sendEmail(recipient, subject, body);
+  MailApp.sendEmail({
+    subject,
+    body: "",
+    htmlBody: "",
+    to,
+  });
 
   // Responded: Reminder Sent
   row[4] = "Reminder Sent";

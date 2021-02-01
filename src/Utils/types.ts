@@ -63,7 +63,6 @@ export interface GoogleFormPostData {
   projectData: FlattenedData;
   projectId: string;
   timePeriod: TimePeriod;
-  remindTemplate: string;
 }
 
 export type AppsScriptError =

@@ -1,6 +1,7 @@
 // Externals
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { htmlToText } from "html-to-text";
 
 // Internals
 import { escapeRegex } from "./index";
@@ -12,7 +13,7 @@ const getTemplate = async (
   template: string,
   data: FlattenedData,
   timePeriod: TimePeriod
-): Promise<string> => {
+): Promise<[string, string]> => {
   let htmlTemplate = await readFile(
     join(
       __dirname,
@@ -48,7 +49,7 @@ const getTemplate = async (
     );
   });
 
-  return htmlTemplate;
+  return [htmlTemplate, htmlToText(htmlTemplate)];
 };
 
 export default getTemplate;
