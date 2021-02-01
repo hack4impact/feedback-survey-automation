@@ -1,4 +1,4 @@
-import { CheckedData } from "../../../../Utils/types";
+import { FlattenedData } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
 
 interface MiscQuestion {
@@ -19,7 +19,7 @@ const ONBOARDED = "Have you onboarded the project?";
 
 export const createMiscQuestions = (
   form: GoogleAppsScript.Forms.Form,
-  projectData: CheckedData
+  projectData: FlattenedData
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();

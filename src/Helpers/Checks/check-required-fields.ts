@@ -1,14 +1,17 @@
 // Internals
 import {
   ProjectData,
-  CheckedData,
   TIME_PERIODS,
   PROJECT_STATUSES,
+  CheckedData,
 } from "../../Utils/types";
 
 const checkRequiredFields = (data: ProjectData): CheckedData => {
   const {
     projectName,
+    chapter,
+    chapterName,
+    nonprofitName,
     deliveryDate,
     projectSuccessData,
     projectStatus,
@@ -18,6 +21,32 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   if (typeof projectName !== "string") {
     throw new Error(
       `This project does not have a string name (${projectName})`
+    );
+  }
+
+  if (
+    !Array.isArray(chapter) &&
+    chapter.length !== 1 &&
+    typeof chapter[0] !== "string"
+  ) {
+    throw new Error(
+      `${projectName} does not have a string array with length 1 chapter (${chapter})`
+    );
+  }
+
+  if (
+    !Array.isArray(chapterName) &&
+    chapterName.length !== 1 &&
+    typeof chapterName[0] !== "string"
+  ) {
+    throw new Error(
+      `${projectName} does not have a string array with length 1 chapter name (${chapterName})`
+    );
+  }
+
+  if (typeof nonprofitName !== "string") {
+    throw new Error(
+      `${projectName} does not have a string nonprofit name (${nonprofitName})`
     );
   }
 

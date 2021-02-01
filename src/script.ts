@@ -15,7 +15,7 @@ import {
 } from "./Helpers/Checks";
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
-import { parseProject } from "./Helpers/General";
+import { parseProject, flattenFields } from "./Helpers/General";
 import Logger from "./Helpers/Logger";
 import { FIELDS } from "./Utils/constants";
 
@@ -49,6 +49,8 @@ const script = async () => {
           const checkedData = checkRequiredFields(data);
           const { projectStatus, projectSuccessData } = checkedData;
 
+          const flattenedData = flattenFields(checkedData);
+
           // If project is not abandoned, continue
           if (checkProjectStatus(projectStatus)) {
             const successData = await getProjectSuccessData(
@@ -58,17 +60,17 @@ const script = async () => {
 
             // If project is in use by nonprofit, continue
             if (await checkInUse(successData, project)) {
-              const reminderNeeded = checkReminderNeeded(checkedData);
+              const reminderNeeded = checkReminderNeeded(flattenedData);
 
               if (reminderNeeded !== null) {
                 const id = project.getId();
                 await createGoogleForm(
                   project,
-                  checkedData,
+                  flattenedData,
                   id,
                   reminderNeeded
                 );
-                await sendReminderEmail(checkedData, reminderNeeded);
+                await sendReminderEmail(flattenedData, reminderNeeded);
 
                 await project.updateFields({
                   [FIELDS.lastSent]: reminderNeeded,

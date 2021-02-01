@@ -7,7 +7,7 @@ import Logger from "../Logger";
 import { createPublishedURLField, FIELDS } from "../../Utils/constants";
 import {
   APPS_SCRIPT_ERRORS,
-  CheckedData,
+  FlattenedData,
   GoogleFormData,
   GoogleFormPostData,
   TimePeriod,
@@ -16,7 +16,7 @@ import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const createGoogleForm = async (
   project: Record,
-  data: CheckedData,
+  data: FlattenedData,
   projectId: string,
   timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {
@@ -48,7 +48,7 @@ const createGoogleForm = async (
 };
 
 const fetchGoogleForm = async (
-  projectData: CheckedData,
+  projectData: FlattenedData,
   projectId: string,
   timePeriod: TimePeriod
 ): Promise<GoogleFormData> => {

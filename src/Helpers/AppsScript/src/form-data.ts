@@ -1,4 +1,4 @@
-import { CheckedData, TimePeriod } from "../../../Utils/types";
+import { FlattenedData, TimePeriod } from "../../../Utils/types";
 
 const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
 
@@ -14,7 +14,7 @@ const _READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
 export const READABLE_TIME_PERIODS = { ..._READABLE_TIME_PERIODS };
 
 export const initializeForm = (
-  projectData: CheckedData,
+  projectData: FlattenedData,
   timePeriod: TimePeriod
 ): GoogleAppsScript.Forms.Form => {
   const title = `${projectData.projectName} Feedback Survey - ${_READABLE_TIME_PERIODS[timePeriod]}`;

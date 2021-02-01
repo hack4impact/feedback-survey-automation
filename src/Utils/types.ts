@@ -4,34 +4,14 @@ import { Moment } from "moment";
 // Internals
 import { FIELDS } from "./constants";
 
-// export type ProjectFields =
-//   | "Representative Name"
-//   | "Representative Email"
-//   | "Project Name"
-//   | "Project Status"
-//   | "Team Members"
-//   | "(Anticipated) Delivery Date"
-//   | "Creation Semester"
-//   | "Project Leads (PM, Tech Lead, Designer)"
-//   | "PRD"
-//   | "Last Sent Out"
-//   | "Project Success Data"
-//   | "Chapter"
-//   | "Chapter Name"
-//   | "Chapter Email"
-//   | "Nonprofit Partner Name"
-//   | "Nonprofit Partner Website"
-//   | "Nonprofit Focus"
-//   | "Nonprofit Point of Contact Name"
-//   | "Nonprofit Point of Contact Email"
-//   | "Willing to Interview?"
-//   | "Onboarded?";
-
 export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 
 interface CheckedFields {
   projectName: string;
   deliveryDate: string;
+  nonprofitName: string;
+  chapter: [string];
+  chapterName: [string];
   projectStatus?: ProjectStatus;
   projectSuccessData?: string[];
   lastSent?: TimePeriod;
@@ -39,6 +19,14 @@ interface CheckedFields {
 
 export type CheckedData = Omit<ProjectData, keyof CheckedFields> &
   CheckedFields;
+
+interface FlattenedFields {
+  chapter: string;
+  chapterName: string;
+}
+
+export type FlattenedData = Omit<CheckedData, keyof FlattenedFields> &
+  FlattenedFields;
 
 export type ProjectStatus =
   | "In Progress"
@@ -72,7 +60,7 @@ export interface GoogleFormData {
 
 export interface GoogleFormPostData {
   password: string;
-  projectData: CheckedData;
+  projectData: FlattenedData;
   projectId: string;
   timePeriod: TimePeriod;
 }

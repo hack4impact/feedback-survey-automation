@@ -4,10 +4,10 @@ import moment, { DurationInputArg2 } from "moment";
 // Internals
 import { normalizeDate } from "../General/index";
 import Logger from "../Logger";
-import { CheckedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { FlattenedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
-const checkReminderNeeded = (data: CheckedData): TimePeriod | null => {
+const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
   const deliveryDate = normalizeDate(data.deliveryDate);
   const lastSent = data.lastSent;
   for (const timePeriod of TIME_PERIODS) {
