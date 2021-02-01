@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
   <body>
-    <h1>Feedback Reminder for ${{project-name}}</h1>
+    <p>Hi Hack4Impact ${{chapter-name}},</p>
+
     <p>
-      It has been ${{readable-time-period}} or more since you completed the
-      project '${{project-name}}' for the nonprofit '${{nonprofit-name}}'. Could
-      you send them an email asking them to fill out a feedback survey form?
+      It is time to send the ${{readable-time-period}} project success survey to
+      ${{nonprofit-name}}! Please send
+      ${{nonprofit-contact-name|nonprofit-name}} an email with the survey link
+      within the next week. If we haven't seen a response from the nonprofit rep
+      in a few weeks we will follow up with you to make sure they have received
+      the link. We have included information about the project and an email
+      template below.
     </p>
-    <p>Here's the data we have about the nonprofit:</p>
-    <ul>
-      <li>Nonprofit Name: <strong>${{nonprofit-name}}</strong></li>
-      <li>Nonprofit Website: <strong>${{nonprofit-website}}</strong></li>
-      <li>
-        Nonprofit Point of Contact Name:
-        <strong>${{nonprofit-contact-name}}</strong>
-      </li>
-      <li>
-        Nonprofit Point of Contact Email:
-        <strong>${{nonprofit-contact-email}}</strong>
-      </li>
-      <li>Nonprofit Focus: <strong>${{nonprofit-focus}}</strong></li>
-      <li>
-        Was the Nonprofit willing to interview with Nationals?:
-        <strong>${{nonprofit-willing-to-interview}}</strong>
-      </li>
-    </ul>
-    <p>Thanks,<br />Hack4Impact Social Impact Department</p>
-    <p>Links:</p>
-    <ul>
-      <li>
-        <a href="${{form-published-url}}">Published Feedback Form</a>
-      </li>
-    </ul>
+
+    <p>Project Information:</p>
+    <blockquote>
+      <p>Project Name: ${{project-name}}</p>
+      <p>Nonprofit Name: ${{nonprofit-name}}</p>
+      <p>Creation Semester: ${{creation-semester}}</p>
+      <p>Nonprofit POC: ${{nonprofit-contact-name}}</p>
+      <p>Nonprofit POC Email: ${{nonprofit-contact-email}}</p>
+    </blockquote>
+
+    <p>Email Template:</p>
+
+    <blockquote>
+      <p>Hi ${{nonprofit-contact-name|nonprofit-name}},</p>
+
+      <p>
+        I hope you are doing well! I am checking in to see how the Hack4Impact
+        project has been working for your organization. We really appreciate any
+        feedback you can provide as it will help us improve our work for the
+        nonprofits we partner with in the future. Please fill out this feedback
+        form <a href="${{form-published-url}}">here</a> and as always, let us
+        know if you have any other questions or concerns.
+      </p>
+
+      <p>Best,</p>
+
+      <p>Hack4Impact ${{chapter-name}}</p>
+    </blockquote>
+
+    <p>
+      Thanks for your commitment to creating the best products possible and
+      maintaining communication with our nonprofit partners! If you have any
+      questions or concerns regarding this project's surveys please respond to
+      this email or message us on Slack! To view past survey responses check out
+      our Airtable <a href="https://airtable.com/app0TDYnyirqeRk1T">here</a>.
+    </p>
+
+    <p>Hack4Impact Social Impact Committee</p>
   </body>
 </html>

@@ -4,10 +4,11 @@ import { join } from "path";
 
 // Internals
 import { setUpEmail } from "./index";
-import { CheckedData, TimePeriod } from "../../Utils/types";
-import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
-import { createPublishedURLField } from "../../Utils/constants";
+import { escapeRegex } from "../General";
 import Logger from "../Logger";
+import { FlattenedData, TimePeriod } from "../../Utils/types";
+import { createPublishedURLField } from "../../Utils/constants";
+import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 interface MailResponse {
   accepted: string[];
@@ -25,7 +26,7 @@ interface MailResponse {
 
 //check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
 const sendReminderEmail = async (
-  data: CheckedData,
+  data: FlattenedData,
   timePeriod: TimePeriod
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
@@ -53,7 +54,7 @@ const sendReminderEmail = async (
   return result;
 };
 
-const setUpTemplate = async (data: CheckedData, timePeriod: TimePeriod) => {
+const setUpTemplate = async (data: FlattenedData, timePeriod: TimePeriod) => {
   let htmlTemplate = await readFile(
     join(
       __dirname,
@@ -68,22 +69,23 @@ const setUpTemplate = async (data: CheckedData, timePeriod: TimePeriod) => {
   );
 
   const HTML_TEMPLATE_VARIABLES = {
-    "nonprofit-name": data.nonprofitName ?? "Unknown Nonprofit",
-    "nonprofit-website": data.nonprofitWebsite ?? "Unknown",
+    "project-name": data.projectName,
+    "nonprofit-name": data.nonprofitName,
+    "chapter-name": data.chapterName,
+    "nonprofit-contact-name|nonprofit-name":
+      data.nonprofitContactName ?? data.nonprofitName,
     "nonprofit-contact-name": data.nonprofitContactName ?? "Unknown",
     "nonprofit-contact-email": data.nonprofitContactEmail ?? "Unknown",
-    "nonprofit-focus": data.nonprofitFocus ?? "Unknown",
-    "nonprofit-willing-to-interview": data.willingToInterview ?? "Unknown",
+    "creation-semester": data.creationSemester ?? "Unknown",
     "form-published-url":
       data[createPublishedURLField(timePeriod)] ?? "Unknown",
-    "project-name": data.projectName,
     "readable-time-period":
       READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",
   };
 
   Object.entries(HTML_TEMPLATE_VARIABLES).forEach(([key, value]) => {
     htmlTemplate = htmlTemplate.replace(
-      new RegExp(`\\$\\{\\{${key}\\}\\}`, "g"),
+      new RegExp(escapeRegex(`\${{${key}}}`), "g"),
       value as string
     );
   });
