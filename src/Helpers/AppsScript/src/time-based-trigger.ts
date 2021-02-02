@@ -76,7 +76,8 @@ const onResponse = (
     const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row.formEditLink}\n\nPlease manually upload the response to the airtable.`;
 
     form.addEditor(recipient);
-    MailApp.sendEmail(recipient, subject, body);
+    // MailApp.sendEmail(recipient, subject, body);
+    Logger.log(`sending mail ${recipient} ${subject} ${body}`);
   }
 };
 
@@ -88,12 +89,14 @@ const sendReminder = (row: RowObj, index: number) => {
   const nonprofitName = projectData.fields["Nonprofit Partner Name"] as string;
   const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
 
-  MailApp.sendEmail({
-    subject,
-    body: "",
-    htmlBody: "",
-    to,
-  });
+  // MailApp.sendEmail({
+  //   subject,
+  //   body: "",
+  //   htmlBody: "",
+  //   to,
+  // });
+
+  Logger.log(`sending mail ${to} ${subject}`);
 
   // Responded: Reminder Sent
   row[4] = "Reminder Sent";

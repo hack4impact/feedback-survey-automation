@@ -7,6 +7,7 @@ import { initializeForm } from "./form-data";
 import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
 import {
   createStandardQuestion,
+  getAsSections,
   getStandardQuestionResponse,
 } from "./questions/standard";
 import {
@@ -45,6 +46,8 @@ const doPost = (request: any) => {
 
   // Standard beginning questions
   const standardQuestions = getStandardQuestions();
+  const sections = getAsSections(standardQuestions);
+
   for (const question of standardQuestions) {
     createStandardQuestion(form, question, timePeriod);
   }
