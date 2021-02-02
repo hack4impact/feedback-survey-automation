@@ -2,6 +2,8 @@ import {
   AppsScriptError,
   GoogleFormData,
   GoogleFormPostData,
+  Section,
+  TimePeriod,
 } from "../../../Utils/types";
 import { initializeForm } from "./form-data";
 import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
@@ -45,14 +47,20 @@ const doPost = (request: any) => {
   createMiscQuestions(form, projectData);
 
   // Standard beginning questions
-  const standardQuestions = getStandardQuestions();
+  const standardQuestions = getStandardQuestions().filter((question) =>
+    question["Time Periods"]?.includes(timePeriod)
+  );
   const sections = getAsSections(standardQuestions);
 
-  for (const question of standardQuestions) {
-    createStandardQuestion(form, question, timePeriod);
-  }
+  createSections(sections, form, timePeriod);
+
+  // for (const question of standardQuestions) {
+  //   createStandardQuestion(form, question, timePeriod);
+  // }
 
   // Form success metric questions
+  form.addPageBreakItem();
+
   for (const question of projectData.successQuestions) {
     const questionOnForm = form.addScaleItem();
     questionOnForm.setTitle(question);
@@ -143,3 +151,23 @@ export const updateProjectSuccessTable = (
 
 const createError = (err: AppsScriptError) =>
   ContentService.createTextOutput(err);
+
+const createSections = (
+  sections: Section[],
+  form: GoogleAppsScript.Forms.Form,
+  timePeriod: TimePeriod
+) => {
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    if (section.name !== "") {
+      const header = form.addSectionHeaderItem();
+      header.setTitle(section.name);
+    }
+    for (const question of section.questions) {
+      createStandardQuestion(form, question, timePeriod);
+    }
+    if (i !== sections.length - 1) {
+      form.addPageBreakItem();
+    }
+  }
+};
