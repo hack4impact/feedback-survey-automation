@@ -97,11 +97,13 @@ export const getAsSections = (
       question.Section = "";
     }
 
-    const matchingSection = sections.find(
+    const matchingSectionIndex = sections.findIndex(
       (section) => section.name === question.Section
     );
-    if (matchingSection) matchingSection.questions.push(question);
-    else {
+    if (matchingSectionIndex !== -1) {
+      const matchingSection = sections[matchingSectionIndex];
+      matchingSection.questions.push(question);
+    } else {
       sections.push({
         name: question.Section as string,
         questions: [question],
