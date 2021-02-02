@@ -58,14 +58,14 @@ const doPost = (request: any) => {
   }
 
   // Coupling form id with projectId
-  storeForm([
-    form.getId(),
+  storeForm({
+    formId: form.getId(),
     projectId,
     timePeriod,
-    Date.now(),
-    "No",
-    form.getEditUrl(),
-  ]);
+    sentDate: Date.now(),
+    responded: "No",
+    formEditLink: form.getEditUrl(),
+  });
 
   const formData: GoogleFormData = {
     id: form.getId(),
@@ -87,7 +87,7 @@ export const updateProjectSuccessTable = (
 ): void => {
   const feedbackDate = response.getTimestamp();
   const formId = form.getId();
-  const [, projectId, timePeriod] = getFormStore(formId);
+  const { projectId, timePeriod } = getFormStore(formId);
 
   const projectData = getProjectData(projectId);
   const allSuccessQs = Object.keys(projectData.fields).filter(

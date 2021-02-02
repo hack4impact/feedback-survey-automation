@@ -10,6 +10,6 @@ out/
 build/
 
 # misc
-mail-template.txt
 serviceaccount.json
 .env
+remind-template.html

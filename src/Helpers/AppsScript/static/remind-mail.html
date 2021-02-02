@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <body>
-    <p>Hi Hack4Impact ${{chapter-name}},</p>
+    <p>
+      Hi Hack4Impact <?= chapter-name ?>,
+    </p>
 
     <p>
-      We noticed ${{nonprofit-name}} hasn't responded to the
-      ${{readable-time-period}} project success survey that was scheduled to be
+      We noticed <?= nonprofit-name ?> hasn't responded to the
+      <?= readable-time-period ?> project success survey that was scheduled to be
       sent out 2 weeks ago. This is a friendly reminder to send the survey to
-      ${{nonprofit-name}} within the next week if you haven't done so already,
+      <?= nonprofit-name ?> within the next week if you haven't done so already,
       or follow up with them if you already have. We have included information
       about the project and an email template below.
     </p>
 
     <p>Project Information:</p>
     <blockquote>
-      <p>Project Name: ${{project-name}}</p>
-      <p>Nonprofit Name: ${{nonprofit-name}}</p>
-      <p>Creation Semester: ${{creation-semester}}</p>
-      <p>Nonprofit POC: ${{nonprofit-contact-name}}</p>
-      <p>Nonprofit POC Email: ${{nonprofit-contact-email}}</p>
+      <p>Project Name: <?= project-name ?></p>
+      <p>Nonprofit Name: <?= nonprofit-name ?></p>
+      <p>Creation Semester: <?= creation-semester ?></p>
+      <p>Nonprofit POC: <?= nonprofit-contact-name ?></p>
+      <p>Nonprofit POC Email: <?= nonprofit-contact-email ?></p>
     </blockquote>
 
     <p>Email Template:</p>
 
     <blockquote>
-      <p>Hi ${{nonprofit-contact-name|nonprofit-name}},</p>
+      <p>Hi <?= nonprofit-contact-name|nonprofit-name ?>,</p>
 
       <p>
         I hope you are doing well! I am checking in to see how the Hack4Impact
         project has been working for your organization. We really appreciate any
         feedback you can provide as it will help us improve our work for the
         nonprofits we partner with in the future. Please fill out this feedback
-        form <a href="${{form-published-url}}">here</a> and as always, let us
+        form <a href="<?= form-published-url ?>">here</a> and as always, let us
         know if you have any other questions or concerns.
       </p>
 
       <p>Best,</p>
 
-      <p>Hack4Impact ${{chapter-name}}</p>
+      <p>Hack4Impact <?= chapter-name ?></p>
     </blockquote>
 
     <p>

@@ -1,29 +1,31 @@
-import { Row } from "./time-based-trigger";
+import { RowArr, RowObj } from "./time-based-trigger";
 
 const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
 
-export const getFormStore = (desiredFormId: string): Row => {
+export const getFormStore = (desiredFormId: string): RowObj => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const data = idStore.getRange("A2:F1500").getValues() as Row[];
+  const data = idStore.getRange("A2:F1500").getValues();
+
   for (let i = 0; i < data.length; i++) {
     const [formId] = data[i];
     if (formId == desiredFormId) {
-      return data[i] as Row;
+      return createRowObject(data[i] as RowArr);
     }
   }
   throw new Error(`Unable to find Project ID for Form ID ${desiredFormId}`);
 };
 
-export const storeForm = (row: Row): void => {
+export const storeForm = (row: RowObj): void => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
-  idStore.appendRow(row);
+  idStore.appendRow(createRowArray(row));
 };
 
 export const modifyFormRow = (
-  row: Row,
+  row: RowObj,
   rowIndex: number
 ): GoogleAppsScript.Spreadsheet.Range => {
-  const numberOfCols = row.length;
+  const rowArr = createRowArray(row);
+  const numberOfCols = rowArr.length;
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
 
   const index = rowIndex + 2;
@@ -34,10 +36,32 @@ export const modifyFormRow = (
   }`;
 
   const range = idStore.getRange(rangeNotation);
-  return range.setValues([row]);
+  return range.setValues([rowArr]);
 };
 
 export const getLetterNumerically = (num: number): string => {
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   return LETTERS[num];
+};
+
+export const createRowArray = (obj: RowObj): RowArr => {
+  return [
+    obj.formId,
+    obj.projectId,
+    obj.timePeriod,
+    obj.sentDate,
+    obj.responded,
+    obj.formEditLink,
+  ];
+};
+
+export const createRowObject = (arr: RowArr): RowObj => {
+  return {
+    formId: arr[0],
+    projectId: arr[1],
+    timePeriod: arr[2],
+    sentDate: arr[3],
+    responded: arr[4],
+    formEditLink: arr[5],
+  };
 };
