@@ -1,4 +1,8 @@
-import { StandardQuestionFields, TimePeriod } from "../../../../Utils/types";
+import {
+  Section,
+  StandardQuestionFields,
+  TimePeriod,
+} from "../../../../Utils/types";
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
@@ -36,6 +40,11 @@ export const createStandardQuestion = (
       formQuestion.setBounds(0, 10);
       break;
     }
+    case "Date": {
+      formQuestion = form.addDateItem();
+      formQuestion.setIncludesYear(true);
+      break;
+    }
     default: {
       formQuestion = form.addTextItem();
     }
@@ -68,8 +77,38 @@ export const getStandardQuestionResponse = (
     case "0-10": {
       return parseInt(itemResponse.getResponse() as string);
     }
+
+    //add this later;
+    case "Date": {
+      return "";
+    }
     default: {
       return itemResponse.getResponse();
     }
   }
+};
+
+export const getAsSections = (
+  standardQuestions: StandardQuestionFields[]
+): Section[] => {
+  const sections: Section[] = [];
+  for (const question of standardQuestions) {
+    if (!question.Section || question.Section.trim() === "") {
+      question.Section = "";
+    }
+
+    const matchingSectionIndex = sections.findIndex(
+      (section) => section.name === question.Section
+    );
+    if (matchingSectionIndex !== -1) {
+      const matchingSection = sections[matchingSectionIndex];
+      matchingSection.questions.push(question);
+    } else {
+      sections.push({
+        name: question.Section as string,
+        questions: [question],
+      });
+    }
+  }
+  return sections;
 };

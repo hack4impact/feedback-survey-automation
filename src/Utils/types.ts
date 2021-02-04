@@ -88,10 +88,22 @@ export interface StandardQuestion {
 
 export interface StandardQuestionFields {
   Question: string;
-  Type?: "Single Line Text" | "Multi Line Text" | "Integer" | "Yes/No" | "0-10";
+  Type?:
+    | "Single Line Text"
+    | "Multi Line Text"
+    | "Integer"
+    | "Yes/No"
+    | "0-10"
+    | "Date";
   "Time Periods"?: TimePeriod[];
   Order?: number;
   Required?: "True" | "False";
+  Section?: string;
+}
+
+export interface Section {
+  questions: StandardQuestionFields[];
+  name: string;
 }
 
 export type DateParameter = Date | Moment | number | string;

@@ -28,6 +28,10 @@ See the detailed [Guide to Running Locally GitHub Wiki]
 
 See the detailed [Guide to Developing Locally GitHub Wiki]
 
+## How it Works
+
+See the wiki page [How it works]
+
 ## Tools & Technologies
 
 ### TypeScript
@@ -68,7 +72,7 @@ Thanks goes to this project's contributors ([emoji key](https://allcontributors.
 <table>
   <tr>
     <td align="center"><a href="https://github.com/YashTotale"><img src="https://avatars.githubusercontent.com/u/30784592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yash Totale</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=YashTotale" title="Code">💻</a> <a href="https://github.com/hack4impact/airtable-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/subatuba21"><img src="https://avatars.githubusercontent.com/u/34824571?v=4?s=100" width="100px;" alt=""/><br /><sub><b>subatuba21</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=subatuba21" title="Code">💻</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/subatuba21"><img src="https://avatars.githubusercontent.com/u/34824571?v=4?s=100" width="100px;" alt=""/><br /><sub><b>subatuba21</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=subatuba21" title="Code">💻</a> <a href="https://github.com/hack4impact/airtable-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/elenarfowler"><img src="https://avatars.githubusercontent.com/u/32174305?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elena Fowler</b></sub></a><br /><a href="#projectManagement-elenarfowler" title="Project Management">📆</a> <a href="#mentoring-elenarfowler" title="Mentoring">🧑‍🏫</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://imgbot.net/"><img src="https://avatars.githubusercontent.com/u/31427850?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Imgbot</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=ImgBotApp" title="Tools">🔧</a></td>
   </tr>
@@ -85,7 +89,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [guide to developing locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Developing-Locally
 [guide to running locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Running-Locally
-[git]: https://git-scm.com/
+[how it works]: https://github.com/hack4impact/airtable-automation/wiki/How-it-works/
+[git]: https://git-scm.com/å
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
 ['secret files' folder]: https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB
