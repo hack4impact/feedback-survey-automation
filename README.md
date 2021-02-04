@@ -11,6 +11,7 @@
 
 - [Guide to Running Locally](#guide-to-running-locally)
 - [Guide to Developing Locally](#guide-to-developing-locally)
+- [How it Works](#how-it-works)
 - [Tools & Technologies](#tools--technologies)
   - [TypeScript](#typescript)
   - [Airtable API](#airtable-api)
@@ -22,15 +23,15 @@
 
 ## Guide to Running Locally
 
-See the detailed [Guide to Running Locally GitHub Wiki]
+See the [Guide to Running Locally GitHub Wiki]
 
 ## Guide to Developing Locally
 
-See the detailed [Guide to Developing Locally GitHub Wiki]
+See the [Guide to Developing Locally GitHub Wiki]
 
 ## How it Works
 
-See the wiki page [How it works]
+See the [How it Works Wiki]
 
 ## Tools & Technologies
 
@@ -89,8 +90,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [guide to developing locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Developing-Locally
 [guide to running locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Running-Locally
-[how it works]: https://github.com/hack4impact/airtable-automation/wiki/How-it-works/
-[git]: https://git-scm.com/å
+[how it works wiki]: https://github.com/hack4impact/airtable-automation/wiki/How-it-works/
+[git]: https://git-scm.com/
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
 ['secret files' folder]: https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB
