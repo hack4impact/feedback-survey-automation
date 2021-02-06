@@ -4,12 +4,14 @@ import {
   GoogleFormPostData,
   Section,
   TimePeriod,
+  OnboardedDefaultSections,
 } from "../../../Utils/types";
 import { initializeForm } from "./form-data";
 import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
 import {
   createStandardQuestion,
   getAsSections,
+  getOnboardedDefaultSections,
   getStandardQuestionResponse,
 } from "./questions/standard";
 import {
@@ -43,15 +45,16 @@ const doPost = (request: any) => {
 
   const form = initializeForm(projectData, timePeriod);
 
-  // Misc questions (name, email)
-  createMiscQuestions(form, projectData);
-
   // Standard beginning questions
   const standardQuestions = getStandardQuestions().filter((question) =>
     question["Time Periods"]?.includes(timePeriod)
   );
-  const sections = getAsSections(standardQuestions);
 
+  const sections = getAsSections(standardQuestions);
+  const onboardedDefaultSections = getOnboardedDefaultSections(sections);
+
+  // Misc questions (name, email)
+  createMiscQuestions(form, projectData, onboardedDefaultSections, timePeriod);
   createSections(sections, form, timePeriod);
 
   // for (const question of standardQuestions) {
@@ -152,11 +155,11 @@ export const updateProjectSuccessTable = (
 const createError = (err: AppsScriptError) =>
   ContentService.createTextOutput(err);
 
-const createSections = (
+export const createSections = (
   sections: Section[],
   form: GoogleAppsScript.Forms.Form,
   timePeriod: TimePeriod
-) => {
+): void => {
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
     if (section.name !== "") {

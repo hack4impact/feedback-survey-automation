@@ -106,4 +106,6 @@ export interface Section {
   name: string;
 }
 
+export const OnboardedDefaultSections = ["after handoff"];
+
 export type DateParameter = Date | Moment | number | string;

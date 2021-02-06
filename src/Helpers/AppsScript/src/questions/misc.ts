@@ -1,5 +1,8 @@
-import { FlattenedData } from "../../../../Utils/types";
+import { time } from "console";
+import { FlattenedData, Section, TimePeriod } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
+import { createSections } from "../main";
+import { createStandardQuestion } from "./standard";
 
 interface MiscQuestion {
   title: string;
@@ -19,7 +22,9 @@ const ONBOARDED = "Have you onboarded the project?";
 
 export const createMiscQuestions = (
   form: GoogleAppsScript.Forms.Form,
-  projectData: FlattenedData
+  projectData: FlattenedData,
+  onboardedDefaultSections: Section[],
+  timePeriod: TimePeriod
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
@@ -28,19 +33,24 @@ export const createMiscQuestions = (
   });
   if (projectData.onboarded !== "Yes") {
     const onboardedQuestion = form.addMultipleChoiceItem();
-    const yes = onboardedQuestion.createChoice(
-      "Yes",
-      FormApp.PageNavigationType.CONTINUE
-    );
-    const no = onboardedQuestion.createChoice(
-      "No",
-      FormApp.PageNavigationType.SUBMIT
-    );
-    onboardedQuestion.setChoices([yes, no]);
     onboardedQuestion.setRequired(true);
     onboardedQuestion.setTitle(ONBOARDED);
-    form.addPageBreakItem();
+
+    const skipToStandardQs = createHiddenSectionsAndReturnSkipItem(
+      onboardedDefaultSections,
+      form,
+      timePeriod
+    );
+
+    const yes = onboardedQuestion.createChoice("Yes", skipToStandardQs);
+    const no = onboardedQuestion.createChoice(
+      "No",
+      FormApp.PageNavigationType.CONTINUE
+    );
+    onboardedQuestion.setChoices([yes, no]);
   }
+
+  createSections(onboardedDefaultSections, form, timePeriod);
 };
 
 export const getMiscQuestionResponse = (
@@ -61,4 +71,27 @@ export const getMiscQuestionResponse = (
       body[misc.field] = response;
     }
   }
+};
+
+const createHiddenSectionsAndReturnSkipItem = (
+  sections: Section[],
+  form: GoogleAppsScript.Forms.Form,
+  timePeriod: TimePeriod
+) => {
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    const currentSection = form.addPageBreakItem();
+    if (section.name !== "") {
+      const header = form.addSectionHeaderItem();
+      header.setTitle(section.name);
+    }
+    for (const question of section.questions) {
+      createStandardQuestion(form, question, timePeriod);
+    }
+    if (i === sections.length - 1) {
+      currentSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
+    }
+  }
+  const skipToStandardQuestions = form.addPageBreakItem();
+  return skipToStandardQuestions;
 };
