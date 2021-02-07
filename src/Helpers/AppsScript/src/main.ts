@@ -4,7 +4,6 @@ import {
   GoogleFormPostData,
   Section,
   TimePeriod,
-  OnboardedDefaultSections,
 } from "../../../Utils/types";
 import { initializeForm } from "./form-data";
 import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
@@ -52,6 +51,7 @@ const doPost = (request: any) => {
 
   const sections = getAsSections(standardQuestions);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
+  //const onboardedDefaultSections : Section[] = [];
 
   // Misc questions (name, email)
   createMiscQuestions(form, projectData, onboardedDefaultSections, timePeriod);

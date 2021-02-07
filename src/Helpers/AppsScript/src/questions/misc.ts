@@ -1,4 +1,3 @@
-import { time } from "console";
 import { FlattenedData, Section, TimePeriod } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
 import { createSections } from "../main";
@@ -51,6 +50,7 @@ export const createMiscQuestions = (
   }
 
   createSections(onboardedDefaultSections, form, timePeriod);
+  form.addPageBreakItem();
 };
 
 export const getMiscQuestionResponse = (
@@ -80,7 +80,7 @@ const createHiddenSectionsAndReturnSkipItem = (
 ) => {
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
-    const currentSection = form.addPageBreakItem();
+    form.addPageBreakItem();
     if (section.name !== "") {
       const header = form.addSectionHeaderItem();
       header.setTitle(section.name);
@@ -88,10 +88,11 @@ const createHiddenSectionsAndReturnSkipItem = (
     for (const question of section.questions) {
       createStandardQuestion(form, question, timePeriod);
     }
-    if (i === sections.length - 1) {
-      currentSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
-    }
   }
+
+  const finalSection = form.addPageBreakItem();
+  finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
+
   const skipToStandardQuestions = form.addPageBreakItem();
   return skipToStandardQuestions;
 };

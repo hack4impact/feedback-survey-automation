@@ -2,8 +2,9 @@ import {
   Section,
   StandardQuestionFields,
   TimePeriod,
-  OnboardedDefaultSections,
 } from "../../../../Utils/types";
+
+const OnboardedDefaultSections: string[] = ["after handoff"];
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
@@ -115,12 +116,14 @@ export const getAsSections = (
 };
 
 export const getOnboardedDefaultSections = (sections: Section[]): Section[] => {
-  const onboardedDefaultSections: Section[] = [];
+  let onboardedDefaultSections: Section[] = [];
 
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
     if (OnboardedDefaultSections.includes(section.name)) {
-      onboardedDefaultSections.concat(sections.splice(i, 1));
+      onboardedDefaultSections = onboardedDefaultSections.concat(
+        sections.splice(i, 1)
+      );
     }
   }
 
