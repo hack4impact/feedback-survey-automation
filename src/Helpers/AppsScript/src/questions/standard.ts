@@ -82,7 +82,7 @@ export const getStandardQuestionResponse = (
 
     //add this later;
     case "Date": {
-      return "";
+      return itemResponse.getResponse();
     }
     default: {
       return itemResponse.getResponse();

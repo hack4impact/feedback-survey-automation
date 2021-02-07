@@ -47,9 +47,8 @@ export const createMiscQuestions = (
       FormApp.PageNavigationType.CONTINUE
     );
     onboardedQuestion.setChoices([yes, no]);
+    createSections(onboardedDefaultSections, form, timePeriod);
   }
-
-  createSections(onboardedDefaultSections, form, timePeriod);
   form.addPageBreakItem();
 };
 
