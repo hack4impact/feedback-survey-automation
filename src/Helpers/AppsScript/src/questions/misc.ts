@@ -35,17 +35,33 @@ export const createMiscQuestions = (
     onboardedQuestion.setRequired(true);
     onboardedQuestion.setTitle(ONBOARDED);
 
-    const skipToStandardQs = createHiddenSectionsAndReturnSkipItem(
+    const [skipToStandardQs, endForm] = createHiddenSectionsAndReturnSkipItem(
       onboardedDefaultSections,
       form,
       timePeriod
     );
 
-    const yes = onboardedQuestion.createChoice("Yes", skipToStandardQs);
-    const no = onboardedQuestion.createChoice(
-      "No",
-      FormApp.PageNavigationType.CONTINUE
-    );
+    let yes: GoogleAppsScript.Forms.Choice;
+    let no: GoogleAppsScript.Forms.Choice;
+    if (skipToStandardQs !== undefined) {
+      yes = onboardedQuestion.createChoice(
+        "Yes",
+        skipToStandardQs as GoogleAppsScript.Forms.PageBreakItem
+      );
+      no = onboardedQuestion.createChoice(
+        "No",
+        FormApp.PageNavigationType.CONTINUE
+      );
+    } else {
+      yes = onboardedQuestion.createChoice(
+        "Yes",
+        FormApp.PageNavigationType.CONTINUE
+      );
+      no = onboardedQuestion.createChoice(
+        "No",
+        FormApp.PageNavigationType.SUBMIT
+      );
+    }
     onboardedQuestion.setChoices([yes, no]);
     createSections(onboardedDefaultSections, form, timePeriod);
   }
@@ -76,22 +92,29 @@ const createHiddenSectionsAndReturnSkipItem = (
   sections: Section[],
   form: GoogleAppsScript.Forms.Form,
   timePeriod: TimePeriod
-) => {
-  for (let i = 0; i < sections.length; i++) {
-    const section = sections[i];
-    form.addPageBreakItem();
-    if (section.name !== "") {
-      const header = form.addSectionHeaderItem();
-      header.setTitle(section.name);
+): [
+  GoogleAppsScript.Forms.PageBreakItem | undefined,
+  GoogleAppsScript.Forms.PageNavigationType | undefined
+] => {
+  if (sections.length !== 0) {
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      form.addPageBreakItem();
+      if (section.name !== "") {
+        const header = form.addSectionHeaderItem();
+        header.setTitle(section.name);
+      }
+      for (const question of section.questions) {
+        createStandardQuestion(form, question, timePeriod);
+      }
     }
-    for (const question of section.questions) {
-      createStandardQuestion(form, question, timePeriod);
-    }
+
+    const finalSection = form.addPageBreakItem();
+    finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
+
+    const skipToStandardQuestions = form.addPageBreakItem();
+    return [skipToStandardQuestions, undefined];
+  } else {
+    return [undefined, FormApp.PageNavigationType.SUBMIT];
   }
-
-  const finalSection = form.addPageBreakItem();
-  finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
-
-  const skipToStandardQuestions = form.addPageBreakItem();
-  return skipToStandardQuestions;
 };
