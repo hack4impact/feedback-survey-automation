@@ -1,19 +1,12 @@
-import {
-  Section,
-  StandardQuestionFields,
-  TimePeriod,
-} from "../../../../Utils/types";
+import { Section, StandardQuestionFields } from "../../../../Utils/types";
 
-const OnboardedDefaultSections: string[] = ["after handoff"];
+const OnboardedDefaultSections: string[] = ["After Handoff"];
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
-  question: StandardQuestionFields,
-  timePeriod: TimePeriod
+  question: StandardQuestionFields
 ): void => {
-  const { Question, Type, Required, "Time Periods": timePeriods } = question;
-
-  if (Array.isArray(timePeriods) && !timePeriods.includes(timePeriod)) return;
+  const { Question, Type, Required } = question;
 
   let formQuestion;
 

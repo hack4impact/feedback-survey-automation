@@ -3,7 +3,6 @@ import {
   GoogleFormData,
   GoogleFormPostData,
   Section,
-  TimePeriod,
 } from "../../../Utils/types";
 import { initializeForm } from "./form-data";
 import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
@@ -45,17 +44,15 @@ const doPost = (request: any) => {
   const form = initializeForm(projectData, timePeriod);
 
   // Standard beginning questions
-  const standardQuestions = getStandardQuestions().filter((question) =>
-    question["Time Periods"]?.includes(timePeriod)
-  );
+  const standardQuestions = getStandardQuestions(timePeriod);
 
   const sections = getAsSections(standardQuestions);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
   //const onboardedDefaultSections : Section[] = [];
 
   // Misc questions (name, email)
-  createMiscQuestions(form, projectData, onboardedDefaultSections, timePeriod);
-  createSections(sections, form, timePeriod);
+  createMiscQuestions(form, projectData, onboardedDefaultSections);
+  createSections(sections, form);
 
   // for (const question of standardQuestions) {
   //   createStandardQuestion(form, question, timePeriod);
@@ -108,7 +105,7 @@ export const updateProjectSuccessTable = (
     (field) => field.indexOf("Success Metric Question ") != -1
   );
 
-  const standardQuestions = getStandardQuestions();
+  const standardQuestions = getStandardQuestions(timePeriod);
   const itemResponses = response.getItemResponses();
 
   const body: Record<string, unknown> = {
@@ -157,8 +154,7 @@ const createError = (err: AppsScriptError) =>
 
 export const createSections = (
   sections: Section[],
-  form: GoogleAppsScript.Forms.Form,
-  timePeriod: TimePeriod
+  form: GoogleAppsScript.Forms.Form
 ): void => {
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
@@ -167,7 +163,7 @@ export const createSections = (
       header.setTitle(section.name);
     }
     for (const question of section.questions) {
-      createStandardQuestion(form, question, timePeriod);
+      createStandardQuestion(form, question);
     }
     if (i !== sections.length - 1) {
       form.addPageBreakItem();

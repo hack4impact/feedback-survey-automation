@@ -1,6 +1,7 @@
 import {
   StandardQuestion,
   StandardQuestionFields,
+  TimePeriod,
 } from "../../../../Utils/types";
 import { airtableRequest } from "./helpers";
 
@@ -44,7 +45,9 @@ export const updateProject = (
   );
 };
 
-export const getStandardQuestions = (): StandardQuestionFields[] => {
+export const getStandardQuestions = (
+  timePeriod: TimePeriod
+): StandardQuestionFields[] => {
   const res = airtableRequest("Standard Questions");
 
   if (res.getResponseCode() === 200) {
@@ -53,6 +56,11 @@ export const getStandardQuestions = (): StandardQuestionFields[] => {
     ).records;
 
     return records
+      .filter(
+        (question) =>
+          !Array.isArray(question["Time Periods"]) ||
+          !question["Time Periods"].includes(timePeriod)
+      )
       .map((record) => record.fields)
       .sort(({ Order: a }, { Order: b }) => (a ?? 0) - (b ?? 0));
   }

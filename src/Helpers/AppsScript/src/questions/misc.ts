@@ -22,8 +22,7 @@ const ONBOARDED = "Have you onboarded the project?";
 export const createMiscQuestions = (
   form: GoogleAppsScript.Forms.Form,
   projectData: FlattenedData,
-  onboardedDefaultSections: Section[],
-  timePeriod: TimePeriod
+  onboardedDefaultSections: Section[]
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
@@ -37,8 +36,7 @@ export const createMiscQuestions = (
 
     const [skipToStandardQs, endForm] = createHiddenSectionsAndReturnSkipItem(
       onboardedDefaultSections,
-      form,
-      timePeriod
+      form
     );
 
     let yes: GoogleAppsScript.Forms.Choice;
@@ -63,7 +61,7 @@ export const createMiscQuestions = (
       );
     }
     onboardedQuestion.setChoices([yes, no]);
-    createSections(onboardedDefaultSections, form, timePeriod);
+    createSections(onboardedDefaultSections, form);
   }
   form.addPageBreakItem();
 };
@@ -90,8 +88,7 @@ export const getMiscQuestionResponse = (
 
 const createHiddenSectionsAndReturnSkipItem = (
   sections: Section[],
-  form: GoogleAppsScript.Forms.Form,
-  timePeriod: TimePeriod
+  form: GoogleAppsScript.Forms.Form
 ): [
   GoogleAppsScript.Forms.PageBreakItem | undefined,
   GoogleAppsScript.Forms.PageNavigationType | undefined
@@ -105,7 +102,7 @@ const createHiddenSectionsAndReturnSkipItem = (
         header.setTitle(section.name);
       }
       for (const question of section.questions) {
-        createStandardQuestion(form, question, timePeriod);
+        createStandardQuestion(form, question);
       }
     }
 
