@@ -42,7 +42,8 @@
     "postinstall": "replace-in-file \"declare var console\" \"//declare var console\" node_modules/@types/google-apps-script/google-apps-script.base.d.ts",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "contributors:check": "all-contributors check"
+    "contributors:check": "all-contributors check",
+    "clean-up-dry-runs": "ts-node scripts/clean-up-dry-runs.ts"
   },
   "dependencies": {
     "airtable": "^0.10.1",

@@ -24,7 +24,8 @@ out/
 output/
 
 # Secrets
-serviceaccount.json
+credentials.json
+oauth-token.json
 .clasprc.json
 
 # Misc

@@ -1,15 +1,33 @@
-# dependencies
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Dependency directories
 node_modules/
 
-# testing
-coverage/
+# Optional npm cache directory
+.npm
 
-# production
-dist/
-out/
-build/
+# Optional eslint cache
+.eslintcache
 
-# misc
-serviceaccount.json
+# dotenv environment variables file
 .env
+.env.test
+
+# Outputs
+out/
+output/
+
+# Secrets
+credentials.json
+oauth-token.json
+.clasprc.json
+
+# Misc
+.DS_Store
 remind-mail.html

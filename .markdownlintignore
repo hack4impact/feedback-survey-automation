@@ -1,10 +1,6 @@
-# dependencies
+# Dependency directories
 node_modules/
 
-# testing
-coverage/
-
-# production
-dist/
+# Outputs
 out/
-build/
+output/

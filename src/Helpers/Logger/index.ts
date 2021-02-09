@@ -97,6 +97,10 @@ class Logger {
     console.log(message);
   }
 
+  static line(): void {
+    console.log();
+  }
+
   static coloredLog(
     color: keyof typeof Logger.COLORS,
     message: string,
