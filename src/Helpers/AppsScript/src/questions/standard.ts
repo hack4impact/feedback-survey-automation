@@ -132,6 +132,7 @@ export const getOnboardedDefaultSections = (sections: Section[]): Section[] => {
       onboardedDefaultSections = onboardedDefaultSections.concat(
         sections.splice(i, 1)
       );
+      i -= 1;
     }
   }
 
