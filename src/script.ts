@@ -47,10 +47,10 @@ const script = async () => {
 
           // Make sure the project has all required fields. If not, throw an error.
           const checkedData = checkRequiredFields(data);
-          const { projectStatus, projectSuccessData } = checkedData;
 
           // Flatten fields that are supposed to be strings (but Airtable returns an array with 1 element)
           const flattenedData = flattenFields(checkedData);
+          const { projectStatus, projectSuccessData } = flattenedData;
 
           // If project is not abandoned, continue
           if (checkProjectStatus(projectStatus)) {

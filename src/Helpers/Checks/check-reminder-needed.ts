@@ -10,14 +10,16 @@ import { TIME_PERIODS, READABLE_TIME_PERIODS } from "../../Utils/constants";
 const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
   const deliveryDate = normalizeDate(data.deliveryDate);
   const lastSent = data.lastSent;
+
   for (const timePeriod of TIME_PERIODS) {
-    if (timePeriod === lastSent) break;
-    const timeAmount = parseInt(timePeriod.slice(0, 1));
+    if (timePeriod === lastSent) break; // We have already sent a form out for this time period
+    const timeAmount = parseInt(timePeriod.slice(0, 1)); // The units of time (is a number)
 
     const milestone = normalizeDate(
       moment().subtract(timeAmount, getTimeUnit(timePeriod))
-    );
+    ); // The current date minus the time units (ex. the date 6 months ago)
 
+    // Is the delivery date before the milestone?
     if (milestone > deliveryDate) {
       Logger.info(
         `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`

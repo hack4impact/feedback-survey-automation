@@ -44,7 +44,7 @@ const sendReminderEmail = async (
     {
       htmlContent: html,
       textContent: text,
-      recipients: sendTo,
+      result,
     }
   );
 

@@ -28,6 +28,7 @@ interface FlattenedFields {
 export type FlattenedData = Omit<CheckedData, keyof FlattenedFields> &
   FlattenedFields;
 
+// Change the Array of Project Statuses in constants.ts when changing this as well
 export type ProjectStatus =
   | "In Progress"
   | "Delivered"
@@ -35,15 +36,7 @@ export type ProjectStatus =
   | "Abandoned by Nonprofit"
   | "Unknown";
 
-// For looping through project statuses
-export const PROJECT_STATUSES = [
-  "In Progress",
-  "Delivered",
-  "Abandoned by Dev Team",
-  "Abandoned by Nonprofit",
-  "Unknown",
-] as const;
-
+// Change the Array of Time Periods in constants.ts when changing this as well
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
 export interface GoogleFormData {
@@ -62,20 +55,13 @@ export interface GoogleFormPostData {
   timePeriod: TimePeriod;
 }
 
+// Change the Array of Apps Script Errors in constants.ts when changing this as well
 export type AppsScriptError =
   | "No Project ID found"
   | "No Project Name found"
   | "Wrong APPS_SCRIPT_PASSWORD"
   | "No Success Metric Questions found"
   | "No Time Period Found";
-
-export const APPS_SCRIPT_ERRORS: AppsScriptError[] = [
-  "No Project ID found",
-  "No Project Name found",
-  "Wrong APPS_SCRIPT_PASSWORD",
-  "No Success Metric Questions found",
-  "No Time Period Found",
-];
 
 export interface StandardQuestion {
   id: string;

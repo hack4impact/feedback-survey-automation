@@ -11,9 +11,10 @@ const checkInUse = async (
   project: AirtableRecord
 ): Promise<boolean> => {
   for (const data of successData) {
+    const willEverUse = data.get(DATA_FIELDS.willEverUse);
     const inUseResponse = data.get(DATA_FIELDS.isStillUsing);
 
-    if (inUseResponse === "No") {
+    if (inUseResponse === "No" || willEverUse === "No") {
       const abandonded: ProjectStatus = "Abandoned by Nonprofit";
 
       Logger.warning(

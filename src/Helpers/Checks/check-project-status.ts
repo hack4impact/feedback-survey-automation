@@ -2,8 +2,9 @@
 import { ProjectStatus } from "../../Utils/types";
 import Logger from "../Logger";
 
-const logFalsey = (projectStatus: ProjectStatus) => {
+const logFalsey = (projectStatus: ProjectStatus): false => {
   Logger.warning(`Status is '${projectStatus}'. No actions performed.`);
+  return false;
 };
 
 const checkProjectStatus = (projectStatus?: ProjectStatus): boolean => {
@@ -12,18 +13,16 @@ const checkProjectStatus = (projectStatus?: ProjectStatus): boolean => {
       return true;
     }
     case "In Progress": {
-      return true;
+      return logFalsey(projectStatus);
     }
     case "Unknown": {
       return true;
     }
     case "Abandoned by Dev Team": {
-      logFalsey(projectStatus);
-      return false;
+      return logFalsey(projectStatus);
     }
     case "Abandoned by Nonprofit": {
-      logFalsey(projectStatus);
-      return false;
+      return logFalsey(projectStatus);
     }
     default: {
       return true;

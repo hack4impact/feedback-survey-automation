@@ -5,7 +5,7 @@ import Mail from "nodemailer/lib/mailer";
 let transporter: Mail;
 
 const setUpEmail = (): Mail => {
-  if (!transporter)
+  if (!transporter) {
     transporter = createTransport({
       host: "smtp.ethereal.email",
       port: 587,
@@ -15,6 +15,7 @@ const setUpEmail = (): Mail => {
         pass: "EcGmzRxPWK4JBQdzMk", // generated ethereal password
       },
     });
+  }
 
   return transporter;
 };

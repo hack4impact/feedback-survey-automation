@@ -2,13 +2,13 @@ import { TimePeriod } from "./types";
 
 // START FIELDS
 
-export const READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
+export const READABLE_TIME_PERIODS = {
   "1m": "1 month",
   "6m": "6 months",
   "1y": "1 year",
   "3y": "3 years",
   "5y": "5 years",
-};
+} as const;
 
 export const createPublishedURLField = (timePeriod: TimePeriod): string =>
   `(${timePeriod}) Google Form Published URL`;
@@ -54,13 +54,20 @@ export const FIELDS = {
 } as const;
 
 export const DATA_FIELDS = {
+  // Project Info
   project: "Project",
+  projectName: "Project Name",
+
+  // Response Info
   responderEmail: "Responder Email",
   responderName: "Responder Name",
   timePeriod: "Response Time Period",
   feedbackDate: "Feedback Date",
-  projectName: "Project Name",
+
+  // Usage Info
   isStillUsing: "Are you still using the product?",
+  willEverUse:
+    "If you have not yet started using the product, do you plan on trying to using it in the future?",
 };
 
 export const STANDARD_QUESTIONS = {
@@ -68,5 +75,22 @@ export const STANDARD_QUESTIONS = {
 };
 
 // END FIELDS
+
+// For looping through project statuses
+export const PROJECT_STATUSES = [
+  "In Progress",
+  "Delivered",
+  "Abandoned by Dev Team",
+  "Abandoned by Nonprofit",
+  "Unknown",
+] as const;
+
+export const APPS_SCRIPT_ERRORS = [
+  "No Project ID found",
+  "No Project Name found",
+  "Wrong APPS_SCRIPT_PASSWORD",
+  "No Success Metric Questions found",
+  "No Time Period Found",
+] as const;
 
 export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";

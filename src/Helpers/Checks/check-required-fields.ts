@@ -1,6 +1,6 @@
 // Internals
-import { ProjectData, PROJECT_STATUSES, CheckedData } from "../../Utils/types";
-import { TIME_PERIODS } from "../../Utils/constants";
+import { ProjectData, CheckedData } from "../../Utils/types";
+import { TIME_PERIODS, PROJECT_STATUSES } from "../../Utils/constants";
 
 const checkRequiredFields = (data: ProjectData): CheckedData => {
   const {
@@ -26,7 +26,7 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
     typeof chapter[0] !== "string"
   ) {
     throw new Error(
-      `${projectName} does not have a string array with length 1 chapter (${chapter})`
+      `${projectName} does not have a string array with length 1 for its Chapter value (${chapter})`
     );
   }
 
@@ -36,7 +36,7 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
     typeof chapterName[0] !== "string"
   ) {
     throw new Error(
-      `${projectName} does not have a string array with length 1 chapter name (${chapterName})`
+      `${projectName} does not have a string array with length 1 for its Chapter Name value (${chapterName})`
     );
   }
 
