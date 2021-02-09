@@ -87,8 +87,6 @@ export const getStandardQuestionResponse = (
     case "0-10": {
       return parseInt(itemResponse.getResponse() as string);
     }
-
-    //add this later;
     case "Date": {
       return itemResponse.getResponse() || undefined;
     }

@@ -1,11 +1,20 @@
+// Utils
 import {
   AppsScriptError,
   GoogleFormData,
   GoogleFormPostData,
   Section,
 } from "../../../Utils/types";
+import { DATA_FIELDS } from "../../../Utils/constants";
 import { initializeForm } from "./form-data";
-import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
+
+import {
+  getStandardQuestions,
+  getProjectData,
+  postProjectSuccessData,
+} from "./airtable/requests";
+import { storeForm, getFormStore } from "./form-store";
+// Questions
 import {
   createStandardQuestion,
   getAsSections,
@@ -13,13 +22,11 @@ import {
   getOnboardedQuestions,
   getStandardQuestionResponse,
 } from "./questions/standard";
+import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
 import {
-  getStandardQuestions,
-  getProjectData,
-  postProjectSuccessData,
-} from "./airtable/requests";
-import { storeForm, getFormStore } from "./form-store";
-import { DATA_FIELDS } from "../../../Utils/constants";
+  createSuccessMetricQuestions,
+  getSuccessQuestionResponse,
+} from "./questions/metric";
 
 // START FIELDS
 // END FIELDS
@@ -64,14 +71,7 @@ export const doPost = (
   createSections(sections, form);
 
   // Form success metric questions
-  form.addPageBreakItem();
-
-  for (const question of projectData.successQuestions) {
-    const questionOnForm = form.addScaleItem();
-    questionOnForm.setTitle(question);
-    questionOnForm.setBounds(0, 10);
-    questionOnForm.setRequired(true);
-  }
+  createSuccessMetricQuestions(form, projectData.successQuestions);
 
   // Storing form in Spreadsheet to track responses
   !dryRun &&
@@ -138,9 +138,7 @@ export const updateProjectSuccessTable = (
       );
 
       if (successQuestion !== undefined) {
-        body[successQuestion.replace("Metric Question", "Rating")] = parseInt(
-          itemResponse.getResponse() as string
-        );
+        getSuccessQuestionResponse(successQuestion, itemResponse, body);
       } else {
         getMiscQuestionResponse(question, itemResponse, body);
       }
