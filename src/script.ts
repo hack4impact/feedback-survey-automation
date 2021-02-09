@@ -53,6 +53,7 @@ const script = async () => {
           if (typeof data.projectName !== "string") continue;
 
           // Log the project's name
+          Logger.line();
           Logger.bold(data.projectName);
 
           // Make sure the project has all required fields. If not, throw an error.
@@ -90,9 +91,6 @@ const script = async () => {
             (await project.updateFields({
               [FIELDS.lastSent]: reminderNeeded,
             }));
-
-          // Empty for formatting purposes
-          console.log();
         }
 
         nextPage();
