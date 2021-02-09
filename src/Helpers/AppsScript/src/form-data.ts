@@ -19,7 +19,7 @@ export const initializeForm = (
       title,
       DriveApp.getFolderById(
         dryRun
-          ? "1H2nx8ioyOFitDe7JtbVAKImxoXhQdEO-"
+          ? "1qfx3jwE7QE_TPgSuOHUn_s31FmcoUGEd"
           : "1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf"
       )
     )
