@@ -20,7 +20,7 @@ jobs:
         run: echo '${{ secrets.ENV_FILE }}' > .env
 
       - name: Setup Service Account
-        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > src/Config/serviceaccount.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > serviceaccount.json
 
       - name: Install Dependencies
         run: npm ci
