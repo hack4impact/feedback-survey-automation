@@ -38,8 +38,7 @@ export interface RowObj {
 }
 
 // Checks for new responses and sends follow up emails if no response recieved for 2 weeks
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const cronTrigger = () => {
+export const cronTrigger = (): void => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
   const data = idStore.getRange("A2:F1500").getValues() as RowArr[];
 
@@ -93,9 +92,9 @@ const sendReminder = (
   const { projectId, timePeriod } = row;
 
   const { fields } = getProjectData(projectId);
-  const to = fields[FIELDS.representativeEmail];
-  const nonprofitName = fields[FIELDS.nonprofitName];
-  const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
+  // const to = fields[FIELDS.representativeEmail];
+  // const nonprofitName = fields[FIELDS.nonprofitName];
+  // const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
   const template = HtmlService.createTemplateFromFile(
     "static/remind-mail.html"
   );

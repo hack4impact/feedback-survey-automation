@@ -24,11 +24,10 @@ import { DATA_FIELDS } from "../../../Utils/constants";
 // START FIELDS
 // END FIELDS
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const doPost = (request: any) => {
-  const payload: GoogleFormPostData = JSON.parse(
-    request.postData.getDataAsString()
-  );
+export const doPost = (
+  request: GoogleAppsScript.Events.DoPost
+): GoogleAppsScript.Content.TextOutput => {
+  const payload: GoogleFormPostData = JSON.parse(request.postData.contents);
 
   const { password, projectData, projectId, timePeriod, dryRun } = payload;
 
