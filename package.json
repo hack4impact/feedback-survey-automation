@@ -24,6 +24,7 @@
   "scripts": {
     "make": "node out/script.js",
     "make:ts": "ts-node src/script.ts",
+    "make:dry": "npm run make -- --dry-run",
     "start": "concurrently \"npm:compile:watch\" -c \"blue.bold,green.bold\" --kill-others",
     "compile": "tsc -p ./",
     "compile:watch": "tsc -p ./ -w",

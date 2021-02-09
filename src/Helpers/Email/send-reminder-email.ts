@@ -39,7 +39,7 @@ const sendReminderEmail = async (
     text,
   });
 
-  Logger.success(
+  await Logger.success(
     `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
     {
       htmlContent: html,

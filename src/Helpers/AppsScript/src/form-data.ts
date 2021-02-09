@@ -8,7 +8,8 @@ const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
 
 export const initializeForm = (
   projectData: FlattenedData,
-  timePeriod: TimePeriod
+  timePeriod: TimePeriod,
+  dryRun: boolean
 ): GoogleAppsScript.Forms.Form => {
   const title = `${projectData.projectName} Feedback Survey - ${READABLE_TIME_PERIODS[timePeriod]}`;
 
@@ -16,7 +17,11 @@ export const initializeForm = (
   const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)
     .makeCopy(
       title,
-      DriveApp.getFolderById("1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf")
+      DriveApp.getFolderById(
+        dryRun
+          ? "1H2nx8ioyOFitDe7JtbVAKImxoXhQdEO-"
+          : "1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf"
+      )
     )
     .getId();
 

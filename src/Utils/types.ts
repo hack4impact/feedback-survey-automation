@@ -53,6 +53,7 @@ export interface GoogleFormPostData {
   projectData: FlattenedData;
   projectId: string;
   timePeriod: TimePeriod;
+  dryRun: boolean;
 }
 
 // Change the Array of Apps Script Errors in constants.ts when changing this as well

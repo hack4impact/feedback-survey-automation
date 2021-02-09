@@ -30,7 +30,7 @@ const doPost = (request: any) => {
     request.postData.getDataAsString()
   );
 
-  const { password, projectData, projectId, timePeriod } = payload;
+  const { password, projectData, projectId, timePeriod, dryRun } = payload;
 
   if (typeof projectId !== "string") return createError("No Project ID found");
 
@@ -46,7 +46,7 @@ const doPost = (request: any) => {
   if (password !== process.env.APPS_SCRIPT_PASSWORD)
     return createError("Wrong APPS_SCRIPT_PASSWORD");
 
-  const form = initializeForm(projectData, timePeriod);
+  const form = initializeForm(projectData, timePeriod, dryRun);
 
   // Standard beginning questions
   const standardQuestions = getStandardQuestions(timePeriod);
@@ -64,10 +64,6 @@ const doPost = (request: any) => {
   );
   createSections(sections, form);
 
-  // for (const question of standardQuestions) {
-  //   createStandardQuestion(form, question, timePeriod);
-  // }
-
   // Form success metric questions
   form.addPageBreakItem();
 
@@ -78,15 +74,16 @@ const doPost = (request: any) => {
     questionOnForm.setRequired(true);
   }
 
-  // Coupling form id with projectId
-  storeForm({
-    formId: form.getId(),
-    projectId,
-    timePeriod,
-    sentDate: Date.now(),
-    responded: "No",
-    formEditLink: form.getEditUrl(),
-  });
+  // Storing form in Spreadsheet to track responses
+  !dryRun &&
+    storeForm({
+      formId: form.getId(),
+      projectId,
+      timePeriod,
+      sentDate: Date.now(),
+      responded: "No",
+      formEditLink: form.getEditUrl(),
+    });
 
   const formData: GoogleFormData = {
     id: form.getId(),

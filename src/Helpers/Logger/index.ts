@@ -54,8 +54,10 @@ class Logger {
   static readonly OUTPUT_PATH = join(__dirname, "..", "..", "..", "output");
   static readonly LOGS_PATH = join(Logger.OUTPUT_PATH, "logs.json");
   static readonly VIEW_LOGS_MESSAGE = " (View logs for details)";
+  static dryRun = false;
 
-  static async setUp(): Promise<void> {
+  static async setUp(isDryRun: boolean): Promise<void> {
+    this.dryRun = isDryRun;
     if (!existsSync(this.OUTPUT_PATH)) {
       await mkdir(this.OUTPUT_PATH);
     }
@@ -65,14 +67,14 @@ class Logger {
 
   static async getLogs(): Promise<Log[]> {
     const rawLogs = await readFile(this.LOGS_PATH, "utf-8");
-    return JSON.parse(rawLogs) as Log[];
+    return JSON.parse(rawLogs);
   }
 
   static writeLogs(): Promise<void> {
     return writeFile(this.LOGS_PATH, JSON.stringify(this.logs), "utf-8");
   }
 
-  static async log(
+  static async write(
     message: LogMessage,
     type: LogType,
     extra?: LogExtra
@@ -89,6 +91,10 @@ class Logger {
     await this.writeLogs();
 
     return log;
+  }
+
+  static log(message: string): void {
+    console.log(message);
   }
 
   static coloredLog(
@@ -111,7 +117,7 @@ class Logger {
   ) {
     let extraLog = "";
     if (extra !== undefined) {
-      await this.log(message, type, extra);
+      await this.write(message, type, extra);
       extraLog = this.VIEW_LOGS_MESSAGE;
     }
     this.coloredLog(color, message, extraLog);
@@ -134,7 +140,11 @@ class Logger {
   }
 
   static viewLogs(): void {
-    console.log(`View logs: ${this.LOGS_PATH}`);
+    if (this.dryRun)
+      this.info(
+        `Dry Run finished with ${this.COLORS.Bright}NO ACTIONS PERFORMED${this.COLORS.Reset}${this.COLORS.FgBlue} that affected the Airtable. To perform a real run, use ${this.COLORS.Reverse}npm run make`
+      );
+    this.log(`View logs: ${this.LOGS_PATH}`);
   }
 }
 

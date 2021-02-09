@@ -20,12 +20,13 @@ import {
 const createGoogleForm = async (
   project: Record,
   data: FlattenedData,
-  projectId: string,
-  timePeriod: TimePeriod
+  timePeriod: TimePeriod,
+  dryRun: boolean
 ): Promise<GoogleFormData> => {
-  const formData = await fetchGoogleForm(data, projectId, timePeriod);
+  const projectId = project.getId();
+  const formData = await fetchGoogleForm(data, projectId, timePeriod, dryRun);
 
-  Logger.success(
+  await Logger.success(
     `Google Form created! (${READABLE_TIME_PERIODS[timePeriod]})`,
     formData
   );
@@ -41,9 +42,11 @@ const createGoogleForm = async (
       `Unable to find Google Form Published URL field: '${expectedUrlField}'`
     );
 
-  project = await project.updateFields({
-    [publishedUrlField]: formData.publishedUrl,
-  });
+  if (!dryRun) {
+    await project.updateFields({
+      [publishedUrlField]: formData.publishedUrl,
+    });
+  }
 
   data[publishedUrlField] = formData.publishedUrl;
 
@@ -53,7 +56,8 @@ const createGoogleForm = async (
 const fetchGoogleForm = async (
   projectData: FlattenedData,
   projectId: string,
-  timePeriod: TimePeriod
+  timePeriod: TimePeriod,
+  dryRun: boolean
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
 
@@ -62,6 +66,7 @@ const fetchGoogleForm = async (
     projectData,
     projectId,
     timePeriod,
+    dryRun,
   };
 
   const data = await fetch(scriptURL, {

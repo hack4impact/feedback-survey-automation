@@ -29,10 +29,18 @@ process.on("uncaughtException", (e) => {
   process.exit(1);
 });
 
-yargs(process.argv.slice(2)).argv;
+const args = yargs(process.argv.slice(2))
+  .option("dry-run", {
+    alias: "d",
+    type: "boolean",
+    default: false,
+  })
+  .env("AIRTABLE_AUTOMATION").argv;
 
 const script = async () => {
-  await Logger.setUp();
+  const { "dry-run": dryRun } = args;
+
+  await Logger.setUp(dryRun);
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   table("Projects")
@@ -42,8 +50,11 @@ const script = async () => {
         for (const project of projects) {
           const data = parseProject(project);
 
+          // Checks for empty rows
+          if (typeof data.projectName !== "string") continue;
+
           // Log the project's name
-          Logger.bold(data.projectName.toString());
+          Logger.bold(data.projectName);
 
           // Make sure the project has all required fields. If not, throw an error.
           const checkedData = checkRequiredFields(data);
@@ -64,18 +75,18 @@ const script = async () => {
               const reminderNeeded = checkReminderNeeded(flattenedData);
 
               if (reminderNeeded !== null) {
-                const id = project.getId();
                 await createGoogleForm(
                   project,
                   flattenedData,
-                  id,
-                  reminderNeeded
+                  reminderNeeded,
+                  dryRun
                 );
                 await sendReminderEmail(flattenedData, reminderNeeded);
 
-                await project.updateFields({
-                  [FIELDS.lastSent]: reminderNeeded,
-                });
+                !dryRun &&
+                  (await project.updateFields({
+                    [FIELDS.lastSent]: reminderNeeded,
+                  }));
               }
             }
           }
