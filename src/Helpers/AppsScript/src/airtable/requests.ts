@@ -59,7 +59,7 @@ export const getStandardQuestions = (
       .filter(
         (question) =>
           !Array.isArray(question["Time Periods"]) ||
-          !question["Time Periods"].includes(timePeriod)
+          question["Time Periods"].includes(timePeriod)
       )
       .map((record) => record.fields)
       .sort(({ Order: a }, { Order: b }) => (a ?? 0) - (b ?? 0));

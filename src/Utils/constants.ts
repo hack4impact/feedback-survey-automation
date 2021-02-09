@@ -53,11 +53,20 @@ export const FIELDS = {
   onboarded: "Onboarded?",
 } as const;
 
-// END FIELDS
-
 export const DATA_FIELDS = {
+  project: "Project",
+  responderEmail: "Responder Email",
+  responderName: "Responder Name",
+  timePeriod: "Response Time Period",
+  feedbackDate: "Feedback Date",
   projectName: "Project Name",
   isStillUsing: "Are you still using the product?",
 };
+
+export const STANDARD_QUESTIONS = {
+  startedUsing: "Have you successfully started using the product?",
+};
+
+// END FIELDS
 
 export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";

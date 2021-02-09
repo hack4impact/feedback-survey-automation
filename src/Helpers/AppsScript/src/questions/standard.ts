@@ -1,5 +1,9 @@
+import { FIELDS, STANDARD_QUESTIONS } from "../../../../Utils/constants";
 import { Section, StandardQuestionFields } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
+
+// START FIELDS
+// END FIELDS
 
 const OnboardedDefaultSections: string[] = ["After Handoff"];
 
@@ -61,9 +65,9 @@ export const getStandardQuestionResponse = (
 ): string | number | string[] | string[][] | undefined => {
   const { Question, Type } = standardQuestion;
 
-  if (Question === "Have you successfully started using the product?") {
+  if (Question === STANDARD_QUESTIONS.startedUsing) {
     updateProject(projectData.id, {
-      "Onboarded?": itemResponse.getResponse(),
+      [FIELDS.onboarded]: itemResponse.getResponse(),
     });
   }
 

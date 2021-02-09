@@ -19,6 +19,10 @@ import {
   postProjectSuccessData,
 } from "./airtable/requests";
 import { storeForm, getFormStore } from "./form-store";
+import { DATA_FIELDS } from "../../../Utils/constants";
+
+// START FIELDS
+// END FIELDS
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const doPost = (request: any) => {
@@ -96,9 +100,7 @@ const doPost = (request: any) => {
   return ContentService.createTextOutput(JSON.stringify(formData));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const updateProjectSuccessTable = (
-  //  event: GoogleAppsScript.Events.FormsOnFormSubmit
   form: GoogleAppsScript.Forms.Form,
   response: GoogleAppsScript.Forms.FormResponse
 ): void => {
@@ -115,8 +117,8 @@ export const updateProjectSuccessTable = (
   const itemResponses = response.getItemResponses();
 
   const body: Record<string, unknown> = {
-    Project: [projectData.id],
-    "Feedback Date": `${
+    [DATA_FIELDS.project]: [projectData.id],
+    [DATA_FIELDS.feedbackDate]: `${
       feedbackDate.getMonth() + 1
     }/${feedbackDate.getDate()}/${feedbackDate.getFullYear()}`,
   };
@@ -149,8 +151,8 @@ export const updateProjectSuccessTable = (
     }
   });
 
-  body["Responder Email"] = response.getRespondentEmail();
-  body["Response Time Period"] = timePeriod;
+  body[DATA_FIELDS.responderEmail] = response.getRespondentEmail();
+  body[DATA_FIELDS.timePeriod] = timePeriod;
 
   const result = postProjectSuccessData(body);
   Logger.log(result);

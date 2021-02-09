@@ -1,3 +1,4 @@
+import { DATA_FIELDS } from "../../../../Utils/constants";
 import {
   FlattenedData,
   Section,
@@ -5,6 +6,9 @@ import {
 } from "../../../../Utils/types";
 import { createSections } from "../main";
 import { createStandardQuestion, getRequiredValue } from "./standard";
+
+// START FIELDS
+// END FIELDS
 
 interface MiscQuestion {
   title: string;
@@ -16,7 +20,7 @@ const MISC_QUESTIONS: MiscQuestion[] = [
   {
     title: "Your Name",
     required: true,
-    field: "Responder Name",
+    field: DATA_FIELDS.responderName,
   },
 ];
 
