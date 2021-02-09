@@ -1,13 +1,12 @@
-import { TimePeriod, TIME_PERIODS } from "./types";
+import { TimePeriod } from "./types";
 
-type PublishedURLField = `(${TimePeriod}) Google Form Published URL`;
+// START FIELDS
 
 export const createPublishedURLField = (timePeriod: TimePeriod): string =>
   `(${timePeriod}) Google Form Published URL`;
 
-type QuestionNum = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-
-type Question = `Success Metric Question ${QuestionNum}`;
+// For looping through time periods (MUST be largest to smallest)
+export const TIME_PERIODS = ["5y", "3y", "1y", "6m", "1m"] as const;
 
 export const FIELDS = {
   // Register Info
@@ -45,6 +44,8 @@ export const FIELDS = {
   willingToInterview: "Willing to Interview?",
   onboarded: "Onboarded?",
 } as const;
+
+// END FIELDS
 
 export const DATA_FIELDS = {
   projectName: "Project Name",

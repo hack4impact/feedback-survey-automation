@@ -46,9 +46,6 @@ export const PROJECT_STATUSES = [
 
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
 
-// For looping through time periods (MUST be largest to smallest)
-export const TIME_PERIODS = ["5y", "3y", "1y", "6m", "1m"] as const;
-
 export interface GoogleFormData {
   id: string;
   title: string;

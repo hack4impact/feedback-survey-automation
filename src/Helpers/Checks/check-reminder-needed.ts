@@ -4,7 +4,8 @@ import moment, { DurationInputArg2 } from "moment";
 // Internals
 import { normalizeDate } from "../General/index";
 import Logger from "../Logger";
-import { FlattenedData, TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { FlattenedData, TimePeriod } from "../../Utils/types";
+import { TIME_PERIODS } from "../../Utils/constants";
 import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {

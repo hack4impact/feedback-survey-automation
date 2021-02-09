@@ -1,10 +1,6 @@
 // Internals
-import {
-  ProjectData,
-  TIME_PERIODS,
-  PROJECT_STATUSES,
-  CheckedData,
-} from "../../Utils/types";
+import { ProjectData, PROJECT_STATUSES, CheckedData } from "../../Utils/types";
+import { TIME_PERIODS } from "../../Utils/constants";
 
 const checkRequiredFields = (data: ProjectData): CheckedData => {
   const {

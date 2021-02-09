@@ -1,12 +1,13 @@
 /**
  * Replaces 'process.env...' with the corresponding value defined in .env for all App Scripts.
+ * Adds constants to AppsScript that require them.
  */
 
 // Externals
 import { config } from "dotenv-safe";
 import { existsSync, readFileSync, writeFileSync } from "fs";
-import { mkdir, writeFile } from "fs/promises";
-import { resolve } from "path";
+import { mkdir, readFile, writeFile } from "fs/promises";
+import { join, resolve } from "path";
 import { replaceInFile } from "replace-in-file";
 import recursive from "recursive-readdir";
 
@@ -15,6 +16,9 @@ import {
   OUTPUT_PATH,
   OUTPUT_ENV_PATH,
   APPS_SCRIPT_PATH,
+  UTILS_PATH,
+  START_FIELDS,
+  END_FIELDS,
 } from "./Helpers/constants";
 
 config();
@@ -32,7 +36,7 @@ const replaceEnv = async () => {
 
   const result = await replaceInFile({
     files,
-    from: [/process\.env\.(\w+)/g],
+    from: /process\.env\.(\w+)/g,
     to: (match) => {
       const sliced = match.slice(12);
 
@@ -60,4 +64,30 @@ const replaceEnv = async () => {
   console.log(result);
 };
 
-replaceEnv();
+const addFields = async () => {
+  const constants = await readFile(join(UTILS_PATH, "constants.ts"), "utf-8");
+
+  const start = constants.indexOf(START_FIELDS);
+  const end = constants.indexOf(END_FIELDS);
+
+  const fields = constants
+    .substring(start, end + END_FIELDS.length)
+    .replace(new RegExp("export", "g"), "");
+
+  const files = await recursive(APPS_SCRIPT_PATH);
+
+  const result = await replaceInFile({
+    files,
+    from: /\/\/ START FIELDS(.|\n)*\/\/ END FIELDS/g,
+    to: fields,
+  });
+
+  console.log(result);
+};
+
+const preClasp = async () => {
+  await replaceEnv();
+  await addFields();
+};
+
+preClasp();

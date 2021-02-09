@@ -3,6 +3,9 @@ import { getProjectData } from "./airtable/requests";
 import { createRowObject, modifyFormRow } from "./form-store";
 import { updateProjectSuccessTable } from "./main";
 
+// START FIELDS
+// END FIELDS
+
 const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
 
 type FormID = string;
@@ -84,10 +87,15 @@ const onResponse = (
 const sendReminder = (row: RowObj, index: number) => {
   const { projectId } = row;
 
-  const projectData = getProjectData(projectId);
-  const to = projectData.fields["Representative Email"] as string; // will probably change
-  const nonprofitName = projectData.fields["Nonprofit Partner Name"] as string;
+  const { fields } = getProjectData(projectId);
+  const to = fields["Representative Email"];
+  const nonprofitName = fields["Nonprofit Partner Name"] as string;
   const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
+  const template = HtmlService.createTemplateFromFile(
+    "static/remind-mail.html"
+  );
+
+  Logger.log(template.getCode());
 
   // MailApp.sendEmail({
   //   subject,
@@ -101,7 +109,7 @@ const sendReminder = (row: RowObj, index: number) => {
   // Responded: Reminder Sent
   row[4] = "Reminder Sent";
 
-  modifyFormRow(row, index);
+  // modifyFormRow(row, index);
 };
 
 const formExpired = (row: RowObj, index: number) => {

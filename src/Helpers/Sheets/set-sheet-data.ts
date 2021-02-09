@@ -2,8 +2,8 @@
 import { sheets_v4 } from "googleapis";
 
 // Internals
-import { SPREADSHEET_ID } from "../../Utils/constants";
-import { TimePeriod, TIME_PERIODS } from "../../Utils/types";
+import { SPREADSHEET_ID, TIME_PERIODS } from "../../Utils/constants";
+import { TimePeriod } from "../../Utils/types";
 import { SheetData } from "./get-sheet-data";
 
 const setSheetData = async (
