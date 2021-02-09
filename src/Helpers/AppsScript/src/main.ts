@@ -167,10 +167,6 @@ export const createSections = (
 ): void => {
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
-    if (section.name !== "") {
-      const header = form.addSectionHeaderItem();
-      header.setTitle(section.name);
-    }
     for (const question of section.questions) {
       createStandardQuestion(form, question);
     }
