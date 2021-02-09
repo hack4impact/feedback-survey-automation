@@ -139,7 +139,7 @@ class Logger {
     return this.logWithType("error", "FgRed", message, extra);
   }
 
-  static viewLogs(): void {
+  static finish(): void {
     if (this.dryRun)
       this.info(
         `Dry Run finished with ${this.COLORS.Bright}NO ACTIONS PERFORMED${this.COLORS.Reset}${this.COLORS.FgBlue} that affected the Airtable. To perform a real run, use ${this.COLORS.Reverse}npm run make`

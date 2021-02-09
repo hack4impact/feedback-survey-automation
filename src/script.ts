@@ -97,7 +97,7 @@ const script = async () => {
 
         nextPage();
       },
-      () => Logger.viewLogs()
+      () => Logger.finish()
     );
 };
 

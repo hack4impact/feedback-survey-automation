@@ -37,3 +37,6 @@ jobs:
 
       - name: Build Project
         run: npm run build
+
+      - name: Dry Run
+        run: npm run make:dry
