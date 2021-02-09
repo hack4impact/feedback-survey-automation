@@ -5,7 +5,7 @@ import { updateProject } from "../airtable/requests";
 // START FIELDS
 // END FIELDS
 
-const OnboardedDefaultSections: string[] = ["After Handoff"];
+const OnboardedDefaultSections: string[] = ["Handoff"];
 
 export const getRequiredValue = (
   req: StandardQuestionFields["Required"]
