@@ -1,23 +1,16 @@
+import { READABLE_TIME_PERIODS } from "../../../Utils/constants";
 import { FlattenedData, TimePeriod } from "../../../Utils/types";
 
+// START FIELDS
+// END FIELDS
+
 const TEMPLATE_FORM_ID = "1t4ZcYi3iMO1FJ8oa5qw8MQaOBFTZymqXmd6KHiAgBfs";
-
-const _READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
-  "1m": "1 month",
-  "6m": "6 months",
-  "1y": "1 year",
-  "3y": "3 years",
-  "5y": "5 years",
-};
-
-// Can only export it this way because exporting a variable (not a function) masks the variable when the Apps Scripts are compiled
-export const READABLE_TIME_PERIODS = { ..._READABLE_TIME_PERIODS };
 
 export const initializeForm = (
   projectData: FlattenedData,
   timePeriod: TimePeriod
 ): GoogleAppsScript.Forms.Form => {
-  const title = `${projectData.projectName} Feedback Survey - ${_READABLE_TIME_PERIODS[timePeriod]}`;
+  const title = `${projectData.projectName} Feedback Survey - ${READABLE_TIME_PERIODS[timePeriod]}`;
 
   // copying a template form (cant change color with script)
   const newFormId = DriveApp.getFileById(TEMPLATE_FORM_ID)

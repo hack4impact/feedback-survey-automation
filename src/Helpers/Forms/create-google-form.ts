@@ -4,7 +4,11 @@ import Record from "airtable/lib/record";
 
 // Internals
 import Logger from "../Logger";
-import { createPublishedURLField, FIELDS } from "../../Utils/constants";
+import {
+  createPublishedURLField,
+  FIELDS,
+  READABLE_TIME_PERIODS,
+} from "../../Utils/constants";
 import {
   APPS_SCRIPT_ERRORS,
   FlattenedData,
@@ -12,7 +16,6 @@ import {
   GoogleFormPostData,
   TimePeriod,
 } from "../../Utils/types";
-import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const createGoogleForm = async (
   project: Record,

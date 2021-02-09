@@ -3,7 +3,7 @@ import { setUpEmail } from "./index";
 import Logger from "../Logger";
 import { getTemplate } from "../General";
 import { FlattenedData, TimePeriod } from "../../Utils/types";
-import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
+import { READABLE_TIME_PERIODS } from "../../Utils/constants";
 
 interface MailResponse {
   accepted: string[];

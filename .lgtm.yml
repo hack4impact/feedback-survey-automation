@@ -1,3 +1,0 @@
-queries:
-  - exclude: js/unused-local-variable
-  - exclude: js/useless-assignment-to-local

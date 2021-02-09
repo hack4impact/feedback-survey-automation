@@ -5,9 +5,11 @@ import { htmlToText } from "html-to-text";
 
 // Internals
 import { escapeRegex } from "./index";
-import { createPublishedURLField } from "../../Utils/constants";
+import {
+  createPublishedURLField,
+  READABLE_TIME_PERIODS,
+} from "../../Utils/constants";
 import { FlattenedData, TimePeriod } from "../../Utils/types";
-import { READABLE_TIME_PERIODS } from "../AppsScript/src/form-data";
 
 const getTemplate = async (
   template: string,

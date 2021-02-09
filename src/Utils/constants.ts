@@ -2,6 +2,14 @@ import { TimePeriod } from "./types";
 
 // START FIELDS
 
+export const READABLE_TIME_PERIODS: Record<TimePeriod, string> = {
+  "1m": "1 month",
+  "6m": "6 months",
+  "1y": "1 year",
+  "3y": "3 years",
+  "5y": "5 years",
+};
+
 export const createPublishedURLField = (timePeriod: TimePeriod): string =>
   `(${timePeriod}) Google Form Published URL`;
 

@@ -1,3 +1,4 @@
+import { FIELDS, READABLE_TIME_PERIODS } from "../../../Utils/constants";
 import { TimePeriod } from "../../../Utils/types";
 import { getProjectData } from "./airtable/requests";
 import { createRowObject, modifyFormRow } from "./form-store";
@@ -52,7 +53,7 @@ const cronTrigger = () => {
 
       if (formResponses.length > 0) onResponse(form, formResponses, rowObj, i);
       else if (hasItBeenXWeeks(2, sentDate) && responded === "No")
-        sendReminder(rowObj, i);
+        sendReminder(form, rowObj, i);
       else if (hasItBeenXMonths(6, sentDate)) formExpired(rowObj, i);
     }
   });
@@ -84,18 +85,28 @@ const onResponse = (
   }
 };
 
-const sendReminder = (row: RowObj, index: number) => {
-  const { projectId } = row;
+const sendReminder = (
+  form: GoogleAppsScript.Forms.Form,
+  row: RowObj,
+  index: number
+) => {
+  const { projectId, timePeriod } = row;
 
   const { fields } = getProjectData(projectId);
-  const to = fields["Representative Email"];
-  const nonprofitName = fields["Nonprofit Partner Name"] as string;
+  const to = fields[FIELDS.representativeEmail];
+  const nonprofitName = fields[FIELDS.nonprofitName];
   const subject = `Reminder: Please send the feedback survey to ${nonprofitName}`;
   const template = HtmlService.createTemplateFromFile(
     "static/remind-mail.html"
   );
 
-  Logger.log(template.getCode());
+  for (const field in FIELDS) {
+    template[field] = fields[FIELDS[field]];
+  }
+  template["readableTimePeriod"] = READABLE_TIME_PERIODS[timePeriod];
+  template["formPublishedURL"] = form.getPublishedUrl();
+
+  Logger.log(template.evaluate().getContent());
 
   // MailApp.sendEmail({
   //   subject,
@@ -104,12 +115,9 @@ const sendReminder = (row: RowObj, index: number) => {
   //   to,
   // });
 
-  Logger.log(`sending mail ${to} ${subject}`);
+  row.responded = "Reminder Sent";
 
-  // Responded: Reminder Sent
-  row[4] = "Reminder Sent";
-
-  // modifyFormRow(row, index);
+  modifyFormRow(row, index);
 };
 
 const formExpired = (row: RowObj, index: number) => {
