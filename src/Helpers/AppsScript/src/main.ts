@@ -10,6 +10,7 @@ import {
   createStandardQuestion,
   getAsSections,
   getOnboardedDefaultSections,
+  getOnboardedQuestions,
   getStandardQuestionResponse,
 } from "./questions/standard";
 import {
@@ -47,11 +48,16 @@ const doPost = (request: any) => {
   const standardQuestions = getStandardQuestions(timePeriod);
 
   const sections = getAsSections(standardQuestions);
+  const onboardedQuestions = getOnboardedQuestions(sections);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
-  //const onboardedDefaultSections : Section[] = [];
 
   // Misc questions (name, email)
-  createMiscQuestions(form, projectData, onboardedDefaultSections);
+  createMiscQuestions(
+    form,
+    projectData,
+    onboardedQuestions,
+    onboardedDefaultSections
+  );
   createSections(sections, form);
 
   // for (const question of standardQuestions) {
@@ -125,7 +131,8 @@ export const updateProjectSuccessTable = (
     if (standard !== undefined) {
       body[standard.Question] = getStandardQuestionResponse(
         standard,
-        itemResponse
+        itemResponse,
+        projectData
       );
     } else {
       const successQuestion = allSuccessQs.find(
@@ -137,7 +144,7 @@ export const updateProjectSuccessTable = (
           itemResponse.getResponse() as string
         );
       } else {
-        getMiscQuestionResponse(question, itemResponse, body, projectData);
+        getMiscQuestionResponse(question, itemResponse, body);
       }
     }
   });

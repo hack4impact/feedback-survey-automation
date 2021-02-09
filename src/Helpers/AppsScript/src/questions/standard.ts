@@ -1,6 +1,11 @@
 import { Section, StandardQuestionFields } from "../../../../Utils/types";
+import { updateProject } from "../airtable/requests";
 
 const OnboardedDefaultSections: string[] = ["After Handoff"];
+
+export const getRequiredValue = (
+  req: StandardQuestionFields["Required"]
+): boolean => (typeof req === "string" ? JSON.parse(req.toLowerCase()) : true);
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
@@ -46,16 +51,22 @@ export const createStandardQuestion = (
   }
 
   formQuestion.setTitle(Question);
-  formQuestion.setRequired(
-    typeof Required === "string" ? JSON.parse(Required.toLowerCase()) : true
-  );
+  formQuestion.setRequired(getRequiredValue(Required));
 };
 
 export const getStandardQuestionResponse = (
   standardQuestion: StandardQuestionFields,
-  itemResponse: GoogleAppsScript.Forms.ItemResponse
-): string | number | string[] | string[][] => {
-  const { Type } = standardQuestion;
+  itemResponse: GoogleAppsScript.Forms.ItemResponse,
+  projectData: Airtable.Record<any>
+): string | number | string[] | string[][] | undefined => {
+  const { Question, Type } = standardQuestion;
+
+  if (Question === "Have you successfully started using the product?") {
+    updateProject(projectData.id, {
+      "Onboarded?": itemResponse.getResponse(),
+    });
+  }
+
   switch (Type) {
     case "Single Line Text": {
       return itemResponse.getResponse();
@@ -75,7 +86,7 @@ export const getStandardQuestionResponse = (
 
     //add this later;
     case "Date": {
-      return itemResponse.getResponse();
+      return itemResponse.getResponse() || undefined;
     }
     default: {
       return itemResponse.getResponse();
@@ -121,4 +132,15 @@ export const getOnboardedDefaultSections = (sections: Section[]): Section[] => {
   }
 
   return onboardedDefaultSections;
+};
+
+export const getOnboardedQuestions = (
+  sections: Section[]
+): StandardQuestionFields[] => {
+  const ONBOARDED = "Onboarded";
+  const onboardedIndex = sections.findIndex(({ name }) => name === ONBOARDED);
+
+  if (onboardedIndex === -1) return [];
+
+  return sections.splice(onboardedIndex, 1)[0].questions;
 };

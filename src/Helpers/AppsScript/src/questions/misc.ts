@@ -1,7 +1,10 @@
-import { FlattenedData, Section, TimePeriod } from "../../../../Utils/types";
-import { updateProject } from "../airtable/requests";
+import {
+  FlattenedData,
+  Section,
+  StandardQuestionFields,
+} from "../../../../Utils/types";
 import { createSections } from "../main";
-import { createStandardQuestion } from "./standard";
+import { createStandardQuestion, getRequiredValue } from "./standard";
 
 interface MiscQuestion {
   title: string;
@@ -17,11 +20,10 @@ const MISC_QUESTIONS: MiscQuestion[] = [
   },
 ];
 
-const ONBOARDED = "Have you onboarded the project?";
-
 export const createMiscQuestions = (
   form: GoogleAppsScript.Forms.Form,
   projectData: FlattenedData,
+  onboardedQuestions: StandardQuestionFields[],
   onboardedDefaultSections: Section[]
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
@@ -30,22 +32,23 @@ export const createMiscQuestions = (
     item.setRequired(required);
   });
   if (projectData.onboarded !== "Yes") {
-    const onboardedQuestion = form.addMultipleChoiceItem();
-    onboardedQuestion.setRequired(true);
-    onboardedQuestion.setTitle(ONBOARDED);
+    const [isOnboarded] = onboardedQuestions.splice(0, 1);
 
-    const [skipToStandardQs, endForm] = createHiddenSectionsAndReturnSkipItem(
+    const onboardedQuestion = form.addMultipleChoiceItem();
+    onboardedQuestion.setRequired(getRequiredValue(isOnboarded.Required));
+    onboardedQuestion.setTitle(isOnboarded.Question);
+
+    onboardedQuestions.forEach((q) => createStandardQuestion(form, q));
+
+    const skipToStandardQs = createHiddenSectionsAndReturnSkipItem(
       onboardedDefaultSections,
       form
     );
 
     let yes: GoogleAppsScript.Forms.Choice;
     let no: GoogleAppsScript.Forms.Choice;
-    if (skipToStandardQs !== undefined) {
-      yes = onboardedQuestion.createChoice(
-        "Yes",
-        skipToStandardQs as GoogleAppsScript.Forms.PageBreakItem
-      );
+    if (skipToStandardQs !== null) {
+      yes = onboardedQuestion.createChoice("Yes", skipToStandardQs);
       no = onboardedQuestion.createChoice(
         "No",
         FormApp.PageNavigationType.CONTINUE
@@ -61,6 +64,7 @@ export const createMiscQuestions = (
       );
     }
     onboardedQuestion.setChoices([yes, no]);
+
     createSections(onboardedDefaultSections, form);
   }
   form.addPageBreakItem();
@@ -69,30 +73,20 @@ export const createMiscQuestions = (
 export const getMiscQuestionResponse = (
   question: string,
   itemResponse: GoogleAppsScript.Forms.ItemResponse,
-  body: Record<string, unknown>,
-  projectData: Airtable.Record<any>
+  body: Record<string, unknown>
 ): void => {
-  if (question === ONBOARDED) {
-    updateProject(projectData.id, {
-      "Onboarded?": itemResponse.getResponse(),
-    });
-  } else {
-    const misc = MISC_QUESTIONS.find(({ title }) => question === title);
+  const misc = MISC_QUESTIONS.find(({ title }) => question === title);
 
-    if (misc !== undefined) {
-      const response = itemResponse.getResponse();
-      body[misc.field] = response;
-    }
+  if (misc !== undefined) {
+    const response = itemResponse.getResponse();
+    body[misc.field] = response;
   }
 };
 
 const createHiddenSectionsAndReturnSkipItem = (
   sections: Section[],
   form: GoogleAppsScript.Forms.Form
-): [
-  GoogleAppsScript.Forms.PageBreakItem | undefined,
-  GoogleAppsScript.Forms.PageNavigationType | undefined
-] => {
+): GoogleAppsScript.Forms.PageBreakItem | null => {
   if (sections.length !== 0) {
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
@@ -110,8 +104,8 @@ const createHiddenSectionsAndReturnSkipItem = (
     finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
 
     const skipToStandardQuestions = form.addPageBreakItem();
-    return [skipToStandardQuestions, undefined];
+    return skipToStandardQuestions;
   } else {
-    return [undefined, FormApp.PageNavigationType.SUBMIT];
+    return null;
   }
 };
