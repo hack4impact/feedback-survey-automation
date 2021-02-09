@@ -28,7 +28,7 @@ export const initializeForm = (
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(false);
   form.setDescription(
-    `Please fill out this feedback survey for the project ${projectData.projectName} that the Hack4Impact chapter at ${projectData.chapterName} created for your nonprofit ${projectData.nonprofitName}. This information helps us serve our clients better in the future.`
+    "Our Hack4Impact team really enjoyed working with you and, in an effort to produce the best products possible for all of our nonprofit partners, would love to hear how the product has been working for your organization. If you have any questions, please don’t hesitate to reach out. Thank you for your feedback!"
   );
 
   return form;
