@@ -63,33 +63,34 @@ const script = async () => {
           const flattenedData = flattenFields(checkedData);
           const { projectStatus, projectSuccessData } = flattenedData;
 
-          // If project is not abandoned, continue
-          if (checkProjectStatus(projectStatus)) {
-            const successData = await getProjectSuccessData(
-              table,
-              projectSuccessData
-            );
+          // If project is abandoned, skip
+          if (!checkProjectStatus(projectStatus)) continue;
 
-            // If project is in use by nonprofit, continue
-            if (await checkInUse(successData, project)) {
-              const reminderNeeded = checkReminderNeeded(flattenedData);
+          const successData = await getProjectSuccessData(
+            table,
+            projectSuccessData
+          );
 
-              if (reminderNeeded !== null) {
-                await createGoogleForm(
-                  project,
-                  flattenedData,
-                  reminderNeeded,
-                  dryRun
-                );
-                await sendReminderEmail(flattenedData, reminderNeeded);
+          // If project is not in use by nonprofit, skip
+          if (!(await checkInUse(successData, project))) continue;
 
-                !dryRun &&
-                  (await project.updateFields({
-                    [FIELDS.lastSent]: reminderNeeded,
-                  }));
-              }
-            }
-          }
+          const reminderNeeded = checkReminderNeeded(flattenedData);
+
+          // If reminder not needed, skip
+          if (reminderNeeded === null) continue;
+
+          await createGoogleForm(
+            project,
+            flattenedData,
+            reminderNeeded,
+            dryRun
+          );
+          await sendReminderEmail(flattenedData, reminderNeeded);
+
+          !dryRun &&
+            (await project.updateFields({
+              [FIELDS.lastSent]: reminderNeeded,
+            }));
 
           // Empty for formatting purposes
           console.log();

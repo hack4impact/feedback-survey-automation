@@ -101,8 +101,7 @@ export const getStandardQuestionResponse = (
 export const getAsSections = (
   standardQuestions: StandardQuestionFields[]
 ): Section[] => {
-  const sections: Section[] = [];
-  for (const question of standardQuestions) {
+  return standardQuestions.reduce((sections, question) => {
     if (!question.Section || question.Section.trim() === "") {
       question.Section = undefined;
     }
@@ -110,17 +109,19 @@ export const getAsSections = (
     const matchingSectionIndex = sections.findIndex(
       (section) => section.name === question.Section
     );
-    if (matchingSectionIndex !== -1) {
-      const matchingSection = sections[matchingSectionIndex];
-      matchingSection.questions.push(question);
-    } else {
+
+    if (matchingSectionIndex === -1) {
       sections.push({
         name: question.Section,
         questions: [question],
       });
+    } else {
+      const matchingSection = sections[matchingSectionIndex];
+      matchingSection.questions.push(question);
     }
-  }
-  return sections;
+
+    return sections;
+  }, [] as Section[]);
 };
 
 const OnboardedDefaultSections = ["Handoff"];
@@ -152,18 +153,12 @@ export const getOnboardedQuestions = (
 ): StandardQuestionFields[] | null => {
   const onboardedIndex = sections.findIndex(({ name }) => name === "Onboarded");
 
-  let onboarded: StandardQuestionFields[] | null = null;
-  if (onboardedIndex !== -1) {
-    onboarded = sections.splice(onboardedIndex, 1)[0].questions;
-  }
-
-  if (projectData.onboarded !== "Yes") return onboarded;
+  if (projectData.onboarded !== "Yes")
+    return onboardedIndex === -1
+      ? null
+      : sections.splice(onboardedIndex, 1)[0].questions;
 
   const usageIndex = sections.findIndex(({ name }) => name === "Usage");
-  let usage: StandardQuestionFields[] | null = null;
-  if (usageIndex !== -1) {
-    usage = sections.splice(usageIndex, 1)[0].questions;
-  }
 
-  return usage;
+  return usageIndex === -1 ? null : sections.splice(usageIndex, 1)[0].questions;
 };
