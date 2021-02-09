@@ -1,9 +1,5 @@
 import { DATA_FIELDS } from "../../../../Utils/constants";
-import {
-  FlattenedData,
-  Section,
-  StandardQuestionFields,
-} from "../../../../Utils/types";
+import { Section, StandardQuestionFields } from "../../../../Utils/types";
 import { createSections } from "../main";
 import { createStandardQuestion, getRequiredValue } from "./standard";
 
@@ -26,16 +22,15 @@ const MISC_QUESTIONS: MiscQuestion[] = [
 
 export const createMiscQuestions = (
   form: GoogleAppsScript.Forms.Form,
-  projectData: FlattenedData,
-  onboardedQuestions: StandardQuestionFields[],
-  onboardedDefaultSections: Section[]
+  onboardedQuestions: StandardQuestionFields[] | null,
+  onboardedDefaultSections: Section[] | null
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
     item.setTitle(title);
     item.setRequired(required);
   });
-  if (projectData.onboarded !== "Yes") {
+  if (onboardedQuestions) {
     const [isOnboarded] = onboardedQuestions.splice(0, 1);
 
     const onboardedQuestion = form.addMultipleChoiceItem();
@@ -44,7 +39,7 @@ export const createMiscQuestions = (
 
     onboardedQuestions.forEach((q) => createStandardQuestion(form, q));
 
-    const skipToStandardQs = createHiddenSectionsAndReturnSkipItem(
+    const skipToStandardQs = createHiddenSections(
       onboardedDefaultSections,
       form
     );
@@ -69,7 +64,7 @@ export const createMiscQuestions = (
     }
     onboardedQuestion.setChoices([yes, no]);
 
-    createSections(onboardedDefaultSections, form);
+    createSections(form, onboardedDefaultSections);
   }
   form.addPageBreakItem();
 };
@@ -87,26 +82,24 @@ export const getMiscQuestionResponse = (
   }
 };
 
-const createHiddenSectionsAndReturnSkipItem = (
-  sections: Section[],
+const createHiddenSections = (
+  sections: Section[] | null,
   form: GoogleAppsScript.Forms.Form
 ): GoogleAppsScript.Forms.PageBreakItem | null => {
-  if (sections.length !== 0) {
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      form.addPageBreakItem();
+  if (!sections) return null;
 
-      for (const question of section.questions) {
-        createStandardQuestion(form, question);
-      }
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    form.addPageBreakItem();
+
+    for (const question of section.questions) {
+      createStandardQuestion(form, question);
     }
-
-    const finalSection = form.addPageBreakItem();
-    finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
-
-    const skipToStandardQuestions = form.addPageBreakItem();
-    return skipToStandardQuestions;
-  } else {
-    return null;
   }
+
+  const finalSection = form.addPageBreakItem();
+  finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
+
+  const skipToStandardQuestions = form.addPageBreakItem();
+  return skipToStandardQuestions;
 };

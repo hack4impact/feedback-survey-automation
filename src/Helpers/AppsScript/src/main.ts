@@ -58,17 +58,14 @@ export const doPost = (
   const standardQuestions = getStandardQuestions(timePeriod);
 
   const sections = getAsSections(standardQuestions);
-  const onboardedQuestions = getOnboardedQuestions(sections);
+  const onboardedQuestions = getOnboardedQuestions(sections, projectData);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
 
   // Misc questions (name, email)
-  createMiscQuestions(
-    form,
-    projectData,
-    onboardedQuestions,
-    onboardedDefaultSections
-  );
-  createSections(sections, form);
+  createMiscQuestions(form, onboardedQuestions, onboardedDefaultSections);
+
+  // Other Sections
+  createSections(form, sections);
 
   // Form success metric questions
   createSuccessMetricQuestions(form, projectData.successQuestions);
@@ -156,16 +153,17 @@ const createError = (err: AppsScriptError) =>
   ContentService.createTextOutput(err);
 
 export const createSections = (
-  sections: Section[],
-  form: GoogleAppsScript.Forms.Form
+  form: GoogleAppsScript.Forms.Form,
+  sections: Section[] | null
 ): void => {
-  for (let i = 0; i < sections.length; i++) {
-    const section = sections[i];
-    for (const question of section.questions) {
-      createStandardQuestion(form, question);
-    }
-    if (i !== sections.length - 1) {
-      form.addPageBreakItem();
-    }
+  if (sections) {
+    sections.forEach((section, i) => {
+      for (const question of section.questions) {
+        createStandardQuestion(form, question);
+      }
+      if (i !== sections.length - 1) {
+        form.addPageBreakItem();
+      }
+    });
   }
 };

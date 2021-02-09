@@ -1,11 +1,13 @@
 import { FIELDS, STANDARD_QUESTIONS } from "../../../../Utils/constants";
-import { Section, StandardQuestionFields } from "../../../../Utils/types";
+import {
+  FlattenedData,
+  Section,
+  StandardQuestionFields,
+} from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
 
 // START FIELDS
 // END FIELDS
-
-const OnboardedDefaultSections: string[] = ["Handoff"];
 
 export const getRequiredValue = (
   req: StandardQuestionFields["Required"]
@@ -102,7 +104,7 @@ export const getAsSections = (
   const sections: Section[] = [];
   for (const question of standardQuestions) {
     if (!question.Section || question.Section.trim() === "") {
-      question.Section = "";
+      question.Section = undefined;
     }
 
     const matchingSectionIndex = sections.findIndex(
@@ -113,7 +115,7 @@ export const getAsSections = (
       matchingSection.questions.push(question);
     } else {
       sections.push({
-        name: question.Section as string,
+        name: question.Section,
         questions: [question],
       });
     }
@@ -121,15 +123,22 @@ export const getAsSections = (
   return sections;
 };
 
-export const getOnboardedDefaultSections = (sections: Section[]): Section[] => {
-  let onboardedDefaultSections: Section[] = [];
+const OnboardedDefaultSections = ["Handoff"];
+
+export const getOnboardedDefaultSections = (
+  sections: Section[]
+): Section[] | null => {
+  let onboardedDefaultSections: Section[] | null = null;
 
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
-    if (OnboardedDefaultSections.includes(section.name)) {
-      onboardedDefaultSections = onboardedDefaultSections.concat(
-        sections.splice(i, 1)
-      );
+    if (section.name && OnboardedDefaultSections.includes(section.name)) {
+      const spliced = sections.splice(i, 1);
+
+      onboardedDefaultSections = onboardedDefaultSections
+        ? onboardedDefaultSections.concat(spliced)
+        : spliced;
+
       i -= 1;
     }
   }
@@ -138,12 +147,23 @@ export const getOnboardedDefaultSections = (sections: Section[]): Section[] => {
 };
 
 export const getOnboardedQuestions = (
-  sections: Section[]
-): StandardQuestionFields[] => {
-  const ONBOARDED = "Onboarded";
-  const onboardedIndex = sections.findIndex(({ name }) => name === ONBOARDED);
+  sections: Section[],
+  projectData: FlattenedData
+): StandardQuestionFields[] | null => {
+  const onboardedIndex = sections.findIndex(({ name }) => name === "Onboarded");
 
-  if (onboardedIndex === -1) return [];
+  let onboarded: StandardQuestionFields[] | null = null;
+  if (onboardedIndex !== -1) {
+    onboarded = sections.splice(onboardedIndex, 1)[0].questions;
+  }
 
-  return sections.splice(onboardedIndex, 1)[0].questions;
+  if (projectData.onboarded !== "Yes") return onboarded;
+
+  const usageIndex = sections.findIndex(({ name }) => name === "Usage");
+  let usage: StandardQuestionFields[] | null = null;
+  if (usageIndex !== -1) {
+    usage = sections.splice(usageIndex, 1)[0].questions;
+  }
+
+  return usage;
 };

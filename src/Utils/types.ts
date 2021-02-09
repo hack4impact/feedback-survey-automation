@@ -70,6 +70,8 @@ export interface StandardQuestion {
   createdTime: string;
 }
 
+export type SectionName = "Onboarded" | "Usage" | "Handoff" | "Misc";
+
 export interface StandardQuestionFields {
   Question: string;
   Type?:
@@ -82,12 +84,12 @@ export interface StandardQuestionFields {
   "Time Periods"?: TimePeriod[];
   Order?: number;
   Required?: "True" | "False";
-  Section?: string;
+  Section?: SectionName;
 }
 
 export interface Section {
   questions: StandardQuestionFields[];
-  name: string;
+  name?: SectionName;
 }
 
 export type DateParameter = Date | Moment | number | string;
