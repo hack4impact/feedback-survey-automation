@@ -23,9 +23,6 @@ jobs:
       - name: Setup Environment Variables
         run: echo '${{ secrets.ENV_FILE }}' > .env
 
-      - name: Setup Service Account
-        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > serviceaccount.json
-
       - name: Setup Clasp
         run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
 
