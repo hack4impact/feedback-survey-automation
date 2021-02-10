@@ -12,9 +12,9 @@ import recursive from "recursive-readdir";
 // Internals
 import {
   APPS_SCRIPT_PATH,
-  END_FIELDS,
+  END_CONSTANTS,
   OUTPUT_ENV_PATH,
-  START_FIELDS,
+  START_CONSTANTS,
 } from "./Helpers/constants";
 
 const restoreEnv = async () => {
@@ -41,8 +41,8 @@ const removeFields = async () => {
 
   const result = await replaceInFile({
     files,
-    from: /\/\/ START FIELDS(.|\n)*\/\/ END FIELDS/g,
-    to: START_FIELDS + "\n" + END_FIELDS,
+    from: /\/\/ START CONSTANTS(.|\n)*\/\/ END CONSTANTS/g,
+    to: START_CONSTANTS + "\n" + END_CONSTANTS,
   });
 
   console.log(result);

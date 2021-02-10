@@ -28,8 +28,8 @@ import {
   getSuccessQuestionResponse,
 } from "./questions/metric";
 
-// START FIELDS
-// END FIELDS
+// START CONSTANTS
+// END CONSTANTS
 
 export const doPost = (
   request: GoogleAppsScript.Events.DoPost

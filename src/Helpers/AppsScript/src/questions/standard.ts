@@ -6,8 +6,8 @@ import {
 } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
 
-// START FIELDS
-// END FIELDS
+// START CONSTANTS
+// END CONSTANTS
 
 export const getRequiredValue = (
   req: StandardQuestionFields["Required"]

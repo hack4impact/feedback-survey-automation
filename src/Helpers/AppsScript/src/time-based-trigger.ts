@@ -4,8 +4,8 @@ import { getProjectData } from "./airtable/requests";
 import { createRowObject, modifyFormRow } from "./form-store";
 import { updateProjectSuccessTable } from "./main";
 
-// START FIELDS
-// END FIELDS
+// START CONSTANTS
+// END CONSTANTS
 
 const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
 

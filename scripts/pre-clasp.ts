@@ -17,8 +17,8 @@ import {
   OUTPUT_ENV_PATH,
   APPS_SCRIPT_PATH,
   UTILS_PATH,
-  START_FIELDS,
-  END_FIELDS,
+  START_CONSTANTS,
+  END_CONSTANTS,
 } from "./Helpers/constants";
 
 config();
@@ -67,18 +67,18 @@ const replaceEnv = async () => {
 const addFields = async () => {
   const constants = await readFile(join(UTILS_PATH, "constants.ts"), "utf-8");
 
-  const start = constants.indexOf(START_FIELDS);
-  const end = constants.indexOf(END_FIELDS);
+  const start = constants.indexOf(START_CONSTANTS);
+  const end = constants.indexOf(END_CONSTANTS);
 
   const fields = constants
-    .substring(start, end + END_FIELDS.length)
+    .substring(start, end + END_CONSTANTS.length)
     .replace(new RegExp("export", "g"), "");
 
   const files = await recursive(APPS_SCRIPT_PATH);
 
   const result = await replaceInFile({
     files,
-    from: /\/\/ START FIELDS(.|\n)*\/\/ END FIELDS/g,
+    from: /\/\/ START CONSTANTS(.|\n)*\/\/ END CONSTANTS/g,
     to: fields,
   });
 

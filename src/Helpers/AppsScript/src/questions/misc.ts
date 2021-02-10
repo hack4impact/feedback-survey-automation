@@ -3,8 +3,8 @@ import { Section, StandardQuestionFields } from "../../../../Utils/types";
 import { createSections } from "../main";
 import { createStandardQuestion, getRequiredValue } from "./standard";
 
-// START FIELDS
-// END FIELDS
+// START CONSTANTS
+// END CONSTANTS
 
 interface MiscQuestion {
   title: string;

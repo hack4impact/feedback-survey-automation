@@ -14,5 +14,5 @@ export const APPS_SCRIPT_CONFIG_PATH = join(
   "appsscript.json"
 );
 
-export const START_FIELDS = "// START FIELDS";
-export const END_FIELDS = "// END FIELDS";
+export const START_CONSTANTS = "// START CONSTANTS";
+export const END_CONSTANTS = "// END CONSTANTS";

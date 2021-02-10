@@ -1,6 +1,6 @@
 import { TimePeriod } from "./types";
 
-// START FIELDS
+// START CONSTANTS
 
 export const READABLE_TIME_PERIODS = {
   "1m": "1 month",
@@ -74,7 +74,7 @@ export const STANDARD_QUESTIONS = {
   startedUsing: "Have you successfully started using the product?",
 };
 
-// END FIELDS
+// END CONSTANTS
 
 // For looping through project statuses
 export const PROJECT_STATUSES = [
