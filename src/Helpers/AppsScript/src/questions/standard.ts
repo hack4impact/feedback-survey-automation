@@ -153,12 +153,17 @@ export const getOnboardedQuestions = (
 ): StandardQuestionFields[] | null => {
   const onboardedIndex = sections.findIndex(({ name }) => name === "Onboarded");
 
-  if (projectData.onboarded !== "Yes")
-    return onboardedIndex === -1
+  const onboardedSection =
+    onboardedIndex === -1
       ? null
       : sections.splice(onboardedIndex, 1)[0].questions;
 
+  if (projectData.onboarded !== "Yes") return onboardedSection;
+
   const usageIndex = sections.findIndex(({ name }) => name === "Usage");
 
-  return usageIndex === -1 ? null : sections.splice(usageIndex, 1)[0].questions;
+  const usageSection =
+    usageIndex === -1 ? null : sections.splice(usageIndex, 1)[0].questions;
+
+  return usageSection;
 };

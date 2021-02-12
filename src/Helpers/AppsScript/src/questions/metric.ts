@@ -7,17 +7,17 @@ export const createSuccessMetricQuestions = (
   successQuestions: string[],
   successQuestionPartnerSection: Section | null
 ): void => {
-  if (successQuestionPartnerSection) {
-    for (const question of successQuestionPartnerSection.questions) {
-      createStandardQuestion(form, question);
-    }
-  }
   if (successQuestions.length) {
     for (const question of successQuestions) {
       const questionOnForm = form.addScaleItem();
       questionOnForm.setTitle(question);
       questionOnForm.setBounds(0, 10);
       questionOnForm.setRequired(true);
+    }
+  }
+  if (successQuestionPartnerSection) {
+    for (const question of successQuestionPartnerSection.questions) {
+      createStandardQuestion(form, question);
     }
   }
 };
