@@ -1,4 +1,4 @@
-name: Automated Run
+name: Clean Up Dry Runs
 
 on:
   schedule:
