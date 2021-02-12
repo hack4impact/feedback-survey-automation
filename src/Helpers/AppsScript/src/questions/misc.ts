@@ -64,7 +64,7 @@ export const createMiscQuestions = (
     }
     onboardedQuestion.setChoices([yes, no]);
 
-    createSections(form, onboardedDefaultSections);
+    createSections(form, onboardedDefaultSections, null, null);
   }
   form.addPageBreakItem();
 };

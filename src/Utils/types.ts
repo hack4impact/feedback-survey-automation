@@ -70,7 +70,12 @@ export interface StandardQuestion {
   createdTime: string;
 }
 
-export type SectionName = "Onboarded" | "Usage" | "Handoff" | "Misc";
+export type SectionName =
+  | "Onboarded"
+  | "Usage"
+  | "Handoff"
+  | "Misc"
+  | "Success";
 
 export interface StandardQuestionFields {
   Question: string;

@@ -26,6 +26,7 @@ import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
 import {
   createSuccessMetricQuestions,
   getSuccessQuestionResponse,
+  getSuccessPairSection,
 } from "./questions/metric";
 
 // START CONSTANTS
@@ -60,15 +61,18 @@ export const doPost = (
   const sections = getAsSections(standardQuestions);
   const onboardedQuestions = getOnboardedQuestions(sections, projectData);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
+  const successQuestionPartnerSection = getSuccessPairSection(sections);
 
   // Misc questions (name, email)
   createMiscQuestions(form, onboardedQuestions, onboardedDefaultSections);
 
   // Other Sections
-  createSections(form, sections);
-
-  // Form success metric questions
-  createSuccessMetricQuestions(form, projectData.successQuestions);
+  createSections(
+    form,
+    sections,
+    projectData.successQuestions,
+    successQuestionPartnerSection
+  );
 
   // Storing form in Spreadsheet to track responses
   !dryRun &&
@@ -154,16 +158,43 @@ const createError = (err: AppsScriptError) =>
 
 export const createSections = (
   form: GoogleAppsScript.Forms.Form,
-  sections: Section[] | null
+  sections: Section[] | null,
+  successMetricQuestions: string[] | null,
+  successPairSection: Section | null
 ): void => {
+  let successMetricCreated = false;
   if (sections) {
     sections.forEach((section, i) => {
       for (const question of section.questions) {
         createStandardQuestion(form, question);
       }
+
+      //creates success metric questions with misc questions if successMetricQuestions was plugged in
+      if (
+        section.name === "Misc" &&
+        !successMetricCreated &&
+        successMetricQuestions
+      ) {
+        createSuccessMetricQuestions(
+          form,
+          successMetricQuestions,
+          successPairSection
+        );
+        successMetricCreated = true;
+      }
+
       if (i !== sections.length - 1) {
         form.addPageBreakItem();
       }
     });
+  }
+
+  if (successMetricQuestions && !successMetricCreated) {
+    if (sections && sections.length > 0) form.addPageBreakItem();
+    createSuccessMetricQuestions(
+      form,
+      successMetricQuestions,
+      successPairSection
+    );
   }
 };
