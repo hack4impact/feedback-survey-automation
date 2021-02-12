@@ -5,10 +5,19 @@ import { promisify } from "util";
 import readline, { createInterface } from "readline";
 import { google, Auth, drive_v3 } from "googleapis";
 import moment from "moment";
+import yargs from "yargs/yargs";
 
 // Internals
 import keyfile from "../credentials.json";
 import Logger from "../src/Helpers/Logger";
+
+const args = yargs(process.argv.slice(2))
+  .option("all", {
+    alias: "a",
+    type: "boolean",
+    default: false,
+  })
+  .env("AIRTABLE_AUTOMATION").argv;
 
 readline.Interface.prototype.question[promisify.custom] = function (
   prompt: string
@@ -52,11 +61,6 @@ const cleanUpDryRuns = async () => {
     const shouldDelete = shouldDeleteFile(fileData);
 
     if (shouldDelete) deleteFile(drive, id);
-    else {
-      Logger.success(
-        `This file is not stale! (modified less than 1 month ago)`
-      );
-    }
   }
 };
 
@@ -129,15 +133,15 @@ const getDryRunData = async (
 };
 
 const shouldDeleteFile = (fileData: drive_v3.Schema$File): boolean => {
+  const { all } = args;
   const { modifiedTime, trashed } = fileData;
   const oneMonthAgo = moment().subtract(1, "month");
   const isStale = moment(modifiedTime).isBefore(oneMonthAgo);
 
-  return isStale && !trashed;
+  return (all || isStale) && !trashed;
 };
 
 const deleteFile = async (drive: drive_v3.Drive, id: string) => {
-  Logger.warn(`This file is stale (>1 month since changes)`);
   Logger.log("Deleting file...");
   await drive.files.delete({
     fileId: id,

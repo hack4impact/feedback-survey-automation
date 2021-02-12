@@ -43,7 +43,8 @@
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
     "contributors:check": "all-contributors check",
-    "clean-up-dry-runs": "ts-node scripts/clean-up-dry-runs.ts"
+    "clean-up-stale-dry-runs": "ts-node scripts/clean-up-dry-runs.ts",
+    "clean-up-all-dry-runs": "ts-node scripts/clean-up-dry-runs.ts --all"
   },
   "dependencies": {
     "@hack4impact/logger": "^1.1.0",

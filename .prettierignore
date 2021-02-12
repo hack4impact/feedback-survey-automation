@@ -21,7 +21,7 @@ node_modules/
 
 # Outputs
 out/
-# output/
+output/
 
 # Secrets
 credentials.json
