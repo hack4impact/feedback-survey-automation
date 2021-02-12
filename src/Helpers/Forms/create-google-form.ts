@@ -21,13 +21,22 @@ const createGoogleForm = async (
   project: Record,
   data: FlattenedData,
   timePeriod: TimePeriod,
-  dryRun: boolean
+  dryRun: boolean,
+  logger: Logger
 ): Promise<GoogleFormData> => {
   const projectId = project.getId();
-  const formData = await fetchGoogleForm(data, projectId, timePeriod, dryRun);
+  const formData = await fetchGoogleForm(
+    data,
+    projectId,
+    timePeriod,
+    dryRun,
+    logger
+  );
 
-  await Logger.success(
+  await logger.log(
     `Google Form created! (${READABLE_TIME_PERIODS[timePeriod]})`,
+    true,
+    "success",
     formData
   );
 
@@ -57,7 +66,8 @@ const fetchGoogleForm = async (
   projectData: FlattenedData,
   projectId: string,
   timePeriod: TimePeriod,
-  dryRun: boolean
+  dryRun: boolean,
+  logger: Logger
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
 
@@ -87,7 +97,7 @@ const fetchGoogleForm = async (
     const formData = JSON.parse(dataText);
     return formData;
   } catch (e) {
-    await Logger.error(dataText, body);
+    await logger.log(dataText, true, "error", body);
     throw new Error(e);
   }
 };

@@ -36,10 +36,11 @@ const args = yargs(process.argv.slice(2))
   })
   .env("AIRTABLE_AUTOMATION").argv;
 
-const script = async () => {
+const script = () => {
   const { "dry-run": dryRun } = args;
 
-  await Logger.setUp(dryRun);
+  const logger = new Logger(dryRun);
+
   const table = Airtable.base("app0TDYnyirqeRk1T");
 
   table("Projects")
@@ -83,9 +84,10 @@ const script = async () => {
             project,
             flattenedData,
             reminderNeeded,
-            dryRun
+            dryRun,
+            logger
           );
-          await sendReminderEmail(flattenedData, reminderNeeded);
+          await sendReminderEmail(flattenedData, reminderNeeded, logger);
 
           !dryRun &&
             (await project.updateFields({
@@ -95,7 +97,7 @@ const script = async () => {
 
         nextPage();
       },
-      () => Logger.finish()
+      () => logger.finish()
     );
 };
 

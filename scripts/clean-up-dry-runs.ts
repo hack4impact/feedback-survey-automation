@@ -137,7 +137,7 @@ const shouldDeleteFile = (fileData: drive_v3.Schema$File): boolean => {
 };
 
 const deleteFile = async (drive: drive_v3.Drive, id: string) => {
-  Logger.warning(`This file is stale (>1 month since changes)`);
+  Logger.warn(`This file is stale (>1 month since changes)`);
   Logger.log("Deleting file...");
   await drive.files.delete({
     fileId: id,

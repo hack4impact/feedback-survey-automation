@@ -17,7 +17,7 @@ const checkInUse = async (
     if (inUseResponse === "No" || willEverUse === "No") {
       const abandonded: ProjectStatus = "Abandoned by Nonprofit";
 
-      Logger.warning(
+      Logger.warn(
         `Not in use by nonprofit. Status updated as '${abandonded}'. No actions performed.`
       );
 

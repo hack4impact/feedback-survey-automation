@@ -3,7 +3,7 @@ import { ProjectStatus } from "../../Utils/types";
 import Logger from "../Logger";
 
 const logFalsey = (projectStatus: ProjectStatus): false => {
-  Logger.warning(`Status is '${projectStatus}'. No actions performed.`);
+  Logger.warn(`Status is '${projectStatus}'. No actions performed.`);
   return false;
 };
 

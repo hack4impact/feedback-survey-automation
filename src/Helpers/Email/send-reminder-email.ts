@@ -22,7 +22,8 @@ interface MailResponse {
 //check sent messages from test account here: https://ethereal.email/ (login with the user and pass in createTransport)
 const sendReminderEmail = async (
   data: FlattenedData,
-  timePeriod: TimePeriod
+  timePeriod: TimePeriod,
+  logger: Logger
 ): Promise<MailResponse> => {
   const transporter = setUpEmail();
   const [html, text] = await getTemplate("inform-mail", data, timePeriod);
@@ -39,8 +40,10 @@ const sendReminderEmail = async (
     text,
   });
 
-  await Logger.success(
+  await logger.log(
     `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
+    true,
+    "success",
     {
       htmlContent: html,
       textContent: text,
