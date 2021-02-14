@@ -38,6 +38,12 @@ export type ProjectStatus =
 
 // Change the Array of Time Periods in constants.ts when changing this as well
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
+export type Functionality = "SubmitIfNo" | "OnboardedLogic";
+export type FunctionalityArgs = {
+  form?: GoogleAppsScript.Forms.Form;
+  onboardedDefaultSections?: Section[];
+  enableFunctionality?: boolean;
+};
 
 export interface GoogleFormData {
   id: string;
@@ -90,11 +96,18 @@ export interface StandardQuestionFields {
   Order?: number;
   Required?: "True" | "False";
   Section?: SectionName;
+  Functionalities?: Functionality[] | string;
 }
 
 export interface Section {
   questions: StandardQuestionFields[];
   name?: SectionName;
 }
+
+export type FormQuestion =
+  | GoogleAppsScript.Forms.TextItem
+  | GoogleAppsScript.Forms.MultipleChoiceItem
+  | GoogleAppsScript.Forms.ScaleItem
+  | GoogleAppsScript.Forms.DateItem;
 
 export type DateParameter = Date | Moment | number | string;

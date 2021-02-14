@@ -1,10 +1,13 @@
 import { FIELDS, STANDARD_QUESTIONS } from "../../../../Utils/constants";
 import {
   FlattenedData,
+  FunctionalityArgs,
   Section,
   StandardQuestionFields,
+  FormQuestion,
 } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
+import { HandleFunctionality } from "./functionalities/Handler";
 
 // START CONSTANTS
 // END CONSTANTS
@@ -15,8 +18,9 @@ export const getRequiredValue = (
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
-  question: StandardQuestionFields
-): void => {
+  question: StandardQuestionFields,
+  args: FunctionalityArgs = {}
+): FormQuestion => {
   const { Question, Type, Required } = question;
 
   let formQuestion;
@@ -58,6 +62,13 @@ export const createStandardQuestion = (
 
   formQuestion.setTitle(Question);
   formQuestion.setRequired(getRequiredValue(Required));
+
+  if (Array.isArray(question.Functionalities)) {
+    for (const functionality of question.Functionalities)
+      HandleFunctionality(formQuestion, functionality, args);
+  }
+
+  return formQuestion;
 };
 
 export const getStandardQuestionResponse = (
@@ -147,7 +158,7 @@ export const getOnboardedDefaultSections = (
   return onboardedDefaultSections;
 };
 
-export const getOnboardedQuestions = (
+export const getFirstPageQuestions = (
   sections: Section[],
   projectData: FlattenedData
 ): StandardQuestionFields[] | null => {

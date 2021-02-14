@@ -19,10 +19,13 @@ import {
   createStandardQuestion,
   getAsSections,
   getOnboardedDefaultSections,
-  getOnboardedQuestions,
+  getFirstPageQuestions,
   getStandardQuestionResponse,
 } from "./questions/standard";
-import { getMiscQuestionResponse, createMiscQuestions } from "./questions/misc";
+import {
+  getMiscQuestionResponse,
+  createFirstPageQuestions,
+} from "./questions/misc";
 import {
   createSuccessMetricQuestions,
   getSuccessQuestionResponse,
@@ -59,12 +62,12 @@ export const doPost = (
   const standardQuestions = getStandardQuestions(timePeriod);
 
   const sections = getAsSections(standardQuestions);
-  const onboardedQuestions = getOnboardedQuestions(sections, projectData);
+  const firstPageQuestions = getFirstPageQuestions(sections, projectData);
   const onboardedDefaultSections = getOnboardedDefaultSections(sections);
   const successQuestionPartnerSection = getSuccessPairSection(sections);
 
   // Misc questions (name, email)
-  createMiscQuestions(form, onboardedQuestions, onboardedDefaultSections);
+  createFirstPageQuestions(form, firstPageQuestions, onboardedDefaultSections);
 
   // Other Sections
   createSections(

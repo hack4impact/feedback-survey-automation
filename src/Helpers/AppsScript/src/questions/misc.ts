@@ -1,7 +1,11 @@
 import { DATA_FIELDS } from "../../../../Utils/constants";
-import { Section, StandardQuestionFields } from "../../../../Utils/types";
-import { createSections } from "../main";
-import { createStandardQuestion, getRequiredValue } from "./standard";
+import {
+  FormQuestion,
+  Section,
+  StandardQuestionFields,
+} from "../../../../Utils/types";
+import { HandleFunctionality } from "./functionalities/Handler";
+import { createStandardQuestion } from "./standard";
 
 // START CONSTANTS
 // END CONSTANTS
@@ -20,51 +24,33 @@ const MISC_QUESTIONS: MiscQuestion[] = [
   },
 ];
 
-export const createMiscQuestions = (
+export const createFirstPageQuestions = (
   form: GoogleAppsScript.Forms.Form,
-  onboardedQuestions: StandardQuestionFields[] | null,
-  onboardedDefaultSections: Section[] | null
+  firstPageQuestions: StandardQuestionFields[] | null,
+  onboardedDefaultSections: Section[] | null | undefined
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
     item.setTitle(title);
     item.setRequired(required);
   });
-  if (onboardedQuestions) {
-    const [isOnboarded] = onboardedQuestions.splice(0, 1);
+  if (firstPageQuestions) {
+    let onboardedQuestion: FormQuestion | null = null;
 
-    const onboardedQuestion = form.addMultipleChoiceItem();
-    onboardedQuestion.setRequired(getRequiredValue(isOnboarded.Required));
-    onboardedQuestion.setTitle(isOnboarded.Question);
+    for (const question of firstPageQuestions) {
+      const formQuestion = createStandardQuestion(form, question);
 
-    onboardedQuestions.forEach((q) => createStandardQuestion(form, q));
-
-    const skipToStandardQs = createHiddenSections(
-      onboardedDefaultSections,
-      form
-    );
-
-    let yes: GoogleAppsScript.Forms.Choice;
-    let no: GoogleAppsScript.Forms.Choice;
-    if (skipToStandardQs !== null) {
-      yes = onboardedQuestion.createChoice("Yes", skipToStandardQs);
-      no = onboardedQuestion.createChoice(
-        "No",
-        FormApp.PageNavigationType.CONTINUE
-      );
-    } else {
-      yes = onboardedQuestion.createChoice(
-        "Yes",
-        FormApp.PageNavigationType.CONTINUE
-      );
-      no = onboardedQuestion.createChoice(
-        "No",
-        FormApp.PageNavigationType.SUBMIT
-      );
+      if (question.Functionalities?.includes("OnboardedLogic")) {
+        onboardedQuestion = formQuestion;
+      }
     }
-    onboardedQuestion.setChoices([yes, no]);
 
-    createSections(form, onboardedDefaultSections, null, null);
+    if (onboardedQuestion)
+      HandleFunctionality(onboardedQuestion, "OnboardedLogic", {
+        form,
+        onboardedDefaultSections: onboardedDefaultSections as Section[],
+        enableFunctionality: true,
+      });
   }
   form.addPageBreakItem();
 };
@@ -80,26 +66,4 @@ export const getMiscQuestionResponse = (
     const response = itemResponse.getResponse();
     body[misc.field] = response;
   }
-};
-
-const createHiddenSections = (
-  sections: Section[] | null,
-  form: GoogleAppsScript.Forms.Form
-): GoogleAppsScript.Forms.PageBreakItem | null => {
-  if (!sections) return null;
-
-  for (let i = 0; i < sections.length; i++) {
-    const section = sections[i];
-    form.addPageBreakItem();
-
-    for (const question of section.questions) {
-      createStandardQuestion(form, question);
-    }
-  }
-
-  const finalSection = form.addPageBreakItem();
-  finalSection.setGoToPage(FormApp.PageNavigationType.SUBMIT);
-
-  const skipToStandardQuestions = form.addPageBreakItem();
-  return skipToStandardQuestions;
 };
