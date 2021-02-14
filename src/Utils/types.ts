@@ -96,7 +96,7 @@ export interface StandardQuestionFields {
   Order?: number;
   Required?: "True" | "False";
   Section?: SectionName;
-  Functionalities?: Functionality[] | string;
+  Functionalities?: Functionality[];
 }
 
 export interface Section {

@@ -5,13 +5,39 @@ export const SubmitIfNo = (
   const answerChoiceCalledNoIndex = choices.findIndex(
     (choice) => choice.getValue() === "No"
   );
+
   if (answerChoiceCalledNoIndex !== -1) {
+    const newChoices: GoogleAppsScript.Forms.Choice[] = [];
+    choices.splice(answerChoiceCalledNoIndex, 1);
+
+    for (const choice of choices) {
+      if (choice.getGotoPage()) {
+        newChoices.push(
+          mcQuestion.createChoice(choice.getValue(), choice.getGotoPage())
+        );
+      } else if (choice.getPageNavigationType()) {
+        newChoices.push(
+          mcQuestion.createChoice(
+            choice.getValue(),
+            choice.getPageNavigationType()
+          )
+        );
+      } else
+        newChoices.push(
+          mcQuestion.createChoice(
+            choice.getValue(),
+            FormApp.PageNavigationType.CONTINUE
+          )
+        );
+    }
+
     const specialAnswerChoice = mcQuestion.createChoice(
       "No",
       FormApp.PageNavigationType.SUBMIT
     );
-    choices[answerChoiceCalledNoIndex] = specialAnswerChoice;
-    mcQuestion.setChoices(choices);
+    newChoices.push(specialAnswerChoice);
+
+    mcQuestion.setChoices(newChoices);
   } else {
     return;
   }
