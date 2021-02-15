@@ -7,7 +7,7 @@ import {
   FormQuestion,
 } from "../../../../Utils/types";
 import { updateProject } from "../airtable/requests";
-import { HandleFunctionality } from "./functionalities/Handler";
+import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
 
 // START CONSTANTS
 // END CONSTANTS
@@ -65,7 +65,7 @@ export const createStandardQuestion = (
 
   if (Array.isArray(question.Functionalities)) {
     for (const functionality of question.Functionalities)
-      HandleFunctionality(formQuestion, functionality, args);
+      HandleCreationFunctionality(formQuestion, functionality, args);
   }
 
   return formQuestion;

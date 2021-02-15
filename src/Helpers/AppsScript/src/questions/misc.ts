@@ -4,7 +4,7 @@ import {
   Section,
   StandardQuestionFields,
 } from "../../../../Utils/types";
-import { HandleFunctionality } from "./functionalities/Handler";
+import { HandleFunctionality } from "./functionalities/CreationFunctionalityHandler";
 import { createStandardQuestion } from "./standard";
 
 // START CONSTANTS

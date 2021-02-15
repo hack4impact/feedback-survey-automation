@@ -6,8 +6,9 @@ import {
 } from "../../../../../Utils/types";
 import { OnboardedLogic } from "./OnboardedLogic";
 
+// this handler is for formquestion creation/modification, not for all functionalities
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const HandleFunctionality = (
+export const HandleCreationFunctionality = (
   question: FormQuestion,
   functionality: Functionality,
   args: FunctionalityArgs | null = null
