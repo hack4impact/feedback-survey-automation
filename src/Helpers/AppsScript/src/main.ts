@@ -67,7 +67,12 @@ export const doPost = (
   const successQuestionPartnerSection = getSuccessPairSection(sections);
 
   // Misc questions (name, email)
-  createFirstPageQuestions(form, firstPageQuestions, onboardedDefaultSections);
+  createFirstPageQuestions(
+    form,
+    firstPageQuestions,
+    onboardedDefaultSections,
+    timePeriod
+  );
 
   // Other Sections
   createSections(

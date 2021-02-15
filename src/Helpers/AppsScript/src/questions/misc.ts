@@ -3,6 +3,7 @@ import {
   FormQuestion,
   Section,
   StandardQuestionFields,
+  TimePeriod,
 } from "../../../../Utils/types";
 import { createSections } from "../main";
 import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
@@ -28,7 +29,8 @@ const MISC_QUESTIONS: MiscQuestion[] = [
 export const createFirstPageQuestions = (
   form: GoogleAppsScript.Forms.Form,
   firstPageQuestions: StandardQuestionFields[] | null,
-  onboardedDefaultSections: Section[] | null | undefined
+  onboardedDefaultSections: Section[] | null | undefined,
+  timeperiod: TimePeriod
 ): void => {
   MISC_QUESTIONS.forEach(({ title, required }) => {
     const item = form.addTextItem();
@@ -41,18 +43,23 @@ export const createFirstPageQuestions = (
     for (const question of firstPageQuestions) {
       const formQuestion = createStandardQuestion(form, question);
 
-      if (question.Functionalities?.includes("OnboardedLogic")) {
+      if (
+        question.Functionalities?.includes("OnboardedLogic") &&
+        ((question.Functionalities?.includes("OnboardedLogicOn1m") &&
+          timeperiod === "1m") ||
+          !question.Functionalities?.includes("OnboardedLogicOn1m"))
+      ) {
         onboardedQuestion = formQuestion;
       }
     }
 
-    if (onboardedQuestion)
+    if (onboardedQuestion) {
       HandleCreationFunctionality(onboardedQuestion, "OnboardedLogic", {
         form,
         onboardedDefaultSections: onboardedDefaultSections as Section[],
         enableFunctionality: true,
       });
-    else {
+    } else {
       if (
         Array.isArray(onboardedDefaultSections) &&
         onboardedDefaultSections.length > 0
