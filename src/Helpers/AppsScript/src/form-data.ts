@@ -4,7 +4,7 @@ import { FlattenedData, TimePeriod } from "../../../Utils/types";
 // START CONSTANTS
 // END CONSTANTS
 
-const TEMPLATE_FORM_ID = "1CJd-6yWcM33lRtnIVLgPZzaLzYdH2VksPt5D5rwWmzc";
+const TEMPLATE_FORM_ID = process.env.TEMPLATE_FORM_ID as string;
 
 export const initializeForm = (
   projectData: FlattenedData,
@@ -19,8 +19,8 @@ export const initializeForm = (
       title,
       DriveApp.getFolderById(
         dryRun
-          ? "1q8N4gJ7A9XXuW1APiaf_BT5dYxd8tVOc"
-          : "1fWj2K9WAQSxpC9jyOZkRfmOvY186I1Xf"
+          ? (process.env.DRY_RUN_FOLDER as string)
+          : (process.env.PRODUCTION_FOLDER as string)
       )
     )
     .getId();

@@ -1,6 +1,6 @@
 import { RowArr, RowObj } from "./time-based-trigger";
 
-const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
+const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID as string;
 
 export const getFormStore = (desiredFormId: string): RowObj => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
