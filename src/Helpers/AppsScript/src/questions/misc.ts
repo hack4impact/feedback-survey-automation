@@ -4,7 +4,7 @@ import {
   Section,
   StandardQuestionFields,
 } from "../../../../Utils/types";
-import { HandleFunctionality } from "./functionalities/CreationFunctionalityHandler";
+import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
 import { createStandardQuestion } from "./standard";
 
 // START CONSTANTS
@@ -46,7 +46,7 @@ export const createFirstPageQuestions = (
     }
 
     if (onboardedQuestion)
-      HandleFunctionality(onboardedQuestion, "OnboardedLogic", {
+      HandleCreationFunctionality(onboardedQuestion, "OnboardedLogic", {
         form,
         onboardedDefaultSections: onboardedDefaultSections as Section[],
         enableFunctionality: true,

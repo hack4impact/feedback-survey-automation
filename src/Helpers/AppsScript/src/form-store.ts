@@ -1,9 +1,9 @@
 import { RowArr, RowObj } from "./time-based-trigger";
 
-const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID as string;
-
 export const getFormStore = (desiredFormId: string): RowObj => {
-  const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const idStore = SpreadsheetApp.openById(
+    process.env.FORM_STORE_SHEET_ID as string
+  );
   const data = idStore.getRange("A2:F1500").getValues();
 
   for (let i = 0; i < data.length; i++) {
@@ -16,7 +16,9 @@ export const getFormStore = (desiredFormId: string): RowObj => {
 };
 
 export const storeForm = (row: RowObj): void => {
-  const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const idStore = SpreadsheetApp.openById(
+    process.env.FORM_STORE_SHEET_ID as string
+  );
   idStore.appendRow(createRowArray(row));
 };
 
@@ -26,7 +28,9 @@ export const modifyFormRow = (
 ): GoogleAppsScript.Spreadsheet.Range => {
   const rowArr = createRowArray(row);
   const numberOfCols = rowArr.length;
-  const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const idStore = SpreadsheetApp.openById(
+    process.env.FORM_STORE_SHEET_ID as string
+  );
 
   const index = rowIndex + 2;
 
