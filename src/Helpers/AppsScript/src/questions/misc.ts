@@ -4,6 +4,7 @@ import {
   Section,
   StandardQuestionFields,
 } from "../../../../Utils/types";
+import { createSections } from "../main";
 import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
 import { createStandardQuestion } from "./standard";
 
@@ -51,6 +52,15 @@ export const createFirstPageQuestions = (
         onboardedDefaultSections: onboardedDefaultSections as Section[],
         enableFunctionality: true,
       });
+    else {
+      if (
+        Array.isArray(onboardedDefaultSections) &&
+        onboardedDefaultSections.length > 0
+      ) {
+        form.addPageBreakItem();
+        createSections(form, onboardedDefaultSections as Section[], null, null);
+      }
+    }
   }
   form.addPageBreakItem();
 };
