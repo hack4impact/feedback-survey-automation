@@ -38,10 +38,13 @@ export type ProjectStatus =
 
 // Change the Array of Time Periods in constants.ts when changing this as well
 export type TimePeriod = "1m" | "6m" | "1y" | "3y" | "5y";
+
 export type Functionality =
   | "SubmitIfNo"
   | "OnboardedLogic"
-  | "OnboardedLogicOn1m";
+  | "OnboardedLogicOn1m"
+  | "StopSendingIfNo";
+
 export type FunctionalityArgs = {
   form?: GoogleAppsScript.Forms.Form;
   onboardedDefaultSections?: Section[];

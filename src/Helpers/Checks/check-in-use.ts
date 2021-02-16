@@ -3,27 +3,37 @@ import { default as AirtableRecord } from "airtable/lib/record";
 
 // Internals
 import Logger from "../Logger";
-import { DATA_FIELDS, FIELDS } from "../../Utils/constants";
-import { ProjectStatus } from "../../Utils/types";
+import { FIELDS } from "../../Utils/constants";
+import { ProjectStatus, StandardQuestionFields } from "../../Utils/types";
 
 const checkInUse = async (
   successData: AirtableRecord[],
-  project: AirtableRecord
+  project: AirtableRecord,
+  standardQuestions: AirtableRecord[],
+  dryRun: boolean
 ): Promise<boolean> => {
-  for (const data of successData) {
-    const willEverUse = data.get(DATA_FIELDS.willEverUse);
-    const inUseResponse = data.get(DATA_FIELDS.isStillUsing);
+  const inUseQuestions = standardQuestions.filter((record) =>
+    (record.fields as StandardQuestionFields).Functionalities?.includes(
+      "StopSendingIfNo"
+    )
+  );
 
-    if (inUseResponse === "No" || willEverUse === "No") {
-      const abandonded: ProjectStatus = "Abandoned by Nonprofit";
+  for (const data of successData) {
+    const responses = inUseQuestions.map((question) =>
+      data.get((question.fields as StandardQuestionFields).Question)
+    );
+
+    if (responses.includes("No")) {
+      const abandoned: ProjectStatus = "Abandoned by Nonprofit";
 
       Logger.warn(
-        `Not in use by nonprofit. Status updated as '${abandonded}'. No actions performed.`
+        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`
       );
 
-      await project.updateFields({
-        [FIELDS.projectStatus]: abandonded,
-      });
+      !dryRun &&
+        (await project.updateFields({
+          [FIELDS.projectStatus]: abandoned,
+        }));
 
       return false;
     }

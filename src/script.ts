@@ -1,10 +1,14 @@
 // Externals
 import { config } from "dotenv-safe";
 config();
+import yargs from "yargs";
 import Airtable from "airtable";
 
 // Internals
-import { getProjectSuccessData } from "./Helpers/Airtable";
+import {
+  getProjectSuccessData,
+  getStandardQuestions,
+} from "./Helpers/Airtable";
 import {
   checkReminderNeeded,
   checkRequiredFields,
@@ -27,12 +31,22 @@ process.on("uncaughtException", (e) => {
   process.exit(1);
 });
 
-const script = () => {
-  const dryRun = process.env.DRY_RUN === "true";
+const args = yargs(process.argv.slice(2))
+  .option("dry-run", {
+    alias: "d",
+    type: "boolean",
+    default: false,
+  })
+  .env("AIRTABLE_AUTOMATION").argv;
+
+const script = async () => {
+  const dryRun = args["dry-run"] || process.env.DRY_RUN !== "false";
 
   const logger = new Logger(dryRun);
 
   const table = Airtable.base(process.env.AIRTABLE_BASE_ID ?? "");
+
+  const standardQuestions = await getStandardQuestions(table);
 
   table("Projects")
     .select()
@@ -64,7 +78,10 @@ const script = () => {
           );
 
           // If project is not in use by nonprofit, skip
-          if (!(await checkInUse(successData, project))) continue;
+          if (
+            !(await checkInUse(successData, project, standardQuestions, dryRun))
+          )
+            continue;
 
           const reminderNeeded = checkReminderNeeded(flattenedData);
 
