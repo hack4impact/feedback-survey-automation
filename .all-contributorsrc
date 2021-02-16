@@ -1,5 +1,5 @@
 {
-  "projectName": "airtable-automation",
+  "projectName": "feedback-survey-automation",
   "projectOwner": "hack4impact",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -12,7 +12,7 @@
     "doc": {
       "symbol": "📖",
       "description": "Documentation",
-      "link": "https://github.com/hack4impact/airtable-automation/wiki/_history"
+      "link": "https://github.com/hack4impact/feedback-survey-automation/wiki/_history"
     },
     "ideas": {
       "symbol": "🤔",

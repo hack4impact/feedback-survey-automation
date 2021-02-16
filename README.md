@@ -1,10 +1,10 @@
-<p align="center"><img alt="Icon" width="200" src="https://raw.githubusercontent.com/hack4impact/airtable-automation/main/static/images/icon.png"></img></p>
+<p align="center"><img alt="Icon" width="200" src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/icon.png"></img></p>
 
-<h1 align="center">Airtable Automation</h1>
+<h1 align="center">Feedback Survey Automation</h1>
 
 <p align="center">
-<a href="https://github.com/hack4impact/airtable-automation/actions?query=workflow%3A%22Automated+Run%22"><img alt="Automated Run Badge" src="https://img.shields.io/github/workflow/status/hack4impact/airtable-automation/Automated%20Run?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Automated%20Run"></img></a>
-<a href="https://github.com/hack4impact/airtable-automation/actions?query=workflow%3A%22Node+CI%22"><img alt="Node CI Badge" src="https://img.shields.io/github/workflow/status/hack4impact/airtable-automation/Node%20CI?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Node%20CI"></img></a>
+<a href="https://github.com/hack4impact/feedback-survey-automation/actions?query=workflow%3A%22Automated+Run%22"><img alt="Automated Run Badge" src="https://img.shields.io/github/workflow/status/hack4impact/feedback-survey-automation/Automated%20Run?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Automated%20Run"></img></a>
+<a href="https://github.com/hack4impact/feedback-survey-automation/actions?query=workflow%3A%22Node+CI%22"><img alt="Node CI Badge" src="https://img.shields.io/github/workflow/status/hack4impact/feedback-survey-automation/Node%20CI?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Node%20CI"></img></a>
 </p>
 
 ## Contents <!-- omit in toc -->
@@ -72,10 +72,10 @@ Thanks goes to this project's contributors ([emoji key](https://allcontributors.
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/YashTotale"><img src="https://avatars.githubusercontent.com/u/30784592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yash Totale</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=YashTotale" title="Code">💻</a> <a href="https://github.com/hack4impact/airtable-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/subatuba21"><img src="https://avatars.githubusercontent.com/u/34824571?v=4?s=100" width="100px;" alt=""/><br /><sub><b>subatuba21</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=subatuba21" title="Code">💻</a> <a href="https://github.com/hack4impact/airtable-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/YashTotale"><img src="https://avatars.githubusercontent.com/u/30784592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yash Totale</b></sub></a><br /><a href="https://github.com/hack4impact/feedback-survey-automation/commits?author=YashTotale" title="Code">💻</a> <a href="https://github.com/hack4impact/feedback-survey-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/subatuba21"><img src="https://avatars.githubusercontent.com/u/34824571?v=4?s=100" width="100px;" alt=""/><br /><sub><b>subatuba21</b></sub></a><br /><a href="https://github.com/hack4impact/feedback-survey-automation/commits?author=subatuba21" title="Code">💻</a> <a href="https://github.com/hack4impact/feedback-survey-automation/wiki/_history" title="Documentation">📖</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/elenarfowler"><img src="https://avatars.githubusercontent.com/u/32174305?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elena Fowler</b></sub></a><br /><a href="#projectManagement-elenarfowler" title="Project Management">📆</a> <a href="#mentoring-elenarfowler" title="Mentoring">🧑‍🏫</a> <a href="https://www.notion.so/h4i/Measuring-Project-Success-Automation-13e09dd66fc2485aab37a0764da6b0d2" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://imgbot.net/"><img src="https://avatars.githubusercontent.com/u/31427850?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Imgbot</b></sub></a><br /><a href="https://github.com/hack4impact/airtable-automation/commits?author=ImgBotApp" title="Tools">🔧</a></td>
+    <td align="center"><a href="https://imgbot.net/"><img src="https://avatars.githubusercontent.com/u/31427850?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Imgbot</b></sub></a><br /><a href="https://github.com/hack4impact/feedback-survey-automation/commits?author=ImgBotApp" title="Tools">🔧</a></td>
   </tr>
 </table>
 
@@ -88,9 +88,9 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 <!-- Reference Links -->
 
-[guide to developing locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Developing-Locally
-[guide to running locally github wiki]: https://github.com/hack4impact/airtable-automation/wiki/Guide-to-Running-Locally
-[how it works wiki]: https://github.com/hack4impact/airtable-automation/wiki/How-it-works/
+[guide to developing locally github wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Guide-to-Developing-Locally
+[guide to running locally github wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Guide-to-Running-Locally
+[how it works wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/How-it-works/
 [git]: https://git-scm.com/
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/

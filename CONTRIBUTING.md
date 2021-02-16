@@ -1,24 +1,24 @@
-# Contributing to Airtable Automation
+# Contributing to Hack4Impact's Feedback Survey Automation
 
-Welcome, and thank you for your interest in contributing to airtable-automation!
+Welcome, and thank you for your interest in contributing to Hack4Impact's Feedback Survey Automation!
 
 There are many ways in which you can contribute, beyond writing code. The goal of this document is to provide a high-level overview of how you can get involved.
 
 ## Asking Questions
 
-Have a question? Rather than opening an issue, please ask away on the [Discussions Q&A](https://github.com/hack4impact/airtable-automation/discussions/categories/q-a)
+Have a question? Rather than opening an issue, please ask away on the [Discussions Q&A](https://github.com/hack4impact/feedback-survey-automation/discussions/categories/q-a)
 
-The active community will be eager to assist you. Your well-worded question will serve as a resource to others searching for help.
+The active Hack4Impact community will be eager to assist you. Your well-worded question will serve as a resource to others searching for help.
 
 ## Reporting Issues
 
-Have you identified a reproducible problem in airtable-automation? Have a feature request? We want to hear about it! Here's how you can make reporting your issue as effective as possible.
+Have you identified a reproducible problem in Hack4Impact's Feedback Survey Automation? Have a feature request? We want to hear about it! Here's how you can make reporting your issue as effective as possible.
 
 ### Look For an Existing Issue
 
-Before you create a new issue, please do a search in [open issues](https://github.com/hack4impact/airtable-automation/issues) to see if the issue or feature request has already been filed.
+Before you create a new issue, please do a search in [open issues](https://github.com/hack4impact/feedback-survey-automation/issues) to see if the issue or feature request has already been filed.
 
-Be sure to scan through the [most popular](https://github.com/hack4impact/airtable-automation/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc) feature requests.
+Be sure to scan through the [most popular](https://github.com/hack4impact/feedback-survey-automation/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc) feature requests.
 
 If you find your issue already exists, make relevant comments and add your [reaction](https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments). Use a reaction in place of a "+1" comment:
 

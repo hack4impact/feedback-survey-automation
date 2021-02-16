@@ -1,15 +1,15 @@
 {
-  "name": "airtable-automation",
+  "name": "feedback-survey-automation",
   "description": "Automates the process of creating, sending, and storing feedback surveys for all projects created by Hack4Impact chapters",
   "private": true,
   "license": "MIT",
-  "homepage": "https://github.com/hack4impact/airtable-automation#readme",
+  "homepage": "https://github.com/hack4impact/feedback-survey-automation#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hack4impact/airtable-automation.git"
+    "url": "https://github.com/hack4impact/feedback-survey-automation.git"
   },
   "bugs": {
-    "url": "https://github.com/hack4impact/airtable-automation/issues"
+    "url": "https://github.com/hack4impact/feedback-survey-automation/issues"
   },
   "contributors": [
     {
