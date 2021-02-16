@@ -18,8 +18,8 @@ const setUpEmail = (dryRun: boolean): Mail => {
         };
     transporter = createTransport({
       host,
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      port: dryRun ? 587 : 465,
+      secure: !dryRun, // true for 465, false for other ports
       auth,
     });
   }
