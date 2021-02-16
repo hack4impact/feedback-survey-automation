@@ -7,7 +7,7 @@ import { updateProjectSuccessTable } from "./main";
 // START CONSTANTS
 // END CONSTANTS
 
-const SPREADSHEET_ID = "1J_uUVFv9EtI3raTddPRcoKi0Qs1bAEw_E3qSFQU4KD4";
+const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID ?? "";
 
 type FormID = string;
 

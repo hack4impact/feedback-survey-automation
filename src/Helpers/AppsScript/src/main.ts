@@ -7,7 +7,6 @@ import {
 } from "../../../Utils/types";
 import { DATA_FIELDS } from "../../../Utils/constants";
 import { initializeForm } from "./form-data";
-
 import {
   getStandardQuestions,
   getProjectData,

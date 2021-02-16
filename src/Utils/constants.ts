@@ -92,5 +92,3 @@ export const APPS_SCRIPT_ERRORS = [
   "No Success Metric Questions found",
   "No Time Period Found",
 ] as const;
-
-export const SPREADSHEET_ID = "11O5zz8ff1GpWQrGdnmy973Wc7NoU3G_-RHoaFULa4Gk";

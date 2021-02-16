@@ -5,8 +5,8 @@ import {
   StandardQuestionFields,
   TimePeriod,
 } from "../../../../Utils/types";
-import { createSections } from "../main";
 import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
+import { createSections } from "../main";
 import { createStandardQuestion } from "./standard";
 
 // START CONSTANTS

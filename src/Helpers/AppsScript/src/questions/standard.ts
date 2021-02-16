@@ -6,8 +6,8 @@ import {
   StandardQuestionFields,
   FormQuestion,
 } from "../../../../Utils/types";
-import { updateProject } from "../airtable/requests";
 import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
+import { updateProject } from "../airtable/requests";
 
 // START CONSTANTS
 // END CONSTANTS

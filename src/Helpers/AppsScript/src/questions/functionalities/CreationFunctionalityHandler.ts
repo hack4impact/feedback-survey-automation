@@ -1,9 +1,9 @@
-import { SubmitIfNo } from "./SubmitIfNo";
 import {
   FormQuestion,
   Functionality,
   FunctionalityArgs,
 } from "../../../../../Utils/types";
+import { SubmitIfNo } from "./SubmitIfNo";
 import { OnboardedLogic } from "./OnboardedLogic";
 
 // this handler is for formquestion creation/modification, not for all functionalities

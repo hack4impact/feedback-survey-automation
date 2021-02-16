@@ -41,7 +41,7 @@ const script = () => {
 
   const logger = new Logger(dryRun);
 
-  const table = Airtable.base("app0TDYnyirqeRk1T");
+  const table = Airtable.base(process.env.AIRTABLE_BASE_ID ?? "");
 
   table("Projects")
     .select()

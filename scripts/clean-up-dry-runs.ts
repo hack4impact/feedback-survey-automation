@@ -1,4 +1,6 @@
-// Externalss
+// Externals
+import { config } from "dotenv-safe";
+config();
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import { promisify } from "util";
@@ -113,7 +115,7 @@ const getAllDryRuns = async (
   Logger.line();
   Logger.log("Fetching 'Dry Run Forms' Folder...");
   const response = await drive.files.list({
-    q: "'1q8N4gJ7A9XXuW1APiaf_BT5dYxd8tVOc' in parents and trashed = false",
+    q: `'${process.env.DRY_RUN_FOLDER}' in parents and trashed = false`,
   });
   Logger.success("Fetched 'Dry Run Forms' Folder!");
   return response.data;
