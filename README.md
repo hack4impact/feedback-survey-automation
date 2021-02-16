@@ -1,4 +1,4 @@
-<p align="center"><img alt="Icon" width="200" src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/airtable-automation.png"></img></p>
+<p align="center"><img alt="Banner" width="200" src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/banner.png"></img></p>
 
 <h1 align="center">Feedback Survey Automation</h1>
 
