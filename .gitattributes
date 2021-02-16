@@ -5,7 +5,7 @@
 .lintstagedrc linguist-language=JSON
 
 .markdownlintrc linguist-language=JSON
-.markdownlintignore linguist-language=Ignore List
+.markdownlintignore linguist-language=Ignore-List
 
 .imgbotconfig linguist-language=JSON
 .all-contributorsrc linguist-language=JSON
