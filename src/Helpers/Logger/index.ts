@@ -22,7 +22,7 @@ class Logger extends Hack4ImpactLogger {
     Logger.line();
     if (this.dryRun) {
       Logger.info(
-        `Dry Run finished with ${Logger.COLORS.Bright}NO ACTIONS PERFORMED${Logger.COLORS.Reset}${Logger.COLORS.FgBlue} that affected the Airtable. To perform a real run, use ${Logger.COLORS.Reverse}npm run make`
+        `Dry Run finished with ${Logger.COLORS.Bright}NO ACTIONS PERFORMED${Logger.COLORS.Reset}${Logger.COLORS.FgBlue} that affected the Airtable. To perform a real run, set DRY_RUN to false in .env and use ${Logger.COLORS.Reverse}npm run make:prod`
       );
     }
     Logger.log(`View logs: ${Logger.LOGS_PATH}`);

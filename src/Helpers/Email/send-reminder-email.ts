@@ -36,7 +36,7 @@ const sendReminderEmail = async (
   let result: MailResponse;
   try {
     result = await transporter.sendMail({
-      from: "social-impact@hack4impact.org",
+      from: process.env.MAIL_USERNAME,
       to: sendTo,
       subject: `Feedback Reminder for ${data.projectName}`,
       html,

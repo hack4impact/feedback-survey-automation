@@ -27,4 +27,4 @@ jobs:
         run: npm run compile
 
       - name: Run Script
-        run: npm run make
+        run: npm run make:prod

@@ -36,4 +36,4 @@ jobs:
         run: npm run build
 
       - name: Dry Run
-        run: npm run make:dry
+        run: npm run make

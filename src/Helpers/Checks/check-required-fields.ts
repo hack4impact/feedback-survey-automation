@@ -21,8 +21,8 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   }
 
   if (
-    !Array.isArray(chapter) &&
-    chapter.length !== 1 &&
+    !Array.isArray(chapter) ||
+    chapter.length !== 1 ||
     typeof chapter[0] !== "string"
   ) {
     throw new Error(
@@ -31,8 +31,8 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   }
 
   if (
-    !Array.isArray(chapterName) &&
-    chapterName.length !== 1 &&
+    !Array.isArray(chapterName) ||
+    chapterName.length !== 1 ||
     typeof chapterName[0] !== "string"
   ) {
     throw new Error(
