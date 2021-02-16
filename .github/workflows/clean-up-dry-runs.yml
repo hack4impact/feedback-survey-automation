@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Setup Environment Variables
+        run: echo '${{ secrets.ENV_FILE }}' > .env
+
       - name: Setup Google Credentials
         run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
 
