@@ -16,6 +16,8 @@ export const createPublishedURLField = (timePeriod: TimePeriod): string =>
 // For looping through time periods (MUST be largest to smallest)
 export const TIME_PERIODS = ["5y", "3y", "1y", "6m", "1m"] as const;
 
+export const timePeriodExpiryInWeeks = 4;
+
 export const FIELDS = {
   // Register Info
   representativeName: "Representative Name",

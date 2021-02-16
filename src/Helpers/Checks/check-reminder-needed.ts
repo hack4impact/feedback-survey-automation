@@ -5,7 +5,12 @@ import moment, { DurationInputArg2 } from "moment";
 import { normalizeDate } from "../General/index";
 import Logger from "../Logger";
 import { FlattenedData, TimePeriod } from "../../Utils/types";
-import { TIME_PERIODS, READABLE_TIME_PERIODS } from "../../Utils/constants";
+import {
+  TIME_PERIODS,
+  READABLE_TIME_PERIODS,
+  timePeriodExpiryInWeeks,
+} from "../../Utils/constants";
+import { hasItBeenXWeeks } from "../General/time-checks";
 
 const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
   const deliveryDate = normalizeDate(data.deliveryDate);
@@ -20,11 +25,24 @@ const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
     ); // The current date minus the time units (ex. the date 6 months ago)
 
     // Is the delivery date before the milestone?
-    if (milestone > deliveryDate) {
+    /* Also, if its X weeks too late to send an email for a certain time period, it won't send a reminder email */
+
+    if (
+      milestone > deliveryDate &&
+      !hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
+    ) {
       Logger.info(
         `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`
       );
       return timePeriod;
+    } else if (
+      milestone > deliveryDate &&
+      hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
+    ) {
+      Logger.warn(
+        `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${timePeriod} passed.`
+      );
+      break;
     }
   }
   return null;
