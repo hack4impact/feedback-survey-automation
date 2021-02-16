@@ -12,13 +12,7 @@
 - [Guide to Running Locally](#guide-to-running-locally)
 - [Guide to Developing Locally](#guide-to-developing-locally)
 - [How it Works](#how-it-works)
-- [Tools & Technologies](#tools--technologies)
-  - [TypeScript](#typescript)
-  - [Airtable API](#airtable-api)
-  - [Apps Script](#apps-script)
-  - [Nodemailer](#nodemailer)
-  - [Linters](#linters)
-  - [GitHub Actions](#github-actions)
+- [Tools and Technologies](#tools-and-technologies)
 - [Contributors](#contributors)
 
 ## Guide to Running Locally
@@ -33,35 +27,9 @@ See the [Guide to Developing Locally GitHub Wiki]
 
 See the [How it Works Wiki]
 
-## Tools & Technologies
+## Tools and Technologies
 
-### TypeScript
-
-We use [TypeScript] to add type checking to make our code more robust and maintainable.
-
-### Airtable API
-
-We use the [Airtable NPM package] to read, write, and update data on the Hack4Impact Project Success Airtable.
-
-### Apps Script
-
-We use [Google Apps Scripts] to create Google Forms (as there is no Google Forms API for Node.JS) and update the Airtable data when a form is submitted. Additionally, we use [clasp] to develop our Apps Scripts locally.
-
-### Nodemailer
-
-We use the [Nodemailer NPM package] to send reminder feedback survey emails to Hack4Impact chapters.
-
-### Linters
-
-We use [Prettier], [ESLint], [MarkdownLint], and [EditorConfig] to ensure our code style is uniform throughout the project. These tools also help us avoid [Technical Debt] in our code and increase maintainability.
-
-We also use [Husky] and [Lint-Staged] to run our linters and formatters on all staged files before every commit.
-
-### GitHub Actions
-
-We use [GitHub Actions] as our [CI/CD pipeline]. We check for lint & build errors, and push the latest versions of our Apps Scripts every time a push is made to the `main` branch.
-
-Additionally, every day at 11:30 PST, we run our script with a [scheduled GitHub Action].
+See the [Tools and Technologies Wiki]
 
 ## Contributors
 
@@ -91,21 +59,11 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [guide to developing locally github wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Guide-to-Developing-Locally
 [guide to running locally github wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Guide-to-Running-Locally
 [how it works wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/How-it-works/
+[tools and technologies wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Tools-and-Technologies/
 [git]: https://git-scm.com/
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
 ['secret files' folder]: https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB
-[typescript]: https://www.typescriptlang.org/
-[airtable npm package]: https://www.npmjs.com/package/airtable
-[google apps scripts]: https://developers.google.com/apps-script
-[clasp]: https://developers.google.com/apps-script/guides/clasp
-[nodemailer npm package]: https://nodemailer.com/about/
-[prettier]: https://prettier.io/
-[eslint]: https://eslint.org/
-[markdownlint]: https://github.com/DavidAnson/markdownlint
-[editorconfig]: https://editorconfig.org/
-[husky]: https://typicode.github.io/husky/#/
-[lint-staged]: https://github.com/okonet/lint-staged
 [technical debt]: https://www.productplan.com/glossary/technical-debt/
 [github actions]: https://github.com/features/actions
 [ci/cd pipeline]: https://semaphoreci.com/blog/cicd-pipeline
