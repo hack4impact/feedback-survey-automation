@@ -19,11 +19,7 @@ export const HandleCreationFunctionality = (
       SubmitIfNo(question as GoogleAppsScript.Forms.MultipleChoiceItem);
       break;
     case "OnboardedLogic":
-      if (
-        args?.form &&
-        args?.onboardedDefaultSections &&
-        args.enableFunctionality === true
-      ) {
+      if (args?.form && args.enableFunctionality === true) {
         OnboardedLogic(question as GoogleAppsScript.Forms.MultipleChoiceItem, {
           form: args.form,
           onboardedDefaultSections: args.onboardedDefaultSections,

@@ -6,15 +6,10 @@ export const OnboardedLogic = (
   question: GoogleAppsScript.Forms.MultipleChoiceItem,
   args: FunctionalityArgs
 ): void => {
-  if (
-    !args.onboardedDefaultSections ||
-    !args.form ||
-    args.enableFunctionality !== true
-  )
-    return;
+  if (!args.form || args.enableFunctionality !== true) return;
 
   const skipToStandardQs = createHiddenSections(
-    args.onboardedDefaultSections,
+    args.onboardedDefaultSections ? args.onboardedDefaultSections : null,
     args.form
   );
 
@@ -29,7 +24,12 @@ export const OnboardedLogic = (
   }
   question.setChoices([yes, no]);
 
-  createSections(args.form, args.onboardedDefaultSections, null, null);
+  createSections(
+    args.form,
+    args.onboardedDefaultSections ? args.onboardedDefaultSections : null,
+    null,
+    null
+  );
 };
 
 const createHiddenSections = (
