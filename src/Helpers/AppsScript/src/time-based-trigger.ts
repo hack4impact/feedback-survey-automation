@@ -79,7 +79,9 @@ const onResponse = (
     const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row.formEditLink}\n\nPlease manually upload the response to the airtable.`;
 
     form.addEditor(recipient);
-    // MailApp.sendEmail(recipient, subject, body);
+    if (process.env.DRY_RUN === "false") {
+      MailApp.sendEmail(recipient, subject, body);
+    }
     Logger.log(`sending mail ${recipient} ${subject} ${body}`);
   }
 };
@@ -105,14 +107,14 @@ const sendReminder = (
   template["readableTimePeriod"] = READABLE_TIME_PERIODS[timePeriod];
   template["formPublishedURL"] = form.getPublishedUrl();
 
-  Logger.log(template.evaluate().getContent());
+  const fullTemplate = template.evaluate().getContent();
 
-  // MailApp.sendEmail({
-  //   subject,
-  //   body: "",
-  //   htmlBody: "",
-  //   to,
-  // });
+  if (process.env.DRY_RUN === "false") {
+    MailApp.sendEmail({
+      subject: "Please make sure you send the form",
+      htmlBody: fullTemplate,
+    });
+  }
 
   row.responded = "Reminder Sent";
 

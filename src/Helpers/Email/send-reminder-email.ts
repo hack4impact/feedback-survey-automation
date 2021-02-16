@@ -23,35 +23,41 @@ interface MailResponse {
 const sendReminderEmail = async (
   data: FlattenedData,
   timePeriod: TimePeriod,
-  logger: Logger
+  logger: Logger,
+  dryRun: boolean
 ): Promise<MailResponse> => {
-  const transporter = setUpEmail();
+  const transporter = setUpEmail(dryRun);
   const [html, text] = await getTemplate("inform-mail", data, timePeriod);
 
   const sendTo = [data.representativeEmail, data.chapterEmail?.[0]].filter(
     (potential): potential is string => typeof potential === "string"
   );
 
-  const result: MailResponse = await transporter.sendMail({
-    from: "social-impact@hack4impact.org",
-    to: sendTo,
-    subject: `Feedback Reminder for ${data.projectName}`,
-    html,
-    text,
-  });
+  let result: MailResponse;
+  try {
+    result = await transporter.sendMail({
+      from: "social-impact@hack4impact.org",
+      to: sendTo,
+      subject: `Feedback Reminder for ${data.projectName}`,
+      html,
+      text,
+    });
 
-  await logger.log(
-    `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
-    true,
-    "success",
-    {
-      htmlContent: html,
-      textContent: text,
-      result,
-    }
-  );
-
-  return result;
+    await logger.log(
+      `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
+      true,
+      "success",
+      {
+        htmlContent: html,
+        textContent: text,
+        result,
+      }
+    );
+    return result;
+  } catch (e) {
+    Logger.error(`Incorrect mail configuration:\n\n${e}`);
+    process.exit();
+  }
 };
 
 export default sendReminderEmail;

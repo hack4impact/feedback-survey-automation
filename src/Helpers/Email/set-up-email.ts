@@ -4,16 +4,23 @@ import Mail from "nodemailer/lib/mailer";
 
 let transporter: Mail;
 
-const setUpEmail = (): Mail => {
+const setUpEmail = (dryRun: boolean): Mail => {
   if (!transporter) {
+    const host = dryRun ? "smtp.ethereal.email" : process.env.MAIL_SERVER;
+    const auth = dryRun
+      ? {
+          user: "citlalli.cummerata@ethereal.email", // generated ethereal user
+          pass: "EcGmzRxPWK4JBQdzMk", // generated ethereal password
+        }
+      : {
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD,
+        };
     transporter = createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: "citlalli.cummerata@ethereal.email", // generated ethereal user
-        pass: "EcGmzRxPWK4JBQdzMk", // generated ethereal password
-      },
+      host,
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth,
     });
   }
 

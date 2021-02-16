@@ -1,7 +1,6 @@
 // Externals
 import { config } from "dotenv-safe";
 config();
-import yargs from "yargs/yargs";
 import Airtable from "airtable";
 
 // Internals
@@ -28,16 +27,8 @@ process.on("uncaughtException", (e) => {
   process.exit(1);
 });
 
-const args = yargs(process.argv.slice(2))
-  .option("dry-run", {
-    alias: "d",
-    type: "boolean",
-    default: false,
-  })
-  .env("AIRTABLE_AUTOMATION").argv;
-
 const script = () => {
-  const { "dry-run": dryRun } = args;
+  const dryRun = process.env.DRY_RUN === "true";
 
   const logger = new Logger(dryRun);
 
@@ -87,7 +78,12 @@ const script = () => {
             dryRun,
             logger
           );
-          await sendReminderEmail(flattenedData, reminderNeeded, logger);
+          await sendReminderEmail(
+            flattenedData,
+            reminderNeeded,
+            logger,
+            dryRun
+          );
 
           !dryRun &&
             (await project.updateFields({
