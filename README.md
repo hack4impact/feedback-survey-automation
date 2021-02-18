@@ -61,11 +61,3 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [guide to running locally github wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Guide-to-Running-Locally
 [how it works wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/How-it-works/
 [tools and technologies wiki]: https://github.com/hack4impact/feedback-survey-automation/wiki/Tools-and-Technologies/
-[git]: https://git-scm.com/
-[node.js]: https://nodejs.org/en/
-[npm]: https://www.npmjs.com/
-['secret files' folder]: https://drive.google.com/drive/folders/1kcdNls8krOBnIpDNls-hBxsc3yjfPiiB
-[technical debt]: https://www.productplan.com/glossary/technical-debt/
-[github actions]: https://github.com/features/actions
-[ci/cd pipeline]: https://semaphoreci.com/blog/cicd-pipeline
-[scheduled github action]: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
