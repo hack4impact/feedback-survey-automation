@@ -27,6 +27,9 @@ output/
 credentials.json
 oauth-token.json
 .clasprc.json
+.clasp.json
 
 # Misc
 .DS_Store
+
+
