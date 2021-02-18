@@ -23,8 +23,11 @@ jobs:
       - name: Setup Environment Variables
         run: echo '${{ secrets.ENV_FILE }}' > .env
 
-      - name: Setup Clasp
+      - name: Setup Clasp Credentials
         run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
+
+      - name: Setup Clasp Project info
+        run: echo '${{ secrets.CLASP_PROJECT_INFO }}' > .clasp.json
 
       - name: Install Dependencies
         run: npm ci
