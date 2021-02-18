@@ -1,4 +1,4 @@
-name: Automated Production Run
+name: Automated Development Run
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
           node-version: 15.x
 
       - name: Setup Environment Variables
-        run: echo '${{ secrets.PROD_ENV }}' > .env
+        run: echo '${{ secrets.DEV_ENV }}' > .env
 
       - name: Install Dependencies
         run: npm ci

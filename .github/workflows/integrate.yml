@@ -21,7 +21,7 @@ jobs:
           node-version: 15.x
 
       - name: Setup Environment Variables
-        run: echo '${{ secrets.ENV_FILE }}' > .env
+        run: echo '${{ secrets.PROD_ENV }}' > .env
 
       - name: Setup Clasp Credentials
         run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
