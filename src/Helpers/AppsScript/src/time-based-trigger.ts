@@ -111,9 +111,10 @@ const sendReminder = (
 
   if (process.env.DRY_RUN === `false`) {
     MailApp.sendEmail({
-      subject: `Feedback Reminder for ${fields[FIELDS.projectName]}`,
+      subject: `Follow Up: Feedback Reminder for ${fields[FIELDS.projectName]}`,
       htmlBody: fullTemplate,
       to: fields[FIELDS.representativeEmail],
+      cc: fields[FIELDS.chapterEmail],
     });
     Logger.log(
       `Sending two week reminder email to: ${
