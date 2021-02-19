@@ -12,7 +12,10 @@ import {
 } from "../../Utils/constants";
 import { hasItBeenXWeeks } from "../General/time-checks";
 
-const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
+const checkReminderNeeded = async (
+  data: FlattenedData,
+  logger: Logger
+): Promise<TimePeriod | null> => {
   const deliveryDate = normalizeDate(data.deliveryDate);
   const lastSent = data.lastSent;
 
@@ -31,16 +34,18 @@ const checkReminderNeeded = (data: FlattenedData): TimePeriod | null => {
       milestone > deliveryDate &&
       !hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
     ) {
-      Logger.info(
-        `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`
+      await logger.info(
+        `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`,
+        { writeToFile: true }
       );
       return timePeriod;
     } else if (
       milestone > deliveryDate &&
       hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
     ) {
-      Logger.warn(
-        `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${timePeriod} passed.`
+      await logger.warn(
+        `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`,
+        { writeToFile: true }
       );
       break;
     }

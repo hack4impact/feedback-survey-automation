@@ -21,11 +21,11 @@ class Logger extends Hack4ImpactLogger {
   public finish(): void {
     Logger.line();
     if (this.dryRun) {
-      Logger.info(
+      this.info(
         `Dry Run finished with ${Logger.COLORS.Bright}NO ACTIONS PERFORMED${Logger.COLORS.Reset}${Logger.COLORS.FgBlue} that affected the Airtable. To perform a real run, set DRY_RUN to false in .env and use ${Logger.COLORS.Reverse}npm run make:prod`
       );
     }
-    Logger.log(`View logs: ${Logger.LOGS_PATH}`);
+    this.log(`View logs: ${Logger.LOGS_PATH}`);
   }
 }
 

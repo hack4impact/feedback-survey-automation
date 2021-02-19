@@ -2,27 +2,35 @@
 import { ProjectStatus } from "../../Utils/types";
 import Logger from "../Logger";
 
-const logFalsey = (projectStatus: ProjectStatus): false => {
-  Logger.warn(`Status is '${projectStatus}'. No actions performed.`);
+const logFalsey = async (
+  projectStatus: ProjectStatus,
+  logger: Logger
+): Promise<false> => {
+  await logger.warn(`Status is '${projectStatus}'. No actions performed.`, {
+    writeToFile: true,
+  });
   return false;
 };
 
-const checkProjectStatus = (projectStatus?: ProjectStatus): boolean => {
+const checkProjectStatus = async (
+  logger: Logger,
+  projectStatus?: ProjectStatus
+): Promise<boolean> => {
   switch (projectStatus) {
     case "Delivered": {
       return true;
     }
     case "In Progress": {
-      return logFalsey(projectStatus);
+      return await logFalsey(projectStatus, logger);
     }
     case "Unknown": {
       return true;
     }
     case "Abandoned by Dev Team": {
-      return logFalsey(projectStatus);
+      return await logFalsey(projectStatus, logger);
     }
     case "Abandoned by Nonprofit": {
-      return logFalsey(projectStatus);
+      return await logFalsey(projectStatus, logger);
     }
     default: {
       return true;

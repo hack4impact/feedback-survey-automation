@@ -52,13 +52,14 @@ const script = async () => {
       async (projects, nextPage) => {
         for (const project of projects) {
           const data = parseProject(project);
+          const { projectName } = data;
 
           // Checks for empty rows
-          if (typeof data.projectName !== "string") continue;
+          if (typeof projectName !== "string") continue;
 
           // Log the project's name
           Logger.line();
-          Logger.bold(data.projectName);
+          Logger.bold(projectName);
 
           // Make sure the project has all required fields. If not, throw an error.
           const checkedData = checkRequiredFields(data);
@@ -68,7 +69,7 @@ const script = async () => {
           const { projectStatus, projectSuccessData } = flattenedData;
 
           // If project is abandoned, skip
-          if (!checkProjectStatus(projectStatus)) continue;
+          if (!(await checkProjectStatus(logger, projectStatus))) continue;
 
           const successData = await getProjectSuccessData(
             table,
@@ -77,11 +78,20 @@ const script = async () => {
 
           // If project is not in use by nonprofit, skip
           if (
-            !(await checkInUse(successData, project, standardQuestions, dryRun))
+            !(await checkInUse(
+              successData,
+              project,
+              standardQuestions,
+              dryRun,
+              logger
+            ))
           )
             continue;
 
-          const reminderNeeded = checkReminderNeeded(flattenedData);
+          const reminderNeeded = await checkReminderNeeded(
+            flattenedData,
+            logger
+          );
 
           // If reminder not needed, skip
           if (reminderNeeded === null) continue;

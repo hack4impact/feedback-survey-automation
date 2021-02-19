@@ -35,9 +35,7 @@ const createGoogleForm = async (
 
   await logger.log(
     `Google Form created! (${READABLE_TIME_PERIODS[timePeriod]})`,
-    true,
-    "success",
-    formData
+    { writeToFile: true, type: "success", extra: formData }
   );
 
   const expectedUrlField = createPublishedURLField(timePeriod);
@@ -97,7 +95,11 @@ const fetchGoogleForm = async (
     const formData = JSON.parse(dataText);
     return formData;
   } catch (e) {
-    await logger.log(dataText, true, "error", body);
+    await logger.log(dataText, {
+      writeToFile: true,
+      extra: body,
+      type: "error",
+    });
     throw new Error(e);
   }
 };

@@ -45,17 +45,21 @@ const sendReminderEmail = async (
 
     await logger.log(
       `Reminder Email sent! (${READABLE_TIME_PERIODS[timePeriod]})`,
-      true,
-      "success",
       {
-        htmlContent: html,
-        textContent: text,
-        result,
+        writeToFile: true,
+        type: "success",
+        extra: {
+          htmlContent: html,
+          textContent: text,
+          result,
+        },
       }
     );
     return result;
   } catch (e) {
-    Logger.error(`Incorrect mail configuration:\n\n${e}`);
+    await logger.error(`Incorrect mail configuration:\n\n${e}`, {
+      writeToFile: true,
+    });
     process.exit();
   }
 };

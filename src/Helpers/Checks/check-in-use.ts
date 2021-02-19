@@ -10,7 +10,8 @@ const checkInUse = async (
   successData: AirtableRecord[],
   project: AirtableRecord,
   standardQuestions: AirtableRecord[],
-  dryRun: boolean
+  dryRun: boolean,
+  logger: Logger
 ): Promise<boolean> => {
   const inUseQuestions = standardQuestions.filter((record) =>
     (record.fields as StandardQuestionFields).Functionalities?.includes(
@@ -26,8 +27,9 @@ const checkInUse = async (
     if (responses.includes("No")) {
       const abandoned: ProjectStatus = "Abandoned by Nonprofit";
 
-      Logger.warn(
-        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`
+      await logger.warn(
+        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`,
+        { writeToFile: true }
       );
 
       !dryRun &&
