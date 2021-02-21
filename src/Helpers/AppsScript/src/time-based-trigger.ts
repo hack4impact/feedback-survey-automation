@@ -79,10 +79,10 @@ const onResponse = (
     const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row.formEditLink}\n\nPlease manually upload the response to the airtable.`;
 
     form.addEditor(recipient);
-    if (process.env.DRY_RUN === "false") {
+    if (process.env.DRY_RUN === `false`) {
       MailApp.sendEmail(recipient, subject, body);
     }
-    Logger.log(`sending mail ${recipient} ${subject} ${body}`);
+    Logger.log(`Sending error email to ${recipient} about form ${title}`);
   }
 };
 
@@ -109,11 +109,18 @@ const sendReminder = (
 
   const fullTemplate = template.evaluate().getContent();
 
-  if (process.env.DRY_RUN === "false") {
+  if (process.env.DRY_RUN === `false`) {
     MailApp.sendEmail({
-      subject: "Please make sure you send the form",
+      subject: `Follow Up: Feedback Reminder for ${fields[FIELDS.projectName]}`,
       htmlBody: fullTemplate,
+      to: fields[FIELDS.representativeEmail],
+      cc: fields[FIELDS.chapterEmail],
     });
+    Logger.log(
+      `Sending two week reminder email to: ${
+        fields[FIELDS.representativeEmail]
+      } for project: ${fields[FIELDS.projectName]}`
+    );
   }
 
   row.responded = "Reminder Sent";
