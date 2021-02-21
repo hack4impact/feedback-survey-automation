@@ -62,7 +62,7 @@ const cleanUpDryRuns = async () => {
 
     const shouldDelete = shouldDeleteFile(fileData);
 
-    if (shouldDelete) deleteFile(drive, id);
+    if (shouldDelete) await deleteFile(drive, id);
   }
 };
 
