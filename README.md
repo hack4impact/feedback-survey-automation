@@ -1,4 +1,4 @@
-<p align="center"><img alt="Banner" width="1200" src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/banner-transparent.gif"></img></p>
+<p align="center"><img alt="Banner" width="1200" src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/banner-light.gif"></img></p>
 
 <h1 align="center">Feedback Survey Automation</h1>
 
