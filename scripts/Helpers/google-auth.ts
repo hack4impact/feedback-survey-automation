@@ -24,7 +24,7 @@ readline.Interface.prototype.questionAsync = promisify(
   readline.Interface.prototype.question
 );
 
-const TOKEN_PATH = join(__dirname, "..", "oauth-token.json");
+const TOKEN_PATH = join(__dirname, "..", "..", "oauth-token.json");
 
 const googleAuth = async (): Promise<Auth.OAuth2Client> => {
   const oAuth2Client = new google.auth.OAuth2(
@@ -34,6 +34,7 @@ const googleAuth = async (): Promise<Auth.OAuth2Client> => {
   );
 
   Logger.log("Authorizing...");
+
   let token: Auth.Credentials;
   try {
     const rawToken = await readFile(TOKEN_PATH, "utf-8");

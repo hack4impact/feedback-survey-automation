@@ -9,13 +9,11 @@ import yargs from "yargs/yargs";
 import googleAuth from "./Helpers/google-auth";
 import Logger from "../src/Helpers/Logger";
 
-const args = yargs(process.argv.slice(2))
-  .option("all", {
-    alias: "a",
-    type: "boolean",
-    default: false,
-  })
-  .env("AIRTABLE_AUTOMATION").argv;
+const args = yargs(process.argv.slice(2)).option("all", {
+  alias: "a",
+  type: "boolean",
+  default: false,
+}).argv;
 
 const cleanUpDryRuns = async () => {
   const oAuth2Client = await googleAuth();

@@ -43,11 +43,12 @@
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
     "contributors:check": "all-contributors check",
+    "upload-logs": "ts-node scripts/upload-logs.ts",
     "clean-up-stale-dry-runs": "ts-node scripts/clean-up-dry-runs.ts",
     "clean-up-all-dry-runs": "ts-node scripts/clean-up-dry-runs.ts --all"
   },
   "dependencies": {
-    "@hack4impact/logger": "^2.0.4",
+    "@hack4impact/logger": "^2.0.5",
     "airtable": "^0.10.1",
     "dotenv-safe": "^8.2.0",
     "googleapis": "^67.0.0",
@@ -65,6 +66,7 @@
     "@types/node": "^14.14.22",
     "@types/node-fetch": "^2.5.8",
     "@types/nodemailer": "^6.4.0",
+    "@types/prettier": "^2.2.1",
     "@types/recursive-readdir": "^2.2.0",
     "@types/yargs": "^15.0.12",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
