@@ -1,4 +1,4 @@
-export const SubmitIfNo = (
+const submitIfNo = (
   mcQuestion: GoogleAppsScript.Forms.MultipleChoiceItem
 ): void => {
   const choices = mcQuestion.getChoices();
@@ -38,7 +38,7 @@ export const SubmitIfNo = (
     newChoices.push(specialAnswerChoice);
 
     mcQuestion.setChoices(newChoices);
-  } else {
-    return;
   }
 };
+
+export default submitIfNo;

@@ -1,4 +1,4 @@
-import { RowArr, RowObj } from "./time-based-trigger";
+import { RowArr, RowObj } from "../get-form-responses/types";
 
 export const getFormStore = (desiredFormId: string): RowObj => {
   const idStore = SpreadsheetApp.openById(

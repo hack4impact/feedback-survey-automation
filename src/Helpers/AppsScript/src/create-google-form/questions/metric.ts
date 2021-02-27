@@ -1,4 +1,4 @@
-import { Section } from "../../../../Utils/types";
+import { Section } from "../../../../../Utils/types";
 import { createStandardQuestion } from "./standard";
 
 //no page breaks
@@ -20,16 +20,6 @@ export const createSuccessMetricQuestions = (
       createStandardQuestion(form, question);
     }
   }
-};
-
-export const getSuccessQuestionResponse = (
-  successQuestion: string,
-  itemResponse: GoogleAppsScript.Forms.ItemResponse,
-  body: Record<string, unknown>
-): void => {
-  body[successQuestion.replace("Metric Question", "Rating")] = parseInt(
-    itemResponse.getResponse() as string
-  );
 };
 
 export const getSuccessPairSection = (sections: Section[]): Section | null => {

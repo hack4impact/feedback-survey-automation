@@ -1,4 +1,4 @@
-import { TimePeriod } from "./types";
+import { MiscQuestion, TimePeriod } from "./types";
 
 // START CONSTANTS
 
@@ -75,6 +75,14 @@ export const DATA_FIELDS = {
 export const STANDARD_QUESTIONS = {
   startedUsing: "Have you successfully started using the product?",
 };
+
+export const MISC_QUESTIONS: MiscQuestion[] = [
+  {
+    title: "Your Name",
+    required: true,
+    field: DATA_FIELDS.responderName,
+  },
+];
 
 // END CONSTANTS
 

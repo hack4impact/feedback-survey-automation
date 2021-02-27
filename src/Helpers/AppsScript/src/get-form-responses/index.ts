@@ -1,43 +1,17 @@
-import { FIELDS, READABLE_TIME_PERIODS } from "../../../Utils/constants";
-import { TimePeriod } from "../../../Utils/types";
-import { getProjectData } from "./airtable/requests";
-import { createRowObject, modifyFormRow } from "./form-store";
-import { updateProjectSuccessTable } from "./main";
+import { FIELDS, READABLE_TIME_PERIODS } from "../../../../Utils/constants";
+import { createRowObject, modifyFormRow } from "../helpers/form-store";
+import {
+  getProjectData,
+  updateProjectSuccessTable,
+} from "../helpers/airtable/requests";
+import { RowArr, RowObj } from "./types";
 
 // START CONSTANTS
 // END CONSTANTS
 
 const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID ?? "";
 
-type FormID = string;
-
-type ProjectID = string;
-
-type SentDate = number;
-
-type RespondedStatus = "Yes" | "No" | "Reminder Sent" | "Expired";
-
-type FormEditLink = string;
-
-export type RowArr = [
-  FormID,
-  ProjectID,
-  TimePeriod,
-  SentDate,
-  RespondedStatus,
-  FormEditLink
-];
-
-export interface RowObj {
-  formId: FormID;
-  projectId: ProjectID;
-  timePeriod: TimePeriod;
-  sentDate: SentDate;
-  responded: RespondedStatus;
-  formEditLink: FormEditLink;
-}
-
-// Checks for new responses and sends follow up emails if no response recieved for 2 weeks
+// Checks for new responses and sends follow up emails if no response received for 2 weeks
 export const cronTrigger = (): void => {
   const idStore = SpreadsheetApp.openById(SPREADSHEET_ID);
   const data = idStore.getRange("A2:F1500").getValues() as RowArr[];

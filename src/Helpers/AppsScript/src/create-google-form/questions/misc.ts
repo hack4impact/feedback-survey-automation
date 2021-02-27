@@ -1,30 +1,16 @@
-import { DATA_FIELDS } from "../../../../Utils/constants";
 import {
   FormQuestion,
   Section,
   StandardQuestionFields,
   TimePeriod,
-} from "../../../../Utils/types";
-import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
-import { createSections } from "../main";
+} from "../../../../../Utils/types";
+import { MISC_QUESTIONS } from "../../../../../Utils/constants";
+import functionalityHandler from "./functionalities/handler";
+import createSections from "../create-sections";
 import { createStandardQuestion } from "./standard";
 
 // START CONSTANTS
 // END CONSTANTS
-
-interface MiscQuestion {
-  title: string;
-  field: string;
-  required: boolean;
-}
-
-const MISC_QUESTIONS: MiscQuestion[] = [
-  {
-    title: "Your Name",
-    required: true,
-    field: DATA_FIELDS.responderName,
-  },
-];
 
 export const createFirstPageQuestions = (
   form: GoogleAppsScript.Forms.Form,
@@ -37,6 +23,7 @@ export const createFirstPageQuestions = (
     item.setTitle(title);
     item.setRequired(required);
   });
+
   if (firstPageQuestions) {
     let onboardedQuestion: FormQuestion | null = null;
 
@@ -54,7 +41,7 @@ export const createFirstPageQuestions = (
     }
 
     if (onboardedQuestion) {
-      HandleCreationFunctionality(onboardedQuestion, "OnboardedLogic", {
+      functionalityHandler(onboardedQuestion, "OnboardedLogic", {
         form,
         onboardedDefaultSections: onboardedDefaultSections as Section[],
         enableFunctionality: true,
@@ -70,17 +57,4 @@ export const createFirstPageQuestions = (
     }
   }
   form.addPageBreakItem();
-};
-
-export const getMiscQuestionResponse = (
-  question: string,
-  itemResponse: GoogleAppsScript.Forms.ItemResponse,
-  body: Record<string, unknown>
-): void => {
-  const misc = MISC_QUESTIONS.find(({ title }) => question === title);
-
-  if (misc !== undefined) {
-    const response = itemResponse.getResponse();
-    body[misc.field] = response;
-  }
 };

@@ -1,8 +1,8 @@
-import { FunctionalityArgs, Section } from "../../../../../Utils/types";
-import { createSections } from "../../main";
+import { FunctionalityArgs, Section } from "../../../../../../Utils/types";
+import createSections from "../../create-sections";
 import { createStandardQuestion } from "../standard";
 
-export const OnboardedLogic = (
+const onboardedLogic = (
   question: GoogleAppsScript.Forms.MultipleChoiceItem,
   args: FunctionalityArgs
 ): void => {
@@ -53,3 +53,5 @@ const createHiddenSections = (
   const skipToStandardQuestions = form.addPageBreakItem();
   return skipToStandardQuestions;
 };
+
+export default onboardedLogic;

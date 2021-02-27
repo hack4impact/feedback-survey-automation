@@ -76,6 +76,12 @@ export type AppsScriptError =
   | "No Success Metric Questions found"
   | "No Time Period Found";
 
+export interface MiscQuestion {
+  title: string;
+  field: string;
+  required: boolean;
+}
+
 export interface StandardQuestion {
   id: string;
   fields: StandardQuestionFields;

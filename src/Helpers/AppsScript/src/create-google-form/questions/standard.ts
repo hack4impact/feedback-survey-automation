@@ -1,20 +1,11 @@
-import { FIELDS, STANDARD_QUESTIONS } from "../../../../Utils/constants";
 import {
   FlattenedData,
   FunctionalityArgs,
   Section,
   StandardQuestionFields,
   FormQuestion,
-} from "../../../../Utils/types";
-import { HandleCreationFunctionality } from "./functionalities/CreationFunctionalityHandler";
-import { updateProject } from "../airtable/requests";
-
-// START CONSTANTS
-// END CONSTANTS
-
-export const getRequiredValue = (
-  req: StandardQuestionFields["Required"]
-): boolean => (typeof req === "string" ? JSON.parse(req.toLowerCase()) : true);
+} from "../../../../../Utils/types";
+import functionalityHandler from "./functionalities/handler";
 
 export const createStandardQuestion = (
   form: GoogleAppsScript.Forms.Form,
@@ -61,52 +52,16 @@ export const createStandardQuestion = (
   }
 
   formQuestion.setTitle(Question);
-  formQuestion.setRequired(getRequiredValue(Required));
+  formQuestion.setRequired(
+    typeof Required === "string" ? JSON.parse(Required.toLowerCase()) : true
+  );
 
   if (Array.isArray(question.Functionalities)) {
     for (const functionality of question.Functionalities)
-      HandleCreationFunctionality(formQuestion, functionality, args);
+      functionalityHandler(formQuestion, functionality, args);
   }
 
   return formQuestion;
-};
-
-export const getStandardQuestionResponse = (
-  standardQuestion: StandardQuestionFields,
-  itemResponse: GoogleAppsScript.Forms.ItemResponse,
-  projectData: Airtable.Record<any>
-): string | number | string[] | string[][] | undefined => {
-  const { Question, Type } = standardQuestion;
-
-  if (Question === STANDARD_QUESTIONS.startedUsing) {
-    updateProject(projectData.id, {
-      [FIELDS.onboarded]: itemResponse.getResponse(),
-    });
-  }
-
-  switch (Type) {
-    case "Single Line Text": {
-      return itemResponse.getResponse();
-    }
-    case "Multi Line Text": {
-      return itemResponse.getResponse();
-    }
-    case "Integer": {
-      return parseInt(itemResponse.getResponse() as string);
-    }
-    case "Yes/No": {
-      return itemResponse.getResponse();
-    }
-    case "0-10": {
-      return parseInt(itemResponse.getResponse() as string);
-    }
-    case "Date": {
-      return itemResponse.getResponse() || undefined;
-    }
-    default: {
-      return itemResponse.getResponse();
-    }
-  }
 };
 
 export const getAsSections = (

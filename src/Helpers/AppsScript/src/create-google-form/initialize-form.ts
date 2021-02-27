@@ -1,5 +1,5 @@
-import { READABLE_TIME_PERIODS } from "../../../Utils/constants";
-import { FlattenedData, TimePeriod } from "../../../Utils/types";
+import { READABLE_TIME_PERIODS } from "../../../../Utils/constants";
+import { FlattenedData, TimePeriod } from "../../../../Utils/types";
 
 // START CONSTANTS
 // END CONSTANTS
