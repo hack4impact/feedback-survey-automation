@@ -10,7 +10,6 @@ import {
   READABLE_TIME_PERIODS,
   timePeriodExpiryInWeeks,
 } from "../../Utils/constants";
-import { hasItBeenXWeeks } from "../General/time-checks";
 
 const checkReminderNeeded = async (
   data: FlattenedData,
@@ -27,29 +26,30 @@ const checkReminderNeeded = async (
       moment().subtract(timeAmount, getTimeUnit(timePeriod))
     ); // The current date minus the time units (ex. the date 6 months ago)
 
-    // Is the delivery date before the milestone?
-    /* Also, if its X weeks too late to send an email for a certain time period, it won't send a reminder email */
+    const expiryDate = moment(deliveryDate).add(
+      timePeriodExpiryInWeeks,
+      "weeks"
+    );
 
-    if (
-      milestone > deliveryDate &&
-      !hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
-    ) {
-      await logger.info(
-        `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`,
-        { writeToFile: true }
-      );
-      return timePeriod;
-    } else if (
-      milestone > deliveryDate &&
-      hasItBeenXWeeks(deliveryDate, milestone, timePeriodExpiryInWeeks)
-    ) {
-      await logger.warn(
-        `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`,
-        { writeToFile: true }
-      );
-      break;
+    // Is the delivery date before the milestone?
+    if (milestone > deliveryDate) {
+      if (expiryDate.isAfter(milestone, "milliseconds")) {
+        await logger.info(
+          `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`,
+          { writeToFile: true }
+        );
+        return timePeriod;
+      } else {
+        /* If its X weeks too late to send an email for a certain time period, it won't send a reminder email */
+        await logger.warn(
+          `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`,
+          { writeToFile: true }
+        );
+        break;
+      }
     }
   }
+
   return null;
 };
 
