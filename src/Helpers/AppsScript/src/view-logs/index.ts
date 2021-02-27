@@ -1,13 +1,19 @@
 import { getAllDatesInRange } from "./date-helpers";
 
-export const doGet = (request: GoogleAppsScript.Events.DoGet): void => {
+export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
   // if (!request.parameters["password"] || request.parameters["password"] !== process.env.APPS_SCRIPT_PASSWORD) {
   //   return;
   // }
 
-  const date = request.parameters["date"];
-  const start_date = request.parameters["start"];
-  const end_date = request.parameters["end"];
+  const date = Array.isArray(request.parameters["date"])
+    ? request.parameters["date"][0]
+    : undefined;
+  const start_date = Array.isArray(request.parameters["start"])
+    ? request.parameters["start"][0]
+    : undefined;
+  const end_date = Array.isArray(request.parameters["end"])
+    ? request.parameters["end"][0]
+    : undefined;
 
   if (validateDateFormat(date)) {
     const files = findFiles([date]);
@@ -15,15 +21,14 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): void => {
     for (const file of files) {
       string += file.getName() + "     " + "\n" + "       ";
     }
-    ContentService.createTextOutput().append(string);
-    return;
+    return ContentService.createTextOutput().append(string);
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
-    const files = findFiles([date]);
+    const files = findFiles([start_date, end_date]);
     let string = "";
     for (const file of files) {
       string += file.getName() + "     " + "\n" + "       ";
     }
-    ContentService.createTextOutput().append(string);
+    return ContentService.createTextOutput().append(string);
   } else {
     return;
   }
