@@ -18,14 +18,14 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
   if (validateDateFormat(date)) {
     const files = findFiles([date]);
     let string = "";
-    for (const file of files) {
+    for (const file of files.main_logs) {
       string += file.getName() + "     " + "\n" + "       ";
     }
     return ContentService.createTextOutput().append(string);
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
     const files = findFiles([start_date, end_date]);
     let string = "";
-    for (const file of files) {
+    for (const file of files.main_logs) {
       string += file.getName() + "     " + "\n" + "       ";
     }
     return ContentService.createTextOutput().append(string);
@@ -45,31 +45,55 @@ const validateDateFormat = (date: string | undefined) => {
 
 const findFiles = (
   dates: string[] | undefined
-): GoogleAppsScript.Drive.File[] => {
+): {
+  main_logs: GoogleAppsScript.Drive.File[];
+  apps_script_logs: GoogleAppsScript.Drive.File[];
+} => {
   if (!dates || dates.length === 0 || dates.length > 2) {
-    return [];
+    return { main_logs: [], apps_script_logs: [] };
   }
 
   const singleDate: string | false = dates.length === 1 ? dates[0] : false;
-  const files: GoogleAppsScript.Drive.File[] = [];
-  const logs_folder = DriveApp.getFolderById(process.env.LOGS_FOLDER as string);
+  const main_log_files: GoogleAppsScript.Drive.File[] = [],
+    apps_script_log_files = [];
+  const main_logs_folder = DriveApp.getFolderById(
+    process.env.LOGS_FOLDER as string
+  );
+  const apps_script_logs_folder = DriveApp.getFolderById(
+    process.env.APPS_SCRIPT_LOGS_FOLDER as string
+  );
 
   if (singleDate) {
-    const file_iterator = logs_folder.getFilesByName(singleDate);
+    let file_iterator = main_logs_folder.getFilesByName(singleDate);
     while (file_iterator.hasNext()) {
       const file = file_iterator.next();
-      files.push(file);
+      main_log_files.push(file);
     }
-    return files;
+
+    file_iterator = apps_script_logs_folder.getFilesByName(singleDate);
+    while (file_iterator.hasNext()) {
+      const file = file_iterator.next();
+      apps_script_log_files.push(file);
+    }
   } else {
     const allDates = getAllDatesInRange(dates[0], dates[1]);
     for (const date of allDates) {
-      const file_iterator = logs_folder.getFilesByName(date);
+      let file_iterator = main_logs_folder.getFilesByName(date);
       while (file_iterator.hasNext()) {
         const file = file_iterator.next();
-        files.push(file);
+        main_log_files.push(file);
+      }
+
+      file_iterator = apps_script_logs_folder.getFilesByName(date);
+      while (file_iterator.hasNext()) {
+        const file = file_iterator.next();
+        apps_script_log_files.push(file);
       }
     }
-    return files;
   }
+
+  return {
+    main_logs: main_log_files,
+    apps_script_logs: apps_script_log_files,
+  };
 };
