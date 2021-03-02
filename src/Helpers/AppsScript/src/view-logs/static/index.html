@@ -59,6 +59,24 @@
     border-bottom: 0px;
   }
 
+  .box-row.dropdown .dropdown-toggle-button {
+    transition: transform 0.1s;
+    display: inline-block;
+  }
+
+  .box-row.dropdown .dropdown-toggle-button.off {
+    transform: rotate(0deg);
+  }
+
+  .box-row.dropdown .dropdown-toggle-button.on {
+    transform: rotate(180deg);
+  }
+
+  .box-row.dropdown .hidden-content {
+    height: 0px;
+    transition: height 2s;
+  }
+
   .pick-date {
     border-bottom: 1.7px solid black;
     min-width: 4.5rem;
@@ -191,17 +209,31 @@
         </button>
       </div>
 
-      <div class="box-row d-flex align-items-center">
-        <span class="mr-auto">15 reminder emails sent</span>
-        <button class="button-icon-right">
-          <i class="mdi mdi-arrow-down-drop-circle-outline"></i>
-        </button>
+      <div class="box-row dropdown">
+        <div class="d-flex align-items-center">
+          <span class="mr-auto">15 reminder emails sent</span>
+          <button class="button-icon-right">
+            <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
+          </button>
+        </div>
+        <div class="hidden-content">
+          <br>
+          <br>
+          <br>
+        </div>
       </div>
-      <div class="box-row d-flex align-items-center">
-        <span class="mr-auto">3 responses uploaded</span>
-        <button class="button-icon-right">
-          <i class="mdi mdi-arrow-down-drop-circle-outline"></i>
-        </button>
+      <div class="box-row dropdown">
+        <div class="d-flex align-items-center">
+          <span class="mr-auto">3 responses uploaded</span>
+          <button class="button-icon-right">
+            <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
+          </button>
+        </div>
+        <div class="hidden-content">
+          <br>
+          <br>
+          <br>
+        </div>
       </div>
     </div>
 
@@ -335,6 +367,25 @@
         }
       }
     });
+  </script>
+
+  <script>
+    const dropdowns = document.querySelectorAll(".box-row.dropdown");
+    for (const dropdown of dropdowns) {
+      const dropdownToggle = dropdown.querySelector(".dropdown-toggle-button");
+      const hiddenContent = dropdown.querySelector(".hidden-content");
+      dropdownToggle.classList.add("off");
+      dropdownToggle.onclick = function(event) {
+        if (dropdownToggle.classList.contains("off")) {
+          hiddenContent.style.height = "auto";
+        } else {
+          hiddenContent.style.height = "0px";
+        }
+
+        dropdownToggle.classList.toggle("off");
+        dropdownToggle.classList.toggle("on");
+      }
+    }
   </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
