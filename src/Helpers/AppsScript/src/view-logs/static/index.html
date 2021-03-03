@@ -1,399 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>H4I Feedback Automation Logs</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H4I Feedback Automation Logs</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css" />
-</head>
+  <style>
+    :root {
+      --border: 1px solid rgba(0, 0, 0, 0.125);
+      --blurred-color: rgba(0, 0, 0, 0.201);
+    }
 
-<style>
-  :root {
-    --border: 1px solid rgba(0, 0, 0, .125);
-    --blurred-color: rgba(0, 0, 0, 0.201);
-  }
-
-  #logo {
-    height: 2.5rem;
-  }
-
-  #main-container {
-    width: 50rem;
-    margin: auto;
-    padding: 0.5rem;
-  }
-
-  #log-selector {
-    margin-bottom: 2rem;
-  }
-
-  .box {
-    border-radius: 5px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .box-row {
-    padding: 1rem;
-    border-bottom: var(--border);
-  }
-
-  .box-row button {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-  }
-
-  .button-icon-right {
-    padding-right: 1rem;
-    font-size: 2rem;
-  }
-
-  .box-row:last-of-type {
-    border-bottom: 0px;
-  }
-
-  .box-row.dropdown .dropdown-toggle-button {
-    transition: transform 0.1s;
-    display: inline-block;
-  }
-
-  .box-row.dropdown .dropdown-toggle-button.off {
-    transform: rotate(0deg);
-  }
-
-  .box-row.dropdown .dropdown-toggle-button.on {
-    transform: rotate(180deg);
-  }
-
-  .box-row.dropdown .hidden-content {
-    height: 0px;
-    transition: height 2s;
-  }
-
-  .pick-date {
-    border-bottom: 1.7px solid black;
-    min-width: 4.5rem;
-    display: inline-block;
-    cursor: pointer;
-    height: 1em;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-  }
-
-  .filled-date {
-    position: relative;
-    bottom: 1px;
-    height: 1.5em;
-  }
-
-  #blurred-date-container {
-    white-space: nowrap;
-    display: inline-block;
-  }
-
-  #blurred-date-container>.blurred-date {
-    position: relative;
-    top: 2px;
-  }
-
-  .blurred-date {
-    color: var(--blurred-color);
-    border-bottom-color: var(--blurred-color);
-  }
-
-  .blurred-date.filled-date {
-    color: black;
-    border-bottom-color: unset;
-    top: -.5px !important;
-  }
-
-  .mw-95 {
-    max-width: 95%;
-  }
-
-  .black-overlay {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, .4);
-  }
-
-  #date-picker-box {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 5px;
-  }
-
-  #date-picker-box h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.8rem;
-  }
-
-  #date-picker-box button {
-    border: none;
-    background-color: transparent;
-    color: blue;
-    font-weight: 600;
-    padding-left: 0px;
-  }
-
-  #date-picker-toolbox {
-    margin-top: 1.5rem;
-  }
-
-  .blurred-icon {
-    opacity: 0.2;
-  }
-
-  @media (max-width: 440px) {
     #logo {
-      margin-bottom: .6rem;
+      height: 2.5rem;
     }
-  }
-</style>
 
-<body>
+    #main-container {
+      width: 50rem;
+      margin: auto;
+      padding: 0.5rem;
+    }
 
-  <nav class="navbar navbar-light bg-light d-flex">
-    <a class="navbar-brand mr-auto" href="https://hack4impact.org">
-      <img src="https://hack4impact.org/svg/logo.svg" alt="Hack4Impact Logo" id="logo">
-    </a>
+    #log-selector {
+      margin-bottom: 2rem;
+    }
 
-    <span class="">
-      Feedback Automation Logs
-    </span>
-  </nav>
+    .box {
+      border-radius: 5px;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
 
-  <div id="main-container" class="mw-95">
-    <div id="log-selector" class="box card">
-      <div class="box-row d-flex">
-        <nav id="log-selector-nav" class="d-flex align-items-center mr-auto">Show logs from
-          <span class="pick-date" id="from-date"></span>
-          <span class="blurred-date" id="blurred-date-container">
-            to
-            <span class="pick-date blurred-date" id="to-date"></span>
-          </span>
-        </nav>
-        <button class="button-icon-right">
-          <i class="mdi mdi-arrow-right blurred-icon" id="change-date-button">
+    .box-row {
+      padding: 1rem;
+      border-bottom: var(--border);
+    }
 
-          </i>
-        </button>
-      </div>
-      <div class="box-row">
-        Currently showing: logs from the last week
-      </div>
+    .box-row button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
 
-    </div>
+    .button-icon-right {
+      padding-right: 1rem;
+      font-size: 2rem;
+    }
 
-    <div class="log-container box card">
-      <div class="box-row d-flex align-items-center">
-        <span class="mr-auto">
-          3/20/2021
-        </span>
-        <button class="button-icon-right">
-          <i class="mdi mdi-check"></i>
-        </button>
-      </div>
+    .box-row:last-of-type {
+      border-bottom: 0px;
+    }
 
-      <div class="box-row dropdown">
-        <div class="d-flex align-items-center">
-          <span class="mr-auto">15 reminder emails sent</span>
+    .box-row.dropdown .dropdown-toggle-button {
+      transition: transform 0.1s;
+      display: inline-block;
+    }
+
+    .box-row.dropdown .dropdown-toggle-button.off {
+      transform: rotate(0deg);
+    }
+
+    .box-row.dropdown .dropdown-toggle-button.on {
+      transform: rotate(180deg);
+    }
+
+    .box-row.dropdown .hidden-content {
+      height: 0px;
+      transition: height 2s;
+    }
+
+    .pick-date {
+      border-bottom: 1.7px solid black;
+      min-width: 4.5rem;
+      display: inline-block;
+      cursor: pointer;
+      height: 1em;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .filled-date {
+      position: relative;
+      bottom: 1px;
+      height: 1.5em;
+    }
+
+    #blurred-date-container {
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    #blurred-date-container > .blurred-date {
+      position: relative;
+      top: 2px;
+    }
+
+    .blurred-date {
+      color: var(--blurred-color);
+      border-bottom-color: var(--blurred-color);
+    }
+
+    .blurred-date.filled-date {
+      color: black;
+      border-bottom-color: unset;
+      top: -0.5px !important;
+    }
+
+    .mw-95 {
+      max-width: 95%;
+    }
+
+    .black-overlay {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #date-picker-box {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 5px;
+    }
+
+    #date-picker-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    #date-picker-box button {
+      border: none;
+      background-color: transparent;
+      color: blue;
+      font-weight: 600;
+      padding-left: 0px;
+    }
+
+    #date-picker-toolbox {
+      margin-top: 1.5rem;
+    }
+
+    .blurred-icon {
+      opacity: 0.2;
+    }
+
+    @media (max-width: 440px) {
+      #logo {
+        margin-bottom: 0.6rem;
+      }
+    }
+  </style>
+
+  <body>
+    <nav class="navbar navbar-light bg-light d-flex">
+      <a class="navbar-brand mr-auto" href="https://hack4impact.org">
+        <img
+          src="https://hack4impact.org/svg/logo.svg"
+          alt="Hack4Impact Logo"
+          id="logo"
+        />
+      </a>
+
+      <span class=""> Feedback Automation Logs </span>
+    </nav>
+
+    <div id="main-container" class="mw-95">
+      <div id="log-selector" class="box card">
+        <div class="box-row d-flex">
+          <nav id="log-selector-nav" class="d-flex align-items-center mr-auto">
+            Show logs from
+            <span class="pick-date" id="from-date"></span>
+            <span class="blurred-date" id="blurred-date-container">
+              to
+              <span class="pick-date blurred-date" id="to-date"></span>
+            </span>
+          </nav>
           <button class="button-icon-right">
-            <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
+            <i class="mdi mdi-arrow-right blurred-icon" id="change-date-button">
+            </i>
           </button>
         </div>
-        <div class="hidden-content">
-          <br>
-          <br>
-          <br>
-        </div>
+        <div class="box-row">Currently showing: logs from the last week</div>
       </div>
-      <div class="box-row dropdown">
-        <div class="d-flex align-items-center">
-          <span class="mr-auto">3 responses uploaded</span>
+
+      <div class="log-container box card">
+        <div class="box-row d-flex align-items-center">
+          <span class="mr-auto"> 3/20/2021 </span>
           <button class="button-icon-right">
-            <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
+            <i class="mdi mdi-check"></i>
           </button>
         </div>
-        <div class="hidden-content">
-          <br>
-          <br>
-          <br>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center">
+            <span class="mr-auto">15 reminder emails sent</span>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+          </div>
+          <div class="hidden-content">
+            <br />
+            <br />
+            <br />
+          </div>
+        </div>
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center">
+            <span class="mr-auto">3 responses uploaded</span>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+          </div>
+          <div class="hidden-content">
+            <br />
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
+
+      <div class="log-container box card">
+        <div class="box-row">3/21/2021</div>
+        <div class="box-row">12 reminder emails sent</div>
+        <div class="box-row">2 responses uploaded</div>
+      </div>
+    </div>
+
+    <div class="black-overlay" id="date-picker-container">
+      <div id="date-picker-box">
+        <h3>Select Date:</h3>
+        <input type="date" id="date-picker" />
+        <div id="date-picker-toolbox">
+          <button id="select-date">Select Date</button>
+          <button id="clear-date">Clear Date</button>
         </div>
       </div>
     </div>
 
-    <div class="log-container box card">
-      <div class="box-row">
-        3/21/2021
-      </div>
-      <div class="box-row">
-        12 reminder emails sent
-      </div>
-      <div class="box-row">
-        2 responses uploaded
-      </div>
-    </div>
+    <script>
+      function useDatePicker(currentDateString) {
+        const currentDate = parseDate(currentDateString);
+        return new Promise((resolve) => {
+          const datePickerContainer = document.getElementById(
+            "date-picker-container"
+          );
+          const datePicker = document.getElementById("date-picker");
+          const selectButton = document.getElementById("select-date");
+          const clearButton = document.getElementById("clear-date");
 
+          currentDate
+            ? (datePicker.valueAsDate = currentDate)
+            : (datePicker.value = null);
 
-  </div>
-
-
-  <div class="black-overlay" id="date-picker-container">
-    <div id="date-picker-box">
-      <h3>Select Date:</h3>
-      <input type="date" id="date-picker">
-      <div id="date-picker-toolbox">
-        <button id="select-date">Select Date</button>
-        <button id="clear-date">Clear Date</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function useDatePicker(currentDateString) {
-      const currentDate = parseDate(currentDateString);
-      return new Promise((resolve) => {
-        const datePickerContainer = document.getElementById("date-picker-container");
-        const datePicker = document.getElementById("date-picker");
-        const selectButton = document.getElementById("select-date");
-        const clearButton = document.getElementById("clear-date");
-
-        currentDate ? datePicker.valueAsDate = currentDate : datePicker.value = null;
-
-        function clearDate() {
-          resolve("");
-          datePickerContainer.style.display = "none";
-        }
-
-        function selectDate() {
-          if (!datePicker.valueAsDate) {
-            return clearDate();
+          function clearDate() {
+            resolve("");
+            datePickerContainer.style.display = "none";
           }
-          const modifiedDate = new Date(datePicker.valueAsDate);
-          modifiedDate.setDate(modifiedDate.getDate() + 1);
-          resolve(modifiedDate);
-          datePickerContainer.style.display = "none";
+
+          function selectDate() {
+            if (!datePicker.valueAsDate) {
+              return clearDate();
+            }
+            const modifiedDate = new Date(datePicker.valueAsDate);
+            modifiedDate.setDate(modifiedDate.getDate() + 1);
+            resolve(modifiedDate);
+            datePickerContainer.style.display = "none";
+          }
+
+          datePickerContainer.style.display = "flex";
+
+          let selectListener = selectButton.addEventListener(
+            "click",
+            function () {
+              selectDate();
+              removeEventListener("click", selectListener);
+            }
+          );
+
+          let clearListener = clearButton.addEventListener(
+            "click",
+            function () {
+              clearDate();
+              removeEventListener("click", clearListener);
+            }
+          );
+        });
+      }
+
+      function parseDate(dateString) {
+        if (!validateDate) return null;
+        let [month, day, year] = dateString
+          .split("/")
+          .map((part) => parseInt(part));
+        month--;
+        const date = new Date(year, month, day);
+        return date;
+      }
+
+      function validateDate(dateString) {
+        if (!dateString || dateString.split("/").length !== 3) return false;
+        return true;
+      }
+
+      function outputDate(date) {
+        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+      }
+
+      function checkIfDatesWork() {
+        const toDate = document.getElementById("to-date");
+        const fromDate = document.getElementById("from-date");
+        return (
+          (validateDate(fromDate.innerText) &&
+            validateDate(toDate.innerText) &&
+            parseDate(fromDate.innerText) <= parseDate(toDate.innerText)) ||
+          (validateDate(fromDate.innerText) && toDate.innerText === "")
+        );
+      }
+    </script>
+
+    <script>
+      const dateChangeButton = document.getElementById("change-date-button");
+
+      dateChangeButton.onclick = function () {
+        if (this.classList.contains("dates-work")) {
+          alert("Let's go");
         }
+      };
 
-        datePickerContainer.style.display = "flex";
-
-        let selectListener = selectButton.addEventListener("click", function() {
-          selectDate();
-          removeEventListener("click", selectListener);
-        });
-
-        let clearListener = clearButton.addEventListener("click", function() {
-          clearDate();
-          removeEventListener("click", clearListener);
-        });
-
+      document.querySelectorAll(".pick-date").forEach((element) => {
+        element.onclick = async function (event) {
+          const pick_date = element;
+          const date = await useDatePicker(pick_date.innerText);
+          if (date instanceof Date) {
+            pick_date.innerText = outputDate(date);
+            pick_date.classList.add("filled-date");
+            // If its the blurred date, add filled class to parent as well so "to" is given the effect
+            if (pick_date.classList.contains("blurred-date")) {
+              pick_date.parentElement.classList.add("filled-date");
+            }
+          } else {
+            pick_date.innerText = "";
+            pick_date.classList.remove("filled-date");
+            // If its the blurred date, remove filled class to parent as well so "to" is given the effect
+            if (pick_date.classList.contains("blurred-date")) {
+              pick_date.parentElement.classList.remove("filled-date");
+            }
+          }
+          if (checkIfDatesWork()) {
+            dateChangeButton.classList.remove("blurred-icon");
+            dateChangeButton.classList.add("dates-work");
+          } else {
+            dateChangeButton.classList.add("blurred-icon");
+            dateChangeButton.classList.remove("dates-work");
+          }
+        };
       });
-    }
+    </script>
 
-    function parseDate(dateString) {
-      if (!validateDate) return null;
-      let [month, day, year] = dateString.split("/").map(part => parseInt(part));
-      month--;
-      const date = new Date(year, month, day);
-      return date;
-    }
-
-    function validateDate(dateString) {
-      if (!dateString || dateString.split("/").length !== 3) return false;
-      return true;
-    }
-
-    function outputDate(date) {
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    }
-
-    function checkIfDatesWork() {
-      const toDate = document.getElementById("to-date");
-      const fromDate = document.getElementById("from-date");
-      return (validateDate(fromDate.innerText) && validateDate(toDate.innerText) && parseDate(fromDate.innerText) <= parseDate(toDate.innerText)) || (validateDate(fromDate.innerText) && toDate.innerText==="");
-    }
-  </script>
-
-  <script>
-    const dateChangeButton = document.getElementById("change-date-button");
-
-    dateChangeButton.onclick = function() {
-      if (this.classList.contains("dates-work")) {
-        alert("Let's go");
-      }
-    }
-
-
-    document.querySelectorAll(".pick-date").forEach(element => {
-      element.onclick = async function (event) {
-        const pick_date = element;
-        const date = await useDatePicker(pick_date.innerText);
-        if (date instanceof Date) {
-          pick_date.innerText = outputDate(date);
-          pick_date.classList.add("filled-date");
-          // If its the blurred date, add filled class to parent as well so "to" is given the effect
-          if (pick_date.classList.contains("blurred-date")) {
-            pick_date.parentElement.classList.add("filled-date");
+    <script>
+      const dropdowns = document.querySelectorAll(".box-row.dropdown");
+      for (const dropdown of dropdowns) {
+        const dropdownToggle = dropdown.querySelector(
+          ".dropdown-toggle-button"
+        );
+        const hiddenContent = dropdown.querySelector(".hidden-content");
+        dropdownToggle.classList.add("off");
+        dropdownToggle.onclick = function (event) {
+          if (dropdownToggle.classList.contains("off")) {
+            hiddenContent.style.height = "auto";
+          } else {
+            hiddenContent.style.height = "0px";
           }
-        } else {
-          pick_date.innerText = "";
-          pick_date.classList.remove("filled-date");
-          // If its the blurred date, remove filled class to parent as well so "to" is given the effect
-          if (pick_date.classList.contains("blurred-date")) {
-            pick_date.parentElement.classList.remove("filled-date");
-          }
-        }
-        if (checkIfDatesWork()) {
-          dateChangeButton.classList.remove("blurred-icon");
-          dateChangeButton.classList.add("dates-work");
-        } else {
-          dateChangeButton.classList.add("blurred-icon");
-          dateChangeButton.classList.remove("dates-work");
-        }
+
+          dropdownToggle.classList.toggle("off");
+          dropdownToggle.classList.toggle("on");
+        };
       }
-    });
-  </script>
+    </script>
 
-  <script>
-    const dropdowns = document.querySelectorAll(".box-row.dropdown");
-    for (const dropdown of dropdowns) {
-      const dropdownToggle = dropdown.querySelector(".dropdown-toggle-button");
-      const hiddenContent = dropdown.querySelector(".hidden-content");
-      dropdownToggle.classList.add("off");
-      dropdownToggle.onclick = function(event) {
-        if (dropdownToggle.classList.contains("off")) {
-          hiddenContent.style.height = "auto";
-        } else {
-          hiddenContent.style.height = "0px";
-        }
-
-        dropdownToggle.classList.toggle("off");
-        dropdownToggle.classList.toggle("on");
-      }
-    }
-  </script>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-    crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
