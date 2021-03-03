@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  dev-build:
+  dev-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -20,6 +20,12 @@ jobs:
       - name: Setup Environment Variables
         run: echo '${{ secrets.DEV_ENV }}' > .env
 
+      - name: Setup Google Credentials
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Setup Google OAuth
+        run: echo '${{ secrets.GOOGLE_OAUTH }}' > oauth-token.json
+
       - name: Install Dependencies
         run: npm ci
 
@@ -29,7 +35,11 @@ jobs:
       - name: Run Script
         run: npm run make:prod
 
-  # prod-build:
+      - name: Upload Logs
+        run: npm run upload-logs
+
+  # prod-run:
+  #   needs: dev-run
   #   runs-on: ubuntu-latest
   #   steps:
   #     - name: Checkout Repository
@@ -43,6 +53,12 @@ jobs:
   #     - name: Setup Environment Variables
   #       run: echo '${{ secrets.PROD_ENV }}' > .env
 
+  #     - name: Setup Google Credentials
+  #       run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+  #     - name: Setup Google OAuth
+  #       run: echo '${{ secrets.GOOGLE_OAUTH }}' > oauth-token.json
+
   #     - name: Install Dependencies
   #       run: npm ci
 
@@ -51,3 +67,6 @@ jobs:
 
   #     - name: Run Script
   #       run: npm run make:prod
+
+  #     - name: Upload Logs
+  #       run: npm run upload-logs

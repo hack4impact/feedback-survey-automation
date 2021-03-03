@@ -18,7 +18,7 @@ const uploadLogs = async () => {
     auth: oAuth2Client,
   });
 
-  const name = moment().format("MM-DD-YYYY") + ".json";
+  const name = moment().format("YYYY-MM-DD") + ".json";
 
   Logger.line();
   Logger.log("Getting logs...");
@@ -33,7 +33,7 @@ const uploadLogs = async () => {
   drive.files.create({
     requestBody: {
       name,
-      parents: [process.env.LOGS_FOLDER as string],
+      parents: [process.env.MAIN_LOGS_FOLDER as string],
     },
     media: {
       mimeType: "application/json",
