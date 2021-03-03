@@ -42,6 +42,7 @@ const getTemplate = async (
       data[createPublishedURLField(timePeriod)] ?? "Unknown",
     "readable-time-period":
       READABLE_TIME_PERIODS[timePeriod] ?? "Unknown Time Period",
+    "airtable-base-id": process.env.AIRTABLE_BASE_ID,
   };
 
   Object.entries(HTML_TEMPLATE_VARIABLES).forEach(([key, value]) => {
