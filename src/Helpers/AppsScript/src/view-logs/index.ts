@@ -57,7 +57,7 @@ const findFiles = (
   const main_log_files: GoogleAppsScript.Drive.File[] = [],
     apps_script_log_files = [];
   const main_logs_folder = DriveApp.getFolderById(
-    process.env.LOGS_FOLDER as string
+    process.env.MAIN_LOGS_FOLDER as string
   );
   const apps_script_logs_folder = DriveApp.getFolderById(
     process.env.APPS_SCRIPT_LOGS_FOLDER as string
