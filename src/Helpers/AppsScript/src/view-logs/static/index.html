@@ -59,6 +59,12 @@
     border-bottom: 0px;
   }
 
+  .box-row.dropdown {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
+
   .box-row.dropdown .dropdown-toggle-button {
     transition: transform 0.1s;
     display: inline-block;
@@ -75,6 +81,13 @@
   .box-row.dropdown .hidden-content {
     height: 0px;
     transition: height 2s;
+    overflow: hidden;
+  }
+
+  .dropdown-box-row-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
   }
 
   .pick-date {
@@ -158,9 +171,36 @@
     opacity: 0.2;
   }
 
+  .log-row {
+    padding-top: 1rem;
+    padding-bottom: 0.3rem;
+    width: 100%;
+  }
+
+  .log-row ul {
+    list-style-type: none;
+    padding-left: 1rem;
+  }
+
+  .log-row ul >li {
+    margin-bottom: 1rem;
+  }
+
+  .log-row:nth-child(odd) {
+    background-color: rgba(0, 0, 0, .05);
+  }
+
+  label {
+    margin: 0px;
+  }
+
   @media (max-width: 440px) {
     #logo {
       margin-bottom: .6rem;
+    }
+
+    nav.navbar {
+      padding-bottom: 1.3rem;
     }
   }
 </style>
@@ -196,6 +236,10 @@
       <div class="box-row">
         Currently showing: logs from the last week
       </div>
+      <div class="box-row d-flex align-items-center" id="show-only-errors-container">
+        <input type="checkbox" name="warnings">
+        <label for="warnings" style="margin-left: 8px;">Show only erroneous logs</label>
+      </div>
 
     </div>
 
@@ -210,20 +254,35 @@
       </div>
 
       <div class="box-row dropdown">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center dropdown-box-row-padding">
           <span class="mr-auto">15 reminder emails sent</span>
           <button class="button-icon-right">
             <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
           </button>
         </div>
         <div class="hidden-content">
-          <br>
-          <br>
-          <br>
+          <div class="log-row">
+            <ul>
+              <li>Message: This is the message</li>
+              <li>Timestamp: 03/14/2021 at 4:30 PM</li>
+            </ul>
+          </div>
+          <div class="log-row">
+            <ul>
+              <li>Message: This is the message</li>
+              <li>Timestamp: 03/14/2021 at 4:30 PM</li>
+            </ul>
+          </div>
+          <div class="log-row">
+            <ul>
+              <li>Message: This is the message</li>
+              <li>Timestamp: 03/14/2021 at 4:30 PM</li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="box-row dropdown">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center dropdown-box-row-padding">
           <span class="mr-auto">3 responses uploaded</span>
           <button class="button-icon-right">
             <i class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"></i>
@@ -234,18 +293,6 @@
           <br>
           <br>
         </div>
-      </div>
-    </div>
-
-    <div class="log-container box card">
-      <div class="box-row">
-        3/21/2021
-      </div>
-      <div class="box-row">
-        12 reminder emails sent
-      </div>
-      <div class="box-row">
-        2 responses uploaded
       </div>
     </div>
 
@@ -384,6 +431,30 @@
 
         dropdownToggle.classList.toggle("off");
         dropdownToggle.classList.toggle("on");
+      }
+    }
+  </script>
+
+  <script>
+    const onlyErrorsContainer = document.querySelector("#show-only-errors-container");
+    const checkbox = onlyErrorsContainer.querySelector("input");
+    const errorLogs = document.querySelectorAll(".error-log");
+    const allLogs = document.querySelectorAll(".log-container");
+
+    checkbox.checked = false;
+
+    onlyErrorsContainer.onclick = function() {
+      if (checkbox.checked) {
+        for (const log of allLogs) {
+          log.style.display = "none";
+        }
+        for (const log of errorLogs) {
+          log.style.display = "block";
+        }
+      } else {
+        for (const log of allLogs) {
+          log.style.display = "block";
+        }
       }
     }
   </script>
