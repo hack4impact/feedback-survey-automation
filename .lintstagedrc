@@ -7,7 +7,7 @@
     "markdownlint --fix",
     "prettier --write"
   ],
-  "**/*.@(json|yml)": [
+  "**/*.@(json|yml|html)": [
     "prettier --write"
   ]
 }

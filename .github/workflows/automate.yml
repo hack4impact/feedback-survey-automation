@@ -6,8 +6,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  dev-build:
+  run:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - DEV_ENV
+          # Uncomment ↓ when ready to start doing prod runs
+          # - PROD_ENV
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -18,7 +24,13 @@ jobs:
           node-version: 15.x
 
       - name: Setup Environment Variables
-        run: echo '${{ secrets.DEV_ENV }}' > .env
+        run: echo '${{ secrets[matrix.env] }}' > .env
+
+      - name: Setup Google Credentials
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Setup Google OAuth
+        run: echo '${{ secrets.GOOGLE_OAUTH }}' > oauth-token.json
 
       - name: Install Dependencies
         run: npm ci
@@ -29,25 +41,5 @@ jobs:
       - name: Run Script
         run: npm run make:prod
 
-  # prod-build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v2
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2.1.4
-  #       with:
-  #         node-version: 15.x
-
-  #     - name: Setup Environment Variables
-  #       run: echo '${{ secrets.PROD_ENV }}' > .env
-
-  #     - name: Install Dependencies
-  #       run: npm ci
-
-  #     - name: Compile Project
-  #       run: npm run compile
-
-  #     - name: Run Script
-  #       run: npm run make:prod
+      - name: Upload Logs
+        run: npm run upload-logs

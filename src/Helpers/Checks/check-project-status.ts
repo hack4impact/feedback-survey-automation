@@ -6,9 +6,7 @@ const logFalsey = async (
   projectStatus: ProjectStatus,
   logger: Logger
 ): Promise<false> => {
-  await logger.warn(`Status is '${projectStatus}'. No actions performed.`, {
-    writeToFile: true,
-  });
+  await logger.warn(`Status is '${projectStatus}'. No actions performed.`);
   return false;
 };
 

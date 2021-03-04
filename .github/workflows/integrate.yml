@@ -9,8 +9,15 @@ on:
       - main
 
 jobs:
-  dev-build:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - vars: DEV_ENV
+            claspInfo: DEV_CLASP_PROJECT_INFO
+          - vars: PROD_ENV
+            claspInfo: PROD_CLASP_PROJECT_INFO
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -21,50 +28,19 @@ jobs:
           node-version: 15.x
 
       - name: Setup Environment Variables
-        run: echo '${{ secrets.DEV_ENV }}' > .env
+        run: echo '${{ secrets[matrix.env.vars] }}' > .env
 
       - name: Setup Clasp Credentials
         run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
 
       - name: Setup Clasp Project info
-        run: echo '${{ secrets.DEV_CLASP_PROJECT_INFO }}' > .clasp.json
+        run: echo '${{ secrets[matrix.env.claspInfo] }}' > .clasp.json
 
       - name: Install Dependencies
         run: npm ci
 
       - name: Lint Project
         run: npm run lint
-
-      - name: Build Project
-        run: npm run build
-
-      - name: Dry Run
-        run: npm run make
-
-  prod-build:
-    needs: dev-build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: 15.x
-
-      - name: Setup Environment Variables
-        run: echo '${{ secrets.PROD_ENV }}' > .env
-
-      - name: Setup Clasp Credentials
-        run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
-
-      - name: Setup Clasp Project info
-        run: echo '${{ secrets.PROD_CLASP_PROJECT_INFO }}' > .clasp.json
-
-      - name: Install Dependencies
-        run: npm ci
 
       - name: Build Project
         run: npm run build

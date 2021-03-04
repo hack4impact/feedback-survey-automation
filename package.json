@@ -48,7 +48,7 @@
     "clean-up-all-dry-runs": "ts-node scripts/clean-up-dry-runs.ts --all"
   },
   "dependencies": {
-    "@hack4impact/logger": "^2.0.5",
+    "@hack4impact/logger": "^3.0.0",
     "airtable": "^0.10.1",
     "dotenv-safe": "^8.2.0",
     "googleapis": "^67.0.0",
