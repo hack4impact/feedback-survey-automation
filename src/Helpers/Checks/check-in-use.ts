@@ -28,8 +28,7 @@ const checkInUse = async (
       const abandoned: ProjectStatus = "Abandoned by Nonprofit";
 
       await logger.warn(
-        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`,
-        { writeToFile: true }
+        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`
       );
 
       !dryRun &&

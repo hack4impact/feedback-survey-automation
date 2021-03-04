@@ -35,15 +35,13 @@ const checkReminderNeeded = async (
     if (milestone > deliveryDate) {
       if (expiryDate.isAfter(milestone, "milliseconds")) {
         await logger.info(
-          `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`,
-          { writeToFile: true }
+          `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`
         );
         return timePeriod;
       } else {
         /* If its X weeks too late to send an email for a certain time period, it won't send a reminder email */
         await logger.warn(
-          `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`,
-          { writeToFile: true }
+          `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`
         );
         break;
       }
