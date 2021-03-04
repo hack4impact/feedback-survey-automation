@@ -182,7 +182,7 @@
     padding-left: 1rem;
   }
 
-  .log-row ul >li {
+  .log-row ul>li {
     margin-bottom: 1rem;
   }
 
@@ -339,12 +339,12 @@
 
         datePickerContainer.style.display = "flex";
 
-        let selectListener = selectButton.addEventListener("click", function() {
+        let selectListener = selectButton.addEventListener("click", function () {
           selectDate();
           removeEventListener("click", selectListener);
         });
 
-        let clearListener = clearButton.addEventListener("click", function() {
+        let clearListener = clearButton.addEventListener("click", function () {
           clearDate();
           removeEventListener("click", clearListener);
         });
@@ -372,14 +372,14 @@
     function checkIfDatesWork() {
       const toDate = document.getElementById("to-date");
       const fromDate = document.getElementById("from-date");
-      return (validateDate(fromDate.innerText) && validateDate(toDate.innerText) && parseDate(fromDate.innerText) <= parseDate(toDate.innerText)) || (validateDate(fromDate.innerText) && toDate.innerText==="");
+      return (validateDate(fromDate.innerText) && validateDate(toDate.innerText) && parseDate(fromDate.innerText) <= parseDate(toDate.innerText)) || (validateDate(fromDate.innerText) && toDate.innerText === "");
     }
   </script>
 
   <script>
     const dateChangeButton = document.getElementById("change-date-button");
 
-    dateChangeButton.onclick = function() {
+    dateChangeButton.onclick = function () {
       if (this.classList.contains("dates-work")) {
         alert("Let's go");
       }
@@ -422,7 +422,7 @@
       const dropdownToggle = dropdown.querySelector(".dropdown-toggle-button");
       const hiddenContent = dropdown.querySelector(".hidden-content");
       dropdownToggle.classList.add("off");
-      dropdownToggle.onclick = function(event) {
+      dropdownToggle.onclick = function (event) {
         if (dropdownToggle.classList.contains("off")) {
           hiddenContent.style.height = "auto";
         } else {
@@ -443,7 +443,7 @@
 
     checkbox.checked = false;
 
-    onlyErrorsContainer.onclick = function() {
+    onlyErrorsContainer.onclick = function () {
       if (checkbox.checked) {
         for (const log of allLogs) {
           log.style.display = "none";
