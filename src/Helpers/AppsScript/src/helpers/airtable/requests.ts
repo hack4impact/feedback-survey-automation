@@ -79,8 +79,6 @@ export const getStandardQuestions = (
 };
 
 export const postProjectSuccessData = (data: Record<string, unknown>): any => {
-  Logger.log(data);
-
   const res = airtableRequest(
     "Project Success Data",
     {
@@ -154,6 +152,5 @@ export const updateProjectSuccessTable = (
   body[DATA_FIELDS.responderEmail] = response.getRespondentEmail();
   body[DATA_FIELDS.timePeriod] = timePeriod;
 
-  const result = postProjectSuccessData(body);
-  Logger.log(result);
+  postProjectSuccessData(body);
 };

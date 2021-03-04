@@ -1,5 +1,6 @@
+import { Log, LogExtra, LogType } from "@hack4impact/logger";
 import { FIELDS, READABLE_TIME_PERIODS } from "../../../../Utils/constants";
-import { createRowObject, modifyFormRow } from "../helpers/form-store";
+import { createRowObject, modifySheetRow } from "../helpers/form-store";
 import {
   getProjectData,
   updateProjectSuccessTable,
@@ -10,6 +11,7 @@ import { RowArr, RowObj } from "./types";
 // END CONSTANTS
 
 const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID ?? "";
+const logs: Log[] = [];
 
 // Checks for new responses and sends follow up emails if no response received for 2 weeks
 export const cronTrigger = (): void => {
@@ -30,6 +32,44 @@ export const cronTrigger = (): void => {
       else if (hasItBeenXMonths(6, sentDate)) formExpired(rowObj, i);
     }
   });
+
+  finish();
+};
+
+const logAndWrite = (message: string, type?: LogType, extra?: LogExtra) => {
+  Logger.log(message);
+  logs.push({
+    index: logs.length,
+    message,
+    timestamp: Date.now(),
+    type,
+    extra,
+  });
+};
+
+const finish = () => {
+  if (process.env.DRY_RUN !== `false`) {
+    Logger.log("Dry run completed");
+  } else {
+    DriveApp.getFolderById(
+      process.env.APPS_SCRIPT_LOGS_FOLDER as string
+    ).createFile(
+      createFileName(),
+      JSON.stringify(logs, undefined, 2),
+      "application/json"
+    );
+    Logger.log("Uploaded logs to Google Drive");
+  }
+  Logger.log(`Logs: ${JSON.stringify(logs)}`);
+};
+
+const createFileName = () => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+  const date = ("0" + currentDate.getDate()).slice(-2);
+
+  return `${year}-${month}-${date}.json`;
 };
 
 const onResponse = (
@@ -39,24 +79,44 @@ const onResponse = (
   index: number
 ) => {
   try {
-    updateProjectSuccessTable(form, formResponses[0]);
+    if (process.env.DRY_RUN === `false`) {
+      updateProjectSuccessTable(form, formResponses[0]);
+    }
+    logAndWrite(
+      `Project success table updated with '${form.getTitle()}'`,
+      "success"
+    );
 
     row.responded = "Yes";
 
-    modifyFormRow(row, index);
+    if (process.env.DRY_RUN === `false`) {
+      modifySheetRow(row, index);
+    }
+    logAndWrite(
+      `Modified sheet row #${index} with responded = '${row.responded}'`,
+      "success"
+    );
   } catch (e) {
     const title = form.getTitle();
-    Logger.log(`An error occurred for form '${title}' (${e})`);
+    logAndWrite(`An error occurred for "${title}"`, "error", { error: e });
 
     const recipient = process.env.UPLOAD_ERROR_EMAIL as string;
     const subject = `Unable to process ${title}.`;
-    const body = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row.formEditLink}\n\nPlease manually upload the response to the airtable.`;
+    const email = `There was an error in adding the responses of this form to the Project Success Data airtable. The error was: \n\t${e}\nHere is the link to the form edit url: ${row.formEditLink}\n\nPlease manually upload the response to the AirTable.`;
 
-    form.addEditor(recipient);
     if (process.env.DRY_RUN === `false`) {
-      MailApp.sendEmail(recipient, subject, body);
+      form.addEditor(recipient);
+      MailApp.sendEmail(recipient, subject, email);
     }
-    Logger.log(`Sending error email to ${recipient} about form ${title}`);
+    logAndWrite(
+      `Sent error email to ${recipient} about '${title}'`,
+      "success",
+      {
+        email,
+        subject,
+        recipient,
+      }
+    );
   }
 };
 
@@ -81,32 +141,48 @@ const sendReminder = (
   template["readableTimePeriod"] = READABLE_TIME_PERIODS[timePeriod];
   template["formPublishedURL"] = form.getPublishedUrl();
 
-  const fullTemplate = template.evaluate().getContent();
+  const email = template.evaluate().getContent();
+  const subject = `Follow Up: Feedback Reminder for ${
+    fields[FIELDS.projectName]
+  }`;
 
   if (process.env.DRY_RUN === `false`) {
     MailApp.sendEmail({
-      subject: `Follow Up: Feedback Reminder for ${fields[FIELDS.projectName]}`,
-      htmlBody: fullTemplate,
+      subject: subject,
+      htmlBody: email,
       to: fields[FIELDS.representativeEmail],
       cc: fields[FIELDS.chapterEmail],
     });
-    Logger.log(
-      `Sending two week reminder email to: ${
-        fields[FIELDS.representativeEmail]
-      } for project: ${fields[FIELDS.projectName]}`
-    );
   }
+  logAndWrite(
+    `Sent two week reminder email to: ${
+      fields[FIELDS.representativeEmail]
+    } for project: ${fields[FIELDS.projectName]}`,
+    "success",
+    { email, subject }
+  );
 
   row.responded = "Reminder Sent";
-
-  modifyFormRow(row, index);
+  if (process.env.DRY_RUN === `false`) {
+    modifySheetRow(row, index);
+  }
+  logAndWrite(
+    `Modified sheet row #${index} with responded = '${row.responded}'`,
+    "success"
+  );
 };
 
 const formExpired = (row: RowObj, index: number) => {
   // Responded: Expired
   row.responded = "Expired";
 
-  modifyFormRow(row, index);
+  if (process.env.DRY_RUN === `false`) {
+    modifySheetRow(row, index);
+  }
+  logAndWrite(
+    `Modified sheet row #${index} with responded = '${row.responded}'`,
+    "success"
+  );
 };
 
 const hasItBeenXMonths = (months: number, sentDate: number) => {
