@@ -17,18 +17,22 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
 
   if (validateDateFormat(date)) {
     const files = findFiles([date]);
-    let string = "";
+    const logsToReturn: { logs: any[] } = { logs: [] };
     for (const file of files.main_logs) {
-      string += file.getName() + "     " + "\n" + "       ";
+      logsToReturn.logs.push(JSON.parse(file.getBlob().getDataAsString()));
     }
-    return ContentService.createTextOutput().append(string);
+    return ContentService.createTextOutput().append(
+      JSON.stringify(logsToReturn)
+    );
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
     const files = findFiles([start_date, end_date]);
-    let string = "";
+    const logsToReturn: { logs: any[] } = { logs: [] };
     for (const file of files.main_logs) {
-      string += file.getName() + "     " + "\n" + "       ";
+      logsToReturn.logs.push(JSON.parse(file.getBlob().getDataAsString()));
     }
-    return ContentService.createTextOutput().append(string);
+    return ContentService.createTextOutput().append(
+      JSON.stringify(logsToReturn)
+    );
   } else {
     return;
   }
@@ -64,13 +68,15 @@ const findFiles = (
   );
 
   if (singleDate) {
-    let file_iterator = main_logs_folder.getFilesByName(singleDate);
+    let file_iterator = main_logs_folder.getFilesByName(`${singleDate}.json`);
     while (file_iterator.hasNext()) {
       const file = file_iterator.next();
       main_log_files.push(file);
     }
 
-    file_iterator = apps_script_logs_folder.getFilesByName(singleDate);
+    file_iterator = apps_script_logs_folder.getFilesByName(
+      `${singleDate}.json`
+    );
     while (file_iterator.hasNext()) {
       const file = file_iterator.next();
       apps_script_log_files.push(file);
@@ -78,13 +84,13 @@ const findFiles = (
   } else {
     const allDates = getAllDatesInRange(dates[0], dates[1]);
     for (const date of allDates) {
-      let file_iterator = main_logs_folder.getFilesByName(date);
+      let file_iterator = main_logs_folder.getFilesByName(`${date}.json`);
       while (file_iterator.hasNext()) {
         const file = file_iterator.next();
         main_log_files.push(file);
       }
 
-      file_iterator = apps_script_logs_folder.getFilesByName(date);
+      file_iterator = apps_script_logs_folder.getFilesByName(`${date}.json`);
       while (file_iterator.hasNext()) {
         const file = file_iterator.next();
         apps_script_log_files.push(file);
