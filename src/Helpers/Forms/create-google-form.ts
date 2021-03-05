@@ -14,6 +14,7 @@ import {
   FlattenedData,
   GoogleFormData,
   GoogleFormPostData,
+  LogLabel,
   TimePeriod,
 } from "../../Utils/types";
 
@@ -33,9 +34,11 @@ const createGoogleForm = async (
     logger
   );
 
-  await logger.log(
+  await logger.success(
     `Google Form created! (${READABLE_TIME_PERIODS[timePeriod]})`,
-    { type: "success", extra: formData }
+    {
+      extra: { ...formData, label: "googleFormCreated" as LogLabel },
+    }
   );
 
   const expectedUrlField = createPublishedURLField(timePeriod);
@@ -95,9 +98,8 @@ const fetchGoogleForm = async (
     const formData = JSON.parse(dataText);
     return formData;
   } catch (e) {
-    await logger.log(dataText, {
-      extra: body,
-      type: "error",
+    await logger.error(dataText, {
+      extra: { ...body, label: "formParseError" as LogLabel },
     });
     throw new Error(e);
   }

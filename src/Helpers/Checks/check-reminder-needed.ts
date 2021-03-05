@@ -4,7 +4,7 @@ import moment, { DurationInputArg2 } from "moment";
 // Internals
 import { normalizeDate } from "../General/index";
 import Logger from "../Logger";
-import { FlattenedData, TimePeriod } from "../../Utils/types";
+import { FlattenedData, LogLabel, TimePeriod } from "../../Utils/types";
 import {
   TIME_PERIODS,
   READABLE_TIME_PERIODS,
@@ -35,13 +35,23 @@ const checkReminderNeeded = async (
     if (milestone > deliveryDate) {
       if (expiryDate.isAfter(milestone, "milliseconds")) {
         await logger.info(
-          `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`
+          `Reminder Email needed. (${READABLE_TIME_PERIODS[timePeriod]})`,
+          {
+            extra: {
+              label: "reminderNeeded" as LogLabel,
+            },
+          }
         );
         return timePeriod;
       } else {
         /* If its X weeks too late to send an email for a certain time period, it won't send a reminder email */
         await logger.warn(
-          `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`
+          `Reminder Email was not sent in time. It's been more than ${timePeriodExpiryInWeeks} weeks since ${READABLE_TIME_PERIODS[timePeriod]} passed.`,
+          {
+            extra: {
+              label: "reminderNotSentInTime" as LogLabel,
+            },
+          }
         );
         break;
       }

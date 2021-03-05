@@ -33,7 +33,7 @@ jobs:
       - name: Setup Clasp Credentials
         run: echo '${{ secrets.CLASPRC_CREDENTIALS }}' > $HOME/.clasprc.json
 
-      - name: Setup Clasp Project info
+      - name: Setup Clasp Project Info
         run: echo '${{ secrets[matrix.env.claspInfo] }}' > .clasp.json
 
       - name: Install Dependencies

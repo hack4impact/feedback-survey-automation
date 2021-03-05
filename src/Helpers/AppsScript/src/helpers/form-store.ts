@@ -22,7 +22,7 @@ export const storeForm = (row: RowObj): void => {
   idStore.appendRow(createRowArray(row));
 };
 
-export const modifyFormRow = (
+export const modifySheetRow = (
   row: RowObj,
   rowIndex: number
 ): GoogleAppsScript.Spreadsheet.Range => {

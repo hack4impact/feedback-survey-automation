@@ -1,12 +1,16 @@
 // Internals
-import { ProjectStatus } from "../../Utils/types";
+import { LogLabel, ProjectStatus } from "../../Utils/types";
 import Logger from "../Logger";
 
 const logFalsey = async (
   projectStatus: ProjectStatus,
   logger: Logger
 ): Promise<false> => {
-  await logger.warn(`Status is '${projectStatus}'. No actions performed.`);
+  await logger.warn(`Status is '${projectStatus}'. No actions performed.`, {
+    extra: {
+      label: "falseyProjectStatus" as LogLabel,
+    },
+  });
   return false;
 };
 
