@@ -251,9 +251,14 @@
         </div>
       </div>
 
+      <?
+      for (const day of logs_per_day) {
+    ?>
       <div class="log-container box card">
         <div class="box-row d-flex align-items-center">
-          <span class="mr-auto"> 3/20/2021 </span>
+          <span class="mr-auto">
+            <?= day.date ?>
+          </span>
           <button class="button-icon-right">
             <i class="mdi mdi-check"></i>
           </button>
@@ -261,50 +266,257 @@
 
         <div class="box-row dropdown">
           <div class="d-flex align-items-center dropdown-box-row-padding">
-            <span class="mr-auto">15 reminder emails sent</span>
+            <span class="mr-auto">
+              <?= day.files.feedback_reminders_sent.length ?>
+              feedback survey reminders sent
+            </span>
+            <? if (day.files.feedback_reminders_sent.length!==0) { ?>
             <button class="button-icon-right">
               <i
                 class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
               ></i>
             </button>
+            <?  } ?>
           </div>
           <div class="hidden-content">
+            <? for (let i=0; i<day.files.feedback_reminders_sent.length; i++) { ?>
             <div class="log-row">
               <ul>
-                <li>Message: This is the message</li>
-                <li>Timestamp: 03/14/2021 at 4:30 PM</li>
+                <li>
+                  Message:
+                  <?= output[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= output[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= output[i].extra.label ?>
+                </li>
               </ul>
             </div>
-            <div class="log-row">
-              <ul>
-                <li>Message: This is the message</li>
-                <li>Timestamp: 03/14/2021 at 4:30 PM</li>
-              </ul>
-            </div>
-            <div class="log-row">
-              <ul>
-                <li>Message: This is the message</li>
-                <li>Timestamp: 03/14/2021 at 4:30 PM</li>
-              </ul>
-            </div>
+            <? } ?>
           </div>
         </div>
+
         <div class="box-row dropdown">
           <div class="d-flex align-items-center dropdown-box-row-padding">
-            <span class="mr-auto">3 responses uploaded</span>
+            <span class="mr-auto">
+              <?= day.files.responses_uploaded.length ?>
+              reponses uploaded
+            </span>
+            <? if (day.files.responses_uploaded.length!==0) { ?>
             <button class="button-icon-right">
               <i
                 class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
               ></i>
             </button>
+            <?  } ?>
           </div>
           <div class="hidden-content">
-            <br />
-            <br />
-            <br />
+            <? for (let i=0; i<day.files.responses_uploaded.length; i++) {  ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.responses_uploaded[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.responses_uploaded[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.responses_uploaded[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
+          </div>
+        </div>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center dropdown-box-row-padding">
+            <span class="mr-auto">
+              <?= day.files.follow_ups_sent.length ?>
+              follow-up emails sent
+            </span>
+            <? if (day.files.follow_ups_sent.length!==0) { ?>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+            <?  } ?>
+          </div>
+          <div class="hidden-content">
+            <? for (let i=0; i<day.files.follow_ups_sent.length; i++) { ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.follow_ups_sent[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.follow_ups_sent[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.follow_ups_sent[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
+          </div>
+        </div>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center dropdown-box-row-padding">
+            <span class="mr-auto">
+              <?= day.files.forms_created.length ?>
+              forms created
+            </span>
+            <? if (day.files.forms_created.length!==0) { ?>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+            <?  } ?>
+          </div>
+          <div class="hidden-content">
+            <? for (let i=0; i<day.files.forms_created.length; i++) { ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.forms_created[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.forms_created[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.forms_created[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
+          </div>
+        </div>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center dropdown-box-row-padding">
+            <span class="mr-auto">
+              <?= day.files.other.length ?>
+              other logs
+            </span>
+            <? if (day.files.other.length!==0) { ?>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+            <?  } ?>
+          </div>
+          <div class="hidden-content">
+            <? for (let i=0; i<day.files.other.length; i++) { ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.other[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.other[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.other[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
+          </div>
+        </div>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center dropdown-box-row-padding">
+            <span class="mr-auto">
+              <?= day.files.warnings.length ?>
+              warnings
+            </span>
+            <? if (day.files.warnings.length!==0) { ?>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+            <?  } ?>
+          </div>
+          <div class="hidden-content">
+            <? for (let i=0; i<day.files.warnings.length; i++) { ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.warnings[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.warnings[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.warnings[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
+          </div>
+        </div>
+
+        <div class="box-row dropdown">
+          <div class="d-flex align-items-center dropdown-box-row-padding">
+            <span class="mr-auto">
+              <?= day.files.errors.length ?>
+              errors
+            </span>
+            <? if (day.files.errors.length!==0) { ?>
+            <button class="button-icon-right">
+              <i
+                class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
+              ></i>
+            </button>
+            <?  } ?>
+          </div>
+          <div class="hidden-content">
+            <? for (let i=0; i<day.files.errors.length; i++) { ?>
+            <div class="log-row">
+              <ul>
+                <li>
+                  Message:
+                  <?= day.files.errors[i].message ?>
+                </li>
+                <li>
+                  Timestamp:
+                  <?= day.files.errors[i].timestamp ?>
+                </li>
+                <li>
+                  Label:
+                  <?= day.files.errors[i].extra.label ?>
+                </li>
+              </ul>
+            </div>
+            <? } ?>
           </div>
         </div>
       </div>
+      <? } ?>
     </div>
 
     <div class="black-overlay" id="date-picker-container">
@@ -444,6 +656,7 @@
         const dropdownToggle = dropdown.querySelector(
           ".dropdown-toggle-button"
         );
+        if (!dropdownToggle) continue;
         const hiddenContent = dropdown.querySelector(".hidden-content");
         dropdownToggle.classList.add("off");
         dropdownToggle.onclick = function (event) {

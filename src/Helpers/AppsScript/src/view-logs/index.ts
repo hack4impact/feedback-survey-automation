@@ -1,4 +1,21 @@
 import { getAllDatesInRange } from "./date-helpers";
+import { LogLabel } from "../get-form-responses/index";
+import { LogLabel as AppsScriptLogsLabel } from "../../../../Utils/types";
+
+type log_date_store = {
+  date: string;
+  files: GoogleAppsScript.Drive.File[] | any[][] | any;
+};
+type organized_log_data = {
+  date: string;
+  warnings: Record<string, unknown>[];
+  errors: Record<string, unknown>[];
+  forms_created: Record<string, unknown>[];
+  follow_ups_sent: Record<string, unknown>[];
+  responses_uploaded: Record<string, unknown>[];
+  feedback_reminders_sent: Record<string, unknown>[];
+  other: Record<string, unknown>[];
+};
 
 export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
   // if (!request.parameters["password"] || request.parameters["password"] !== process.env.APPS_SCRIPT_PASSWORD) {
@@ -16,41 +33,25 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
     : undefined;
   const templatePath = "src/view-logs/static/index";
 
+  let filtered_data: log_date_store[];
+
   if (validateDateFormat(date)) {
-    const files = findFiles([date]);
-    const logsToReturn: { main_logs: any[]; apps_script_logs: any[] } = {
-      main_logs: [],
-      apps_script_logs: [],
-    };
-    for (const file of files.main_logs) {
-      logsToReturn.main_logs.push(JSON.parse(file.getBlob().getDataAsString()));
-    }
-    for (const file of files.apps_script_logs) {
-      logsToReturn.apps_script_logs.push(
-        JSON.parse(file.getBlob().getDataAsString())
-      );
-    }
-    const template = HtmlService.createTemplateFromFile(templatePath);
-    return template.evaluate();
+    const logs: log_date_store[] = findFiles([date]);
+    const logs_with_data = getDataFromFiles(logs);
+    filtered_data = spread_log_data(logs_with_data);
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
-    const files = findFiles([start_date, end_date]);
-    const logsToReturn: { main_logs: any[]; apps_script_logs: any[] } = {
-      main_logs: [],
-      apps_script_logs: [],
-    };
-    for (const file of files.main_logs) {
-      logsToReturn.main_logs.push(JSON.parse(file.getBlob().getDataAsString()));
-    }
-    for (const file of files.apps_script_logs) {
-      logsToReturn.apps_script_logs.push(
-        JSON.parse(file.getBlob().getDataAsString())
-      );
-    }
-    const template = HtmlService.createTemplateFromFile(templatePath);
-    return template.evaluate();
+    const logs: log_date_store[] = findFiles([start_date, end_date]);
+    const logs_with_data = getDataFromFiles(logs);
+    filtered_data = spread_log_data(logs_with_data);
   } else {
     return;
   }
+
+  Logger.log(filtered_data);
+
+  const template = HtmlService.createTemplateFromFile(templatePath);
+  template.logs_per_day = filtered_data;
+  return template.evaluate();
 };
 
 //date format must be (YYYY-MM-DD)
@@ -62,19 +63,14 @@ const validateDateFormat = (date: string | undefined) => {
   return regex.test(date);
 };
 
-const findFiles = (
-  dates: string[] | undefined
-): {
-  main_logs: GoogleAppsScript.Drive.File[];
-  apps_script_logs: GoogleAppsScript.Drive.File[];
-} => {
+const findFiles = (dates: string[] | undefined): log_date_store[] => {
   if (!dates || dates.length === 0 || dates.length > 2) {
-    return { main_logs: [], apps_script_logs: [] };
+    return [];
   }
 
   const singleDate: string | false = dates.length === 1 ? dates[0] : false;
-  const main_log_files: GoogleAppsScript.Drive.File[] = [],
-    apps_script_log_files = [];
+  const store: log_date_store[] = [];
+
   const main_logs_folder = DriveApp.getFolderById(
     process.env.MAIN_LOGS_FOLDER as string
   );
@@ -83,10 +79,11 @@ const findFiles = (
   );
 
   if (singleDate) {
+    const log_files: GoogleAppsScript.Drive.File[] = [];
     let file_iterator = main_logs_folder.getFilesByName(`${singleDate}.json`);
     while (file_iterator.hasNext()) {
       const file = file_iterator.next();
-      main_log_files.push(file);
+      log_files.push(file);
     }
 
     file_iterator = apps_script_logs_folder.getFilesByName(
@@ -94,27 +91,84 @@ const findFiles = (
     );
     while (file_iterator.hasNext()) {
       const file = file_iterator.next();
-      apps_script_log_files.push(file);
+      log_files.push(file);
     }
+    store.push({ date: singleDate, files: log_files });
   } else {
     const allDates = getAllDatesInRange(dates[0], dates[1]);
     for (const date of allDates) {
+      const log_files: GoogleAppsScript.Drive.File[] = [];
       let file_iterator = main_logs_folder.getFilesByName(`${date}.json`);
       while (file_iterator.hasNext()) {
         const file = file_iterator.next();
-        main_log_files.push(file);
+        log_files.push(file);
       }
 
       file_iterator = apps_script_logs_folder.getFilesByName(`${date}.json`);
       while (file_iterator.hasNext()) {
         const file = file_iterator.next();
-        apps_script_log_files.push(file);
+        log_files.push(file);
+      }
+
+      if (log_files.length != 0) {
+        store.push({ date, files: log_files });
       }
     }
   }
 
-  return {
-    main_logs: main_log_files,
-    apps_script_logs: apps_script_log_files,
-  };
+  return store;
+};
+
+const getDataFromFiles = (logs: log_date_store[]): log_date_store[] => {
+  logs.map(({ date, files }) => {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i] as GoogleAppsScript.Drive.File;
+      files[i] = JSON.parse(file.getBlob().getDataAsString());
+    }
+    return { date, files };
+  });
+  return logs;
+};
+
+const spread_log_data = (logs: log_date_store[]): log_date_store[] => {
+  const spread_data: log_date_store[] = [];
+  for (const log of logs) {
+    const new_data: organized_log_data = {
+      date: log.date,
+      warnings: [],
+      errors: [],
+      feedback_reminders_sent: [],
+      follow_ups_sent: [],
+      responses_uploaded: [],
+      forms_created: [],
+      other: [],
+    };
+    const files = log.files as any[][];
+
+    for (const file of files) {
+      for (const output of file) {
+        const label: LogLabel | AppsScriptLogsLabel | undefined =
+          output.extra?.label || undefined;
+        if (output.type === "error") {
+          new_data.errors.push(output);
+        } else if (output.type === "warn") {
+          new_data.warnings.push(output);
+        } else if (label && label === "googleFormCreated") {
+          new_data.forms_created.push(output);
+        } else if (label && label === "reminderSent") {
+          new_data.feedback_reminders_sent.push(output);
+        } else if (label && label === "twoWeekReminderEmailSent") {
+          new_data.follow_ups_sent.push(output);
+        } else if (label && label === "successTableUpdated") {
+          new_data.responses_uploaded.push(output);
+        } else {
+          new_data.other.push(output);
+        }
+      }
+    }
+
+    const log_date_store = { date: log.date, files: new_data };
+    spread_data.push(log_date_store);
+  }
+  return spread_data;
 };
