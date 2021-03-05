@@ -14,25 +14,40 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
   const end_date = Array.isArray(request.parameters["end"])
     ? request.parameters["end"][0]
     : undefined;
+  const templatePath = "src/view-logs/static/index";
 
   if (validateDateFormat(date)) {
     const files = findFiles([date]);
-    const logsToReturn: { logs: any[] } = { logs: [] };
+    const logsToReturn: { main_logs: any[]; apps_script_logs: any[] } = {
+      main_logs: [],
+      apps_script_logs: [],
+    };
     for (const file of files.main_logs) {
-      logsToReturn.logs.push(JSON.parse(file.getBlob().getDataAsString()));
+      logsToReturn.main_logs.push(JSON.parse(file.getBlob().getDataAsString()));
     }
-    return ContentService.createTextOutput().append(
-      JSON.stringify(logsToReturn)
-    );
+    for (const file of files.apps_script_logs) {
+      logsToReturn.apps_script_logs.push(
+        JSON.parse(file.getBlob().getDataAsString())
+      );
+    }
+    const template = HtmlService.createTemplateFromFile(templatePath);
+    return template.evaluate();
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
     const files = findFiles([start_date, end_date]);
-    const logsToReturn: { logs: any[] } = { logs: [] };
+    const logsToReturn: { main_logs: any[]; apps_script_logs: any[] } = {
+      main_logs: [],
+      apps_script_logs: [],
+    };
     for (const file of files.main_logs) {
-      logsToReturn.logs.push(JSON.parse(file.getBlob().getDataAsString()));
+      logsToReturn.main_logs.push(JSON.parse(file.getBlob().getDataAsString()));
     }
-    return ContentService.createTextOutput().append(
-      JSON.stringify(logsToReturn)
-    );
+    for (const file of files.apps_script_logs) {
+      logsToReturn.apps_script_logs.push(
+        JSON.parse(file.getBlob().getDataAsString())
+      );
+    }
+    const template = HtmlService.createTemplateFromFile(templatePath);
+    return template.evaluate();
   } else {
     return;
   }
