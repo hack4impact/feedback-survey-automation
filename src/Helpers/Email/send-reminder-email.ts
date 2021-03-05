@@ -2,7 +2,7 @@
 import { setUpEmail } from "./index";
 import Logger from "../Logger";
 import { getTemplate } from "../General";
-import { FlattenedData, TimePeriod } from "../../Utils/types";
+import { FlattenedData, LogLabel, TimePeriod } from "../../Utils/types";
 import { READABLE_TIME_PERIODS } from "../../Utils/constants";
 
 interface MailResponse {
@@ -51,12 +51,15 @@ const sendReminderEmail = async (
           htmlContent: html,
           textContent: text,
           result,
+          label: "reminderSent" as LogLabel,
         },
       }
     );
     return result;
   } catch (e) {
-    await logger.error(`Incorrect mail configuration:\n\n${e}`);
+    await logger.error(`Incorrect mail configuration:\n\n${e}`, {
+      extra: { label: "incorrectMailConfig" as LogLabel },
+    });
     process.exit();
   }
 };

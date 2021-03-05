@@ -4,7 +4,11 @@ import { default as AirtableRecord } from "airtable/lib/record";
 // Internals
 import Logger from "../Logger";
 import { FIELDS } from "../../Utils/constants";
-import { ProjectStatus, StandardQuestionFields } from "../../Utils/types";
+import {
+  LogLabel,
+  ProjectStatus,
+  StandardQuestionFields,
+} from "../../Utils/types";
 
 const checkInUse = async (
   successData: AirtableRecord[],
@@ -28,7 +32,12 @@ const checkInUse = async (
       const abandoned: ProjectStatus = "Abandoned by Nonprofit";
 
       await logger.warn(
-        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`
+        `Not in use by nonprofit. Status updated as '${abandoned}'. No actions performed.`,
+        {
+          extra: {
+            label: "notInUse" as LogLabel,
+          },
+        }
       );
 
       !dryRun &&

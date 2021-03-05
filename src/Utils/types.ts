@@ -123,3 +123,13 @@ export type FormQuestion =
   | GoogleAppsScript.Forms.DateItem;
 
 export type DateParameter = Date | Moment | number | string;
+
+export type LogLabel =
+  | "falseyProjectStatus"
+  | "notInUse"
+  | "reminderNeeded"
+  | "reminderNotSentInTime"
+  | "googleFormCreated"
+  | "formParseError"
+  | "reminderSent"
+  | "incorrectMailConfig";
