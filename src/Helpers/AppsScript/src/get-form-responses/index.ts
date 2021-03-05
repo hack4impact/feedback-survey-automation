@@ -1,4 +1,4 @@
-import { Log, LogExtra, LogType } from "@hack4impact/logger";
+import { Log, LogType } from "@hack4impact/logger";
 import { FIELDS, READABLE_TIME_PERIODS } from "../../../../Utils/constants";
 import { createRowObject, modifySheetRow } from "../helpers/form-store";
 import {
@@ -9,6 +9,15 @@ import { RowArr, RowObj } from "./types";
 
 // START CONSTANTS
 // END CONSTANTS
+
+export type LogLabel =
+  | "successTableUpdated"
+  | "sheetRespondedYes"
+  | "uploadError"
+  | "uploadErrorEmailSent"
+  | "twoWeekReminderEmailSent"
+  | "sheetRespondedReminderSent"
+  | "sheetRespondedExpired";
 
 const SPREADSHEET_ID = process.env.FORM_STORE_SHEET_ID ?? "";
 const logs: Log[] = [];
@@ -36,7 +45,11 @@ export const cronTrigger = (): void => {
   finish();
 };
 
-const logAndWrite = (message: string, type?: LogType, extra?: LogExtra) => {
+interface LogExtra extends Record<string, any> {
+  label: LogLabel;
+}
+
+const logAndWrite = (message: string, type: LogType, extra: LogExtra) => {
   Logger.log(message);
   logs.push({
     index: logs.length,
@@ -84,7 +97,10 @@ const onResponse = (
     }
     logAndWrite(
       `Project success table updated with '${form.getTitle()}'`,
-      "success"
+      "success",
+      {
+        label: "successTableUpdated",
+      }
     );
 
     row.responded = "Yes";
@@ -94,11 +110,17 @@ const onResponse = (
     }
     logAndWrite(
       `Modified sheet row #${index} with responded = '${row.responded}'`,
-      "success"
+      "success",
+      {
+        label: "sheetRespondedYes",
+      }
     );
   } catch (e) {
     const title = form.getTitle();
-    logAndWrite(`An error occurred for "${title}"`, "error", { error: e });
+    logAndWrite(`An error occurred for "${title}"`, "error", {
+      error: e,
+      label: "uploadError",
+    });
 
     const recipient = process.env.UPLOAD_ERROR_EMAIL as string;
     const subject = `Unable to process ${title}.`;
@@ -115,6 +137,7 @@ const onResponse = (
         email,
         subject,
         recipient,
+        label: "uploadErrorEmailSent",
       }
     );
   }
@@ -159,7 +182,7 @@ const sendReminder = (
       fields[FIELDS.representativeEmail]
     } for project: ${fields[FIELDS.projectName]}`,
     "success",
-    { email, subject }
+    { email, subject, label: "twoWeekReminderEmailSent" }
   );
 
   row.responded = "Reminder Sent";
@@ -168,7 +191,8 @@ const sendReminder = (
   }
   logAndWrite(
     `Modified sheet row #${index} with responded = '${row.responded}'`,
-    "success"
+    "success",
+    { label: "sheetRespondedReminderSent" }
   );
 };
 
@@ -181,7 +205,8 @@ const formExpired = (row: RowObj, index: number) => {
   }
   logAndWrite(
     `Modified sheet row #${index} with responded = '${row.responded}'`,
-    "success"
+    "success",
+    { label: "sheetRespondedExpired" }
   );
 };
 
