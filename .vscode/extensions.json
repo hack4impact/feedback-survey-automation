@@ -4,6 +4,7 @@
     "DavidAnson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "yzhang.markdown-all-in-one",
-    "EditorConfig.EditorConfig"
+    "EditorConfig.EditorConfig",
+    "jasonnutter.vscode-codeowners"
   ]
 }
