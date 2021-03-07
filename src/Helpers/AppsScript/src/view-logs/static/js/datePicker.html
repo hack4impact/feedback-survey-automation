@@ -1,4 +1,7 @@
 <script>
+  const toDate = document.getElementById("to-date");
+  const fromDate = document.getElementById("from-date");
+
   function useDatePicker(currentDateString) {
     const currentDate = parseDate(currentDateString);
     return new Promise((resolve) => {
@@ -61,9 +64,19 @@
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   }
 
+  function changeToUrlForm(dateObject) {
+    return `${dateObject.getFullYear()}-${
+      (dateObject.getMonth() + 1) / 10 < 1
+        ? `0${dateObject.getMonth() + 1}`
+        : dateObject.getMonth() + 1
+    }-${
+      dateObject.getDate() / 10 < 1
+        ? `0${dateObject.getDate()}`
+        : dateObject.getDate()
+    }`;
+  }
+
   function checkIfDatesWork() {
-    const toDate = document.getElementById("to-date");
-    const fromDate = document.getElementById("from-date");
     return (
       (validateDate(fromDate.innerText) &&
         validateDate(toDate.innerText) &&
@@ -75,10 +88,22 @@
 
 <script>
   const dateChangeButton = document.getElementById("change-date-button");
+  const windowUrl = process.env.APPS_SCRIPT_URL;
 
   dateChangeButton.onclick = function () {
     if (this.classList.contains("dates-work")) {
-      alert("Let's go");
+      const fromDateString = changeToUrlForm(parseDate(fromDate.innerText));
+      const toDateString =
+        toDate.innerText.length !== 0
+          ? changeToUrlForm(parseDate(toDate.innerText))
+          : null;
+      if (!toDateString) {
+        window.parent.location.assign(`${windowUrl}?date=${fromDateString}`);
+      } else {
+        window.parent.location.assign(
+          `${windowUrl}?start=${fromDateString}&end=${toDateString}`
+        );
+      }
     }
   };
 
