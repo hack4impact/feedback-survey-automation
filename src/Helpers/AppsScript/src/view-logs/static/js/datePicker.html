@@ -98,11 +98,9 @@
           ? changeToUrlForm(parseDate(toDate.innerText))
           : null;
       if (!toDateString) {
-        window.parent.location.assign(`${windowUrl}?date=${fromDateString}`);
+        window.top.location.href = `${windowUrl}?date=${fromDateString}`;
       } else {
-        window.parent.location.assign(
-          `${windowUrl}?start=${fromDateString}&end=${toDateString}`
-        );
+        window.top.location.href = `${windowUrl}?start=${fromDateString}&end=${toDateString}`;
       }
     }
   };
