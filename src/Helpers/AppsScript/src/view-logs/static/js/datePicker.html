@@ -1,0 +1,113 @@
+<script>
+  function useDatePicker(currentDateString) {
+    const currentDate = parseDate(currentDateString);
+    return new Promise((resolve) => {
+      const datePickerContainer = document.getElementById(
+        "date-picker-container"
+      );
+      const datePicker = document.getElementById("date-picker");
+      const selectButton = document.getElementById("select-date");
+      const clearButton = document.getElementById("clear-date");
+
+      currentDate
+        ? (datePicker.valueAsDate = currentDate)
+        : (datePicker.value = null);
+
+      function clearDate() {
+        resolve("");
+        datePickerContainer.style.display = "none";
+      }
+
+      function selectDate() {
+        if (!datePicker.valueAsDate) {
+          return clearDate();
+        }
+        const modifiedDate = new Date(datePicker.valueAsDate);
+        modifiedDate.setDate(modifiedDate.getDate() + 1);
+        resolve(modifiedDate);
+        datePickerContainer.style.display = "none";
+      }
+
+      datePickerContainer.style.display = "flex";
+
+      let selectListener = selectButton.addEventListener("click", function () {
+        selectDate();
+        removeEventListener("click", selectListener);
+      });
+
+      let clearListener = clearButton.addEventListener("click", function () {
+        clearDate();
+        removeEventListener("click", clearListener);
+      });
+    });
+  }
+
+  function parseDate(dateString) {
+    if (!validateDate) return null;
+    let [month, day, year] = dateString
+      .split("/")
+      .map((part) => parseInt(part));
+    month--;
+    const date = new Date(year, month, day);
+    return date;
+  }
+
+  function validateDate(dateString) {
+    if (!dateString || dateString.split("/").length !== 3) return false;
+    return true;
+  }
+
+  function outputDate(date) {
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  }
+
+  function checkIfDatesWork() {
+    const toDate = document.getElementById("to-date");
+    const fromDate = document.getElementById("from-date");
+    return (
+      (validateDate(fromDate.innerText) &&
+        validateDate(toDate.innerText) &&
+        parseDate(fromDate.innerText) <= parseDate(toDate.innerText)) ||
+      (validateDate(fromDate.innerText) && toDate.innerText === "")
+    );
+  }
+</script>
+
+<script>
+  const dateChangeButton = document.getElementById("change-date-button");
+
+  dateChangeButton.onclick = function () {
+    if (this.classList.contains("dates-work")) {
+      alert("Let's go");
+    }
+  };
+
+  document.querySelectorAll(".pick-date").forEach((element) => {
+    element.onclick = async function (event) {
+      const pick_date = element;
+      const date = await useDatePicker(pick_date.innerText);
+      if (date instanceof Date) {
+        pick_date.innerText = outputDate(date);
+        pick_date.classList.add("filled-date");
+        // If its the blurred date, add filled class to parent as well so "to" is given the effect
+        if (pick_date.classList.contains("blurred-date")) {
+          pick_date.parentElement.classList.add("filled-date");
+        }
+      } else {
+        pick_date.innerText = "";
+        pick_date.classList.remove("filled-date");
+        // If its the blurred date, remove filled class to parent as well so "to" is given the effect
+        if (pick_date.classList.contains("blurred-date")) {
+          pick_date.parentElement.classList.remove("filled-date");
+        }
+      }
+      if (checkIfDatesWork()) {
+        dateChangeButton.classList.remove("blurred-icon");
+        dateChangeButton.classList.add("dates-work");
+      } else {
+        dateChangeButton.classList.add("blurred-icon");
+        dateChangeButton.classList.remove("dates-work");
+      }
+    };
+  });
+</script>

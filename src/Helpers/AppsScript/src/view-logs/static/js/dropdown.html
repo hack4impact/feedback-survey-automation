@@ -1,0 +1,19 @@
+<script>
+  const dropdowns = document.querySelectorAll(".box-row.dropdown");
+  for (const dropdown of dropdowns) {
+    const dropdownToggle = dropdown.querySelector(".dropdown-toggle-button");
+    if (!dropdownToggle) continue;
+    const hiddenContent = dropdown.querySelector(".hidden-content");
+    dropdownToggle.classList.add("off");
+    dropdownToggle.onclick = function (event) {
+      if (dropdownToggle.classList.contains("off")) {
+        hiddenContent.style.height = "auto";
+      } else {
+        hiddenContent.style.height = "0px";
+      }
+
+      dropdownToggle.classList.toggle("off");
+      dropdownToggle.classList.toggle("on");
+    };
+  }
+</script>

@@ -1,12 +1,12 @@
-import { getAllDatesInRange } from "./date-helpers";
-import { LogLabel } from "../get-form-responses/index";
-import { LogLabel as AppsScriptLogsLabel } from "../../../../Utils/types";
+import { getAllDatesInRange, validateDateFormat } from "./misc-helpers";
+import { getDataFromFiles, spread_log_data } from "./data-helpers";
 
-type log_date_store = {
+export type log_date_store = {
   date: string;
   files: GoogleAppsScript.Drive.File[] | any[][] | any;
 };
-type organized_log_data = {
+
+export type organized_log_data = {
   date: string;
   warnings: Record<string, unknown>[];
   errors: Record<string, unknown>[];
@@ -55,13 +55,6 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
 };
 
 //date format must be (YYYY-MM-DD)
-const validateDateFormat = (date: string | undefined) => {
-  if (!date) return false;
-  const regex = RegExp(
-    /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$/
-  );
-  return regex.test(date);
-};
 
 const findFiles = (dates: string[] | undefined): log_date_store[] => {
   if (!dates || dates.length === 0 || dates.length > 2) {
@@ -117,58 +110,4 @@ const findFiles = (dates: string[] | undefined): log_date_store[] => {
   }
 
   return store;
-};
-
-const getDataFromFiles = (logs: log_date_store[]): log_date_store[] => {
-  logs.map(({ date, files }) => {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i] as GoogleAppsScript.Drive.File;
-      files[i] = JSON.parse(file.getBlob().getDataAsString());
-    }
-    return { date, files };
-  });
-  return logs;
-};
-
-const spread_log_data = (logs: log_date_store[]): log_date_store[] => {
-  const spread_data: log_date_store[] = [];
-  for (const log of logs) {
-    const new_data: organized_log_data = {
-      date: log.date,
-      warnings: [],
-      errors: [],
-      feedback_reminders_sent: [],
-      follow_ups_sent: [],
-      responses_uploaded: [],
-      forms_created: [],
-      other: [],
-    };
-    const files = log.files as any[][];
-
-    for (const file of files) {
-      for (const output of file) {
-        const label: LogLabel | AppsScriptLogsLabel | undefined =
-          output.extra?.label || undefined;
-        if (output.type === "error") {
-          new_data.errors.push(output);
-        } else if (output.type === "warn") {
-          new_data.warnings.push(output);
-        } else if (label && label === "googleFormCreated") {
-          new_data.forms_created.push(output);
-        } else if (label && label === "reminderSent") {
-          new_data.feedback_reminders_sent.push(output);
-        } else if (label && label === "twoWeekReminderEmailSent") {
-          new_data.follow_ups_sent.push(output);
-        } else if (label && label === "successTableUpdated") {
-          new_data.responses_uploaded.push(output);
-        } else {
-          new_data.other.push(output);
-        }
-      }
-    }
-
-    const log_date_store = { date: log.date, files: new_data };
-    spread_data.push(log_date_store);
-  }
-  return spread_data;
 };

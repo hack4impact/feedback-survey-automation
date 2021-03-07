@@ -24,3 +24,15 @@ export const getAllDatesInRange = (date1: string, date2: string): string[] => {
   }
   return allDates;
 };
+
+export const validateDateFormat = (date: string | undefined): boolean => {
+  if (!date) return false;
+  const regex = RegExp(
+    /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$/
+  );
+  return regex.test(date);
+};
+
+export const include = (filename: string): string => {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+};

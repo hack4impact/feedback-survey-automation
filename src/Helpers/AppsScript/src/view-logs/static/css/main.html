@@ -1,0 +1,192 @@
+<style>
+  :root {
+    --border: 1px solid rgba(0, 0, 0, 0.125);
+    --blurred-color: rgba(0, 0, 0, 0.201);
+  }
+
+  #logo {
+    height: 2.5rem;
+  }
+
+  #main-container {
+    width: 50rem;
+    margin: auto;
+    padding: 0.5rem;
+  }
+
+  #log-selector {
+    margin-bottom: 2rem;
+  }
+
+  .box {
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .box-row {
+    padding: 1rem;
+    border-bottom: var(--border);
+  }
+
+  .box-row button {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  .button-icon-right {
+    padding-right: 1rem;
+    font-size: 2rem;
+  }
+
+  .box-row:last-of-type {
+    border-bottom: 0px;
+  }
+
+  .box-row.dropdown {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
+
+  .box-row.dropdown .dropdown-toggle-button {
+    transition: transform 0.1s;
+    display: inline-block;
+  }
+
+  .box-row.dropdown .dropdown-toggle-button.off {
+    transform: rotate(0deg);
+  }
+
+  .box-row.dropdown .dropdown-toggle-button.on {
+    transform: rotate(180deg);
+  }
+
+  .box-row.dropdown .hidden-content {
+    height: 0px;
+    transition: height 2s;
+    overflow: hidden;
+  }
+
+  .dropdown-box-row-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .pick-date {
+    border-bottom: 1.7px solid black;
+    min-width: 4.5rem;
+    display: inline-block;
+    cursor: pointer;
+    height: 1em;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .filled-date {
+    position: relative;
+    bottom: 1px;
+    height: 1.5em;
+  }
+
+  #blurred-date-container {
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  #blurred-date-container > .blurred-date {
+    position: relative;
+    top: 2px;
+  }
+
+  .blurred-date {
+    color: var(--blurred-color);
+    border-bottom-color: var(--blurred-color);
+  }
+
+  .blurred-date.filled-date {
+    color: black;
+    border-bottom-color: unset;
+    top: -0.5px !important;
+  }
+
+  .mw-95 {
+    max-width: 95%;
+  }
+
+  .black-overlay {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  #date-picker-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 5px;
+  }
+
+  #date-picker-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  #date-picker-box button {
+    border: none;
+    background-color: transparent;
+    color: blue;
+    font-weight: 600;
+    padding-left: 0px;
+  }
+
+  #date-picker-toolbox {
+    margin-top: 1.5rem;
+  }
+
+  .blurred-icon {
+    opacity: 0.2;
+  }
+
+  .log-row {
+    padding-top: 1rem;
+    padding-bottom: 0.3rem;
+    width: 100%;
+  }
+
+  .log-row ul {
+    list-style-type: none;
+    padding-left: 1rem;
+  }
+
+  .log-row ul > li {
+    margin-bottom: 1rem;
+  }
+
+  .log-row:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  label {
+    margin: 0px;
+  }
+
+  @media (max-width: 440px) {
+    #logo {
+      margin-bottom: 0.6rem;
+    }
+
+    nav.navbar {
+      padding-bottom: 1.3rem;
+    }
+  }
+</style>
