@@ -49,7 +49,14 @@
             </i>
           </button>
         </div>
-        <div class="box-row">Currently showing: logs from the last week</div>
+        <div class="box-row">
+          Currently showing logs from
+          <?= parseDateFromUrlForm(start_date).toLocaleDateString() ?>
+          <? if (end_date) { ?>
+          to
+          <?= parseDateFromUrlForm(end_date).toLocaleDateString() ?>
+          <? } ?>
+        </div>
         <div
           class="box-row d-flex align-items-center"
           id="show-only-errors-container"
@@ -64,13 +71,22 @@
       <?
       for (const day of logs_per_day) {
     ?>
-      <div class="log-container box card">
+      <div <? if (day.files.errors.length>
+        0) { ?> class="log-container box card error-log"
+        <? } else { ?>
+        class="log-container box card"
+        <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
             <?= day.date ?>
           </span>
           <button class="button-icon-right">
-            <i class="mdi mdi-check"></i>
+            <i <? if (day.files.errors.length
+              >0) { ?> class="mdi mdi-close"
+              <? } else { ?>
+              class="mdi mdi-check"
+              <? } ?>></i
+            >
           </button>
         </div>
 

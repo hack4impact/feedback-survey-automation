@@ -36,3 +36,19 @@ export const validateDateFormat = (date: string | undefined): boolean => {
 export const include = (filename: string): string => {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 };
+
+export const changeToUrlForm = (date: Date): string => {
+  return `${date.getFullYear()}-${
+    (date.getMonth() + 1) / 10 < 1
+      ? `0${date.getMonth() + 1}`
+      : date.getMonth() + 1
+  }-${date.getDate() / 10 < 1 ? `0${date.getDate()}` : date.getDate()}`;
+};
+
+export const parseDateFromUrlForm = (dateString: string): Date | null => {
+  if (!validateDateFormat(dateString)) return null;
+  // eslint-disable-next-line prefer-const
+  let [year, month, day] = dateString.split("-").map((part) => parseInt(part));
+  month--;
+  return new Date(year, month, day);
+};
