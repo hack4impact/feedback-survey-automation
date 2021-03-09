@@ -1,4 +1,8 @@
-import { getAllDatesInRange, validateDateFormat } from "./misc-helpers";
+import {
+  getAllDatesInRange,
+  validateDateFormat,
+  changeToUrlForm,
+} from "./misc-helpers";
 import { getDataFromFiles, spread_log_data } from "./data-helpers";
 
 export type log_date_store = {
@@ -32,6 +36,7 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
     ? request.parameters["end"][0]
     : undefined;
   const templatePath = "src/view-logs/static/index";
+  const template = HtmlService.createTemplateFromFile(templatePath);
 
   let filtered_data: log_date_store[];
 
@@ -39,17 +44,26 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
     const logs: log_date_store[] = findFiles([date]);
     const logs_with_data = getDataFromFiles(logs);
     filtered_data = spread_log_data(logs_with_data);
+    template.start_date = date;
+    template.end_date = undefined;
   } else if (validateDateFormat(start_date) && validateDateFormat(end_date)) {
     const logs: log_date_store[] = findFiles([start_date, end_date]);
     const logs_with_data = getDataFromFiles(logs);
     filtered_data = spread_log_data(logs_with_data);
+    template.start_date = start_date;
+    template.end_date = end_date;
   } else {
-    return;
+    const today = changeToUrlForm(new Date());
+    const sevenDaysAgoDate = new Date();
+    sevenDaysAgoDate.setDate(sevenDaysAgoDate.getDate() - 7);
+    const sevenDaysAgo = changeToUrlForm(sevenDaysAgoDate);
+    const logs: log_date_store[] = findFiles([sevenDaysAgo, today]);
+    const logs_with_data = getDataFromFiles(logs);
+    filtered_data = spread_log_data(logs_with_data);
+    template.start_date = sevenDaysAgo;
+    template.end_date = today;
   }
 
-  Logger.log(filtered_data);
-
-  const template = HtmlService.createTemplateFromFile(templatePath);
   template.logs_per_day = filtered_data;
   return template.evaluate();
 };
@@ -86,7 +100,9 @@ const findFiles = (dates: string[] | undefined): log_date_store[] => {
       const file = file_iterator.next();
       log_files.push(file);
     }
-    store.push({ date: singleDate, files: log_files });
+    if (log_files.length > 0) {
+      store.push({ date: singleDate, files: log_files });
+    }
   } else {
     const allDates = getAllDatesInRange(dates[0], dates[1]);
     for (const date of allDates) {

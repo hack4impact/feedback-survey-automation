@@ -46,7 +46,7 @@
   }
 
   function parseDate(dateString) {
-    if (!validateDate) return null;
+    if (!validateDate(dateString)) return null;
     let [month, day, year] = dateString
       .split("/")
       .map((part) => parseInt(part));

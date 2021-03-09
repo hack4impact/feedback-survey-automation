@@ -57,8 +57,11 @@ const sendReminderEmail = async (
     );
     return result;
   } catch (e) {
-    await logger.error(`Incorrect mail configuration:\n\n${e}`, {
-      extra: { label: "incorrectMailConfig" as LogLabel },
+    await logger.error("Incorrect mail configuration", {
+      extra: {
+        label: "incorrectMailConfig" as LogLabel,
+        error: typeof e === "string" ? e : e.message,
+      },
     });
     process.exit();
   }

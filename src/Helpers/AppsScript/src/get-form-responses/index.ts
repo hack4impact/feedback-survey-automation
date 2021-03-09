@@ -118,7 +118,7 @@ const onResponse = (
   } catch (e) {
     const title = form.getTitle();
     logAndWrite(`An error occurred for "${title}"`, "error", {
-      error: e,
+      error: typeof e === "string" ? e : e.message,
       label: "uploadError",
     });
 
@@ -171,7 +171,7 @@ const sendReminder = (
 
   if (process.env.DRY_RUN === `false`) {
     MailApp.sendEmail({
-      subject: subject,
+      subject,
       htmlBody: email,
       to: fields[FIELDS.representativeEmail],
       cc: fields[FIELDS.chapterEmail],
