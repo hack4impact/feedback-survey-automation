@@ -38,10 +38,18 @@
         <div class="box-row d-flex">
           <nav id="log-selector-nav" class="d-flex align-items-center mr-auto">
             Show logs from
-            <span class="pick-date" id="from-date"></span>
+            <span
+              class="pick-date"
+              id="from-date"
+              aria-label="Starting Date"
+            ></span>
             <span class="blurred-date" id="blurred-date-container">
               to
-              <span class="pick-date blurred-date" id="to-date"></span>
+              <span
+                class="pick-date blurred-date"
+                id="to-date"
+                aria-label="Ending Date"
+              ></span>
             </span>
           </nav>
           <button class="button-icon-right">
@@ -61,7 +69,11 @@
           class="box-row d-flex align-items-center"
           id="show-only-errors-container"
         >
-          <input type="checkbox" name="warnings" />
+          <input
+            type="checkbox"
+            name="warnings"
+            aria-label="Show only errors"
+          />
           <label for="warnings" style="margin-left: 8px"
             >Show only erroneous logs</label
           >
@@ -374,7 +386,7 @@
     <div class="black-overlay" id="date-picker-container">
       <div id="date-picker-box">
         <h3>Select Date:</h3>
-        <input type="date" id="date-picker" />
+        <input type="date" id="date-picker" aria-label="Pick Date" />
         <div id="date-picker-toolbox">
           <button id="select-date">Select Date</button>
           <button id="clear-date">Clear Date</button>
