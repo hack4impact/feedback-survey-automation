@@ -122,11 +122,11 @@
                 </li>
                 <li>
                   Accepted Emails:
-                  <?= day.files.feedback_reminders_sent[i].extra.accepted.join(", ") ?>
+                  <?= day.files.feedback_reminders_sent[i].extra.result.accepted.join(", ") ?>
                 </li>
                 <li>
                   Rejected Emails:
-                  <?= day.files.feedback_reminders_sent[i].extra.rejected.join(", ") ?>
+                  <?= day.files.feedback_reminders_sent[i].extra.result.rejected.join(", ") ?>
                 </li>
               </ul>
             </div>
@@ -238,11 +238,15 @@
                 </li>
                 <li>
                   Form Published Url:
-                  <?= day.files.forms_created[i].extra.publishedUrl ?>
+                  <a href="<?= day.files.forms_created[i].extra.publishedUrl ?>"
+                    ><?= day.files.forms_created[i].extra.publishedUrl ?></a
+                  >
                 </li>
                 <li>
                   Form Edit Url:
-                  <?= day.files.forms_created[i].extra.editUrl ?>
+                  <a href="<?= day.files.forms_created[i].extra.editUrl ?>"
+                    ><?= day.files.forms_created[i].extra.editUrl ?></a
+                  >
                 </li>
               </ul>
             </div>
@@ -352,12 +356,12 @@
                   Label:
                   <?= day.files.errors[i].extra.label ?>
                 </li>
-                <?= if (day.files.errors[i].extra.error) { ?>
+                <? if (day.files.errors[i].extra.error) { ?>
                 <li>
                   Error message:
                   <?= day.files.errors[i].extra.error ?>
                 </li>
-                <?= } ?>
+                <? } ?>
               </ul>
             </div>
             <? } ?>
