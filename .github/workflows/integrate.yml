@@ -36,6 +36,12 @@ jobs:
       - name: Setup Clasp Project Info
         run: echo '${{ secrets[matrix.env.claspInfo] }}' > .clasp.json
 
+      - name: Setup Google Credentials
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Setup Google OAuth
+        run: echo '${{ secrets.GOOGLE_OAUTH }}' > oauth-token.json
+
       - name: Install Dependencies
         run: npm ci
 
