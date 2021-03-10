@@ -78,7 +78,7 @@
         <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
-            <?= day.date ?>
+            <?= parseDateFromUrlForm(day.date).toLocaleDateString() ?>
           </span>
           <button class="button-icon-right">
             <i <? if (day.files.errors.length
@@ -119,6 +119,14 @@
                 <li>
                   Label:
                   <?= day.files.feedback_reminders_sent[i].extra.label ?>
+                </li>
+                <li>
+                  Accepted Emails:
+                  <?= day.files.feedback_reminders_sent[i].extra.accepted.join(", ") ?>
+                </li>
+                <li>
+                  Rejected Emails:
+                  <?= day.files.feedback_reminders_sent[i].extra.rejected.join(", ") ?>
                 </li>
               </ul>
             </div>
@@ -228,6 +236,14 @@
                   Label:
                   <?= day.files.forms_created[i].extra.label ?>
                 </li>
+                <li>
+                  Form Published Url:
+                  <?= day.files.forms_created[i].extra.publishedUrl ?>
+                </li>
+                <li>
+                  Form Edit Url:
+                  <?= day.files.forms_created[i].extra.editUrl ?>
+                </li>
               </ul>
             </div>
             <? } ?>
@@ -336,6 +352,12 @@
                   Label:
                   <?= day.files.errors[i].extra.label ?>
                 </li>
+                <?= if (day.files.errors[i].extra.error) { ?>
+                <li>
+                  Error message:
+                  <?= day.files.errors[i].extra.error ?>
+                </li>
+                <?= } ?>
               </ul>
             </div>
             <? } ?>
