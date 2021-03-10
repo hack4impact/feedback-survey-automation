@@ -17,7 +17,7 @@ import {
 } from "./Helpers/Checks";
 import { sendReminderEmail } from "./Helpers/Email";
 import { createGoogleForm } from "./Helpers/Forms";
-import { parseProject, flattenFields } from "./Helpers/General";
+import { parseProject, flattenFields, googleAuth } from "./Helpers/General";
 import Logger from "./Helpers/Logger";
 import { FIELDS } from "./Utils/constants";
 
@@ -42,6 +42,8 @@ const script = async () => {
 
   const logger = new Logger(dryRun);
   try {
+    await googleAuth();
+
     const table = Airtable.base(process.env.AIRTABLE_BASE_ID ?? "");
 
     const standardQuestions = await getStandardQuestions(table);

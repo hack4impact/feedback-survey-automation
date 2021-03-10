@@ -7,7 +7,7 @@ import { format } from "prettier";
 import moment from "moment";
 
 // Internals
-import googleAuth from "./Helpers/google-auth";
+import googleAuth from "../src/Helpers/General/google-auth";
 import Logger from "../src/Helpers/Logger";
 
 const uploadLogs = async () => {

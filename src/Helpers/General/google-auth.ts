@@ -8,8 +8,7 @@ import readline, { createInterface } from "readline";
 import { google, Auth } from "googleapis";
 
 // Internals
-import Logger from "../../src/Helpers/Logger";
-import keyfile from "../../credentials.json";
+import Logger from "../Logger";
 
 readline.Interface.prototype.question[promisify.custom] = function (
   prompt: string
@@ -24,13 +23,17 @@ readline.Interface.prototype.questionAsync = promisify(
   readline.Interface.prototype.question
 );
 
-const TOKEN_PATH = join(__dirname, "..", "..", "oauth-token.json");
+const CRED_PATH = join(__dirname, "..", "..", "..", "credentials.json");
+const TOKEN_PATH = join(__dirname, "..", "..", "..", "oauth-token.json");
 
 const googleAuth = async (): Promise<Auth.OAuth2Client> => {
+  const keyfile = await readFile(CRED_PATH, "utf-8");
+  const creds = JSON.parse(keyfile);
+
   const oAuth2Client = new google.auth.OAuth2(
-    keyfile.installed.client_id,
-    keyfile.installed.client_secret,
-    keyfile.installed.redirect_uris[0]
+    creds.installed.client_id,
+    creds.installed.client_secret,
+    creds.installed.redirect_uris[0]
   );
 
   Logger.log("Authorizing...");
@@ -47,7 +50,9 @@ const googleAuth = async (): Promise<Auth.OAuth2Client> => {
     });
 
     Logger.line();
-    Logger.log(`Authorize this app by visiting this url: ${authUrl}`);
+    Logger.log(
+      `${Logger.COLORS.FgBlue}Authorize by signing in with social-impact@hack4impact.org${Logger.COLORS.Reset}: ${authUrl}`
+    );
 
     const rl = createInterface({
       input: process.stdin,

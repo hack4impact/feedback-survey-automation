@@ -6,7 +6,7 @@ import moment from "moment";
 import yargs from "yargs/yargs";
 
 // Internals
-import googleAuth from "./Helpers/google-auth";
+import googleAuth from "../src/Helpers/General/google-auth";
 import Logger from "../src/Helpers/Logger";
 
 const args = yargs(process.argv.slice(2)).option("all", {
