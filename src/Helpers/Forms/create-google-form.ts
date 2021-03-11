@@ -1,6 +1,7 @@
 // Externals
 import fetch from "node-fetch";
 import Record from "airtable/lib/record";
+import { Auth } from "googleapis";
 
 // Internals
 import Logger from "../Logger";
@@ -23,7 +24,8 @@ const createGoogleForm = async (
   data: FlattenedData,
   timePeriod: TimePeriod,
   dryRun: boolean,
-  logger: Logger
+  logger: Logger,
+  oauth2: Auth.OAuth2Client
 ): Promise<GoogleFormData> => {
   const projectId = project.getId();
   const formData = await fetchGoogleForm(
@@ -31,7 +33,8 @@ const createGoogleForm = async (
     projectId,
     timePeriod,
     dryRun,
-    logger
+    logger,
+    oauth2
   );
 
   await logger.success(
@@ -68,7 +71,8 @@ const fetchGoogleForm = async (
   projectId: string,
   timePeriod: TimePeriod,
   dryRun: boolean,
-  logger: Logger
+  logger: Logger,
+  oauth2: Auth.OAuth2Client
 ): Promise<GoogleFormData> => {
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
 
@@ -84,6 +88,7 @@ const fetchGoogleForm = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${(await oauth2.getAccessToken()).token}`,
     },
     body: JSON.stringify(body),
   });

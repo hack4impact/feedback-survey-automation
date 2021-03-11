@@ -42,7 +42,7 @@ const script = async () => {
 
   const logger = new Logger(dryRun);
   try {
-    await googleAuth();
+    const oauth2 = await googleAuth();
 
     const table = Airtable.base(process.env.AIRTABLE_BASE_ID ?? "");
 
@@ -103,7 +103,8 @@ const script = async () => {
               flattenedData,
               reminderNeeded,
               dryRun,
-              logger
+              logger,
+              oauth2
             );
             await sendReminderEmail(
               flattenedData,
