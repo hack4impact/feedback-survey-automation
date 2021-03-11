@@ -14,7 +14,6 @@
     ".eslintignore": "ignore",
     ".eslintrc": "json",
 
-    ".huskyrc": "json",
     ".lintstagedrc": "json",
 
     ".snyk": "yaml",

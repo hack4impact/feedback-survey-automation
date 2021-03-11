@@ -32,3 +32,4 @@ oauth-token.json
 # Misc
 .DS_Store
 remind-mail.html
+.husky/_
