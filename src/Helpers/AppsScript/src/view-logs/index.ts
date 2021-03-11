@@ -22,10 +22,6 @@ export type organized_log_data = {
 };
 
 export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
-  // if (!request.parameters["password"] || request.parameters["password"] !== process.env.APPS_SCRIPT_PASSWORD) {
-  //   return;
-  // }
-
   const date = Array.isArray(request.parameters["date"])
     ? request.parameters["date"][0]
     : undefined;

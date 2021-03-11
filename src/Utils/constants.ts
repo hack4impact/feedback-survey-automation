@@ -98,7 +98,6 @@ export const PROJECT_STATUSES = [
 export const APPS_SCRIPT_ERRORS = [
   "No Project ID found",
   "No Project Name found",
-  "Wrong APPS_SCRIPT_PASSWORD",
   "No Success Metric Questions found",
   "No Time Period Found",
 ] as const;

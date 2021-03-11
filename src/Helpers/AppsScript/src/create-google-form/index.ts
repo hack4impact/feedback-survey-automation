@@ -20,7 +20,7 @@ export const doPost = (
 ): GoogleAppsScript.Content.TextOutput => {
   const payload: GoogleFormPostData = JSON.parse(request.postData.contents);
 
-  const { password, projectData, projectId, timePeriod, dryRun } = payload;
+  const { projectData, projectId, timePeriod, dryRun } = payload;
 
   if (typeof projectId !== "string") return createError("No Project ID found");
 
@@ -32,9 +32,6 @@ export const doPost = (
 
   if (typeof timePeriod !== "string")
     return createError("No Time Period Found");
-
-  if (password !== process.env.APPS_SCRIPT_PASSWORD)
-    return createError("Wrong APPS_SCRIPT_PASSWORD");
 
   const form = initializeForm(projectData, timePeriod, dryRun);
 

@@ -77,7 +77,6 @@ const fetchGoogleForm = async (
   const scriptURL = process.env.APPS_SCRIPT_URL as string;
 
   const body: GoogleFormPostData = {
-    password: process.env.APPS_SCRIPT_PASSWORD ?? "",
     projectData,
     projectId,
     timePeriod,

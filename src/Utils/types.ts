@@ -61,7 +61,6 @@ export interface GoogleFormData {
 }
 
 export interface GoogleFormPostData {
-  password: string;
   projectData: FlattenedData;
   projectId: string;
   timePeriod: TimePeriod;
@@ -72,7 +71,6 @@ export interface GoogleFormPostData {
 export type AppsScriptError =
   | "No Project ID found"
   | "No Project Name found"
-  | "Wrong APPS_SCRIPT_PASSWORD"
   | "No Success Metric Questions found"
   | "No Time Period Found";
 
