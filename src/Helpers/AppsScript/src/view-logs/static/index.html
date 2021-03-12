@@ -85,9 +85,9 @@
       for (const day of logs_per_day) {
     ?>
       <div <? if (day.files.errors.length>
-        0) { ?> class="log-container box card border-danger"
+        0) { ?> class="log-container box card"
         <? } else { ?>
-        class="log-container box card border-success success-log"
+        class="log-container box card success-log"
         <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
