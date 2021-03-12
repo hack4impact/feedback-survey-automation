@@ -1,20 +1,14 @@
 <script>
-  const onlyErrorsContainer = document.querySelector(
-    "#show-only-errors-container"
-  );
-  const checkbox = onlyErrorsContainer.querySelector("input");
-  const errorLogs = document.querySelectorAll(".error-log");
+  const checkbox = document.querySelector("#showOnlyErrors");
+  const successLogs = document.querySelectorAll(".success-log");
   const allLogs = document.querySelectorAll(".log-container");
 
   checkbox.checked = false;
 
-  onlyErrorsContainer.onclick = function () {
+  checkbox.onclick = function () {
     if (checkbox.checked) {
-      for (const log of allLogs) {
+      for (const log of successLogs) {
         log.style.display = "none";
-      }
-      for (const log of errorLogs) {
-        log.style.display = "block";
       }
     } else {
       for (const log of allLogs) {

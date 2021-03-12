@@ -67,18 +67,17 @@
           <?= parseDateFromUrlForm(end_date).toLocaleDateString() ?>
           <? } ?>
         </div>
-        <div
-          class="box-row d-flex align-items-center"
-          id="show-only-errors-container"
-        >
-          <input
-            type="checkbox"
-            name="warnings"
-            aria-label="Show only errors"
-          />
-          <label for="warnings" style="margin-left: 8px"
-            >Show only erroneous logs</label
-          >
+        <div class="box-row d-flex align-items-center">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="showOnlyErrors"
+            />
+            <label class="custom-control-label" for="showOnlyErrors"
+              >Show only error logs</label
+            >
+          </div>
         </div>
       </div>
 
@@ -88,7 +87,7 @@
       <div <? if (day.files.errors.length>
         0) { ?> class="log-container box card border-danger"
         <? } else { ?>
-        class="log-container box card border-success"
+        class="log-container box card border-success success-log"
         <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
