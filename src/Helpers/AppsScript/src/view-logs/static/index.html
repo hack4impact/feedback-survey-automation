@@ -48,11 +48,14 @@
               <span
                 class="pick-date blurred-date"
                 id="to-date"
-                aria-label="Ending Date"
+                aria-label="Ending Dates"
               ></span>
             </span>
           </nav>
-          <button class="button-icon-right bg-primary blurred-icon text-light" id="change-date-button">
+          <button
+            class="button-icon-right bg-primary blurred-icon text-light"
+            id="change-date-button"
+          >
             Select Date(s)
           </button>
         </div>
@@ -83,24 +86,24 @@
       for (const day of logs_per_day) {
     ?>
       <div <? if (day.files.errors.length>
-        0) { ?> class="log-container box card error-log"
+        0) { ?> class="log-container box card border-danger"
         <? } else { ?>
-        class="log-container box card"
+        class="log-container box card border-success"
         <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
             <?= parseDateFromUrlForm(day.date).toLocaleDateString() ?>
           </span>
-          <button class="button-icon-right">
-            <i <? if (day.files.errors.length
-              >0) { ?> class="mdi mdi-close"
-              <? } else { ?>
-              class="mdi mdi-check"
-              <? } ?>></i
-            >
-          </button>
+          <? if (day.files.errors.length>0) { ?>
+          <span class="button-icon-right bg-danger">
+            <i class="mdi mdi-close button-icon-right-image"></i>
+          </span>
+          <? } else { ?>
+          <span class="button-icon-right bg-success">
+            <i class="mdi mdi-check button-icon-right-image"></i>
+          </span>
+          <? } ?>
         </div>
-
         <div class="box-row dropdown">
           <div class="d-flex align-items-center dropdown-box-row-padding">
             <span class="mr-auto">
@@ -108,11 +111,11 @@
               feedback survey reminders sent
             </span>
             <? if (day.files.feedback_reminders_sent.length!==0) { ?>
-            <button class="button-icon-right">
+            <span class="button-icon-right">
               <i
                 class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
               ></i>
-            </button>
+            </span>
             <?  } ?>
           </div>
           <div class="hidden-content">

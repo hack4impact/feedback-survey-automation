@@ -56,7 +56,7 @@ const script = async () => {
             const data = parseProject(project);
             const { projectName } = data;
 
-            // Checks for empty rows
+            // Check for empty rows
             if (typeof projectName !== "string") continue;
 
             // Log the project's name
