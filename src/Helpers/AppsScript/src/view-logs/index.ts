@@ -121,5 +121,5 @@ const findFiles = (dates: string[] | undefined): log_date_store[] => {
     }
   }
 
-  return store;
+  return store.reverse();
 };

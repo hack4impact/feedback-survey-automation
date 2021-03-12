@@ -22,6 +22,8 @@
     border-radius: 5px;
     margin-top: 1rem;
     margin-bottom: 2.5rem;
+    box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px,
+      rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px;
   }
 
   .box-row {
@@ -152,7 +154,7 @@
   }
 
   #date-picker-box h3 {
-    font-size: 1.0rem;
+    font-size: 1rem;
     margin-bottom: 0.8rem;
   }
 
@@ -164,7 +166,7 @@
   }
 
   #date-picker-toolbox {
-    margin-top: 2.0rem;
+    margin-top: 2rem;
   }
 
   #date-picker {
@@ -184,6 +186,7 @@
 
   .blurred-icon {
     opacity: 0.2;
+    cursor: not-allowed;
   }
 
   .log-row {
@@ -207,6 +210,16 @@
 
   label {
     margin: 0px;
+  }
+
+  #noLogsMessage {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--gray);
+  }
+
+  #footer {
+    text-align: center;
   }
 
   @media (max-width: 440px) {

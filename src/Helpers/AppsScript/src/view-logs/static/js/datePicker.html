@@ -126,9 +126,11 @@
       }
       if (checkIfDatesWork()) {
         dateChangeButton.classList.remove("blurred-icon");
+        dateChangeButton.removeAttribute("disabled");
         dateChangeButton.classList.add("dates-work");
       } else {
         dateChangeButton.classList.add("blurred-icon");
+        dateChangeButton.setAttribute("disabled", "");
         dateChangeButton.classList.remove("dates-work");
       }
     };

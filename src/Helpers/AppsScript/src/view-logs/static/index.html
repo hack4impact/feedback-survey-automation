@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>H4I Feedback Automation Logs</title>
+    <title>Hack4Impact | Feedback Survey Automation Logs</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -24,13 +24,17 @@
     <nav class="navbar navbar-light bg-light d-flex">
       <a class="navbar-brand mr-auto" href="https://hack4impact.org">
         <img
-          src="https://hack4impact.org/svg/logo.svg"
+          src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/hack4impact-banner.svg"
           alt="Hack4Impact Logo"
           id="logo"
         />
       </a>
-
-      <span class=""> Feedback Automation Logs </span>
+      <span>
+        <a href="https://github.com/hack4impact/feedback-survey-automation">
+          Feedback Survey Automation
+        </a>
+        Logs
+      </span>
     </nav>
 
     <div id="main-container" class="mw-95">
@@ -53,8 +57,9 @@
             </span>
           </nav>
           <button
-            class="button-icon-right bg-primary blurred-icon text-light"
+            class="blurred-icon button-icon-right bg-primary text-light"
             id="change-date-button"
+            disabled
           >
             Select Date(s)
           </button>
@@ -251,15 +256,17 @@
                 </li>
                 <li>
                   Form Published Url:
-                  <a href="<?= day.files.forms_created[i].extra.publishedUrl ?>"
-                    ><?= day.files.forms_created[i].extra.publishedUrl ?></a
+                  <a
+                    href="<?= day.files.forms_created[i].extra.publishedUrl ?>"
                   >
+                    <?= day.files.forms_created[i].extra.publishedUrl ?>
+                  </a>
                 </li>
                 <li>
                   Form Edit Url:
-                  <a href="<?= day.files.forms_created[i].extra.editUrl ?>"
-                    ><?= day.files.forms_created[i].extra.editUrl ?></a
-                  >
+                  <a href="<?= day.files.forms_created[i].extra.editUrl ?>">
+                    <?= day.files.forms_created[i].extra.editUrl ?>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -382,6 +389,23 @@
         </div>
       </div>
       <? } ?>
+
+      <? if (logs_per_day.length === 0) { ?>
+      <p id="noLogsMessage">
+        No logs from
+        <?= parseDateFromUrlForm(start_date).toLocaleDateString() ?>
+        <? if (end_date) { ?>
+        to
+        <?= parseDateFromUrlForm(end_date).toLocaleDateString() ?>
+        <? } ?>
+      </p>
+      <?  } ?>
+
+      <p id="footer">
+        Created by
+        <a href="https://www.linkedin.com/in/subha-das-760b861aa/">Subha Das</a>
+        and <a href="https://github.com/YashTotale">Yash Totale</a>
+      </p>
     </div>
 
     <div class="black-overlay" id="date-picker-container">
