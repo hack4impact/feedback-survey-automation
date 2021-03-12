@@ -64,16 +64,12 @@
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   }
 
-  function changeToUrlForm(dateObject) {
-    return `${dateObject.getFullYear()}-${
-      (dateObject.getMonth() + 1) / 10 < 1
-        ? `0${dateObject.getMonth() + 1}`
-        : dateObject.getMonth() + 1
-    }-${
-      dateObject.getDate() / 10 < 1
-        ? `0${dateObject.getDate()}`
-        : dateObject.getDate()
-    }`;
+  function createStringDate(date) {
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
   }
 
   function checkIfDatesWork() {
@@ -92,10 +88,10 @@
 
   dateChangeButton.onclick = function () {
     if (this.classList.contains("dates-work")) {
-      const fromDateString = changeToUrlForm(parseDate(fromDate.innerText));
+      const fromDateString = createStringDate(parseDate(fromDate.innerText));
       const toDateString =
         toDate.innerText.length !== 0
-          ? changeToUrlForm(parseDate(toDate.innerText))
+          ? createStringDate(parseDate(toDate.innerText))
           : null;
       if (!toDateString) {
         window.top.location.href = `${windowUrl}?date=${fromDateString}`;

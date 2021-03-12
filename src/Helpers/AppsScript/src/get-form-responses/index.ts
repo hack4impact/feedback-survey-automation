@@ -6,6 +6,7 @@ import {
   updateProjectSuccessTable,
 } from "../helpers/airtable/requests";
 import { RowArr, RowObj } from "./types";
+import { createStringDate } from "../helpers/misc";
 
 // START CONSTANTS
 // END CONSTANTS
@@ -78,11 +79,8 @@ const finish = () => {
 
 const createFileName = () => {
   const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-  const date = ("0" + currentDate.getDate()).slice(-2);
 
-  return `${year}-${month}-${date}.json`;
+  return `${createStringDate(currentDate)}.json`;
 };
 
 const onResponse = (

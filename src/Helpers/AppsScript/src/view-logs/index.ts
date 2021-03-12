@@ -1,9 +1,6 @@
-import {
-  getAllDatesInRange,
-  validateDateFormat,
-  changeToUrlForm,
-} from "./misc-helpers";
+import { getAllDatesInRange, validateDateFormat } from "./misc-helpers";
 import { getDataFromFiles, spread_log_data } from "./data-helpers";
+import { createStringDate } from "../helpers/misc";
 
 export type log_date_store = {
   date: string;
@@ -49,10 +46,10 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
     template.start_date = start_date;
     template.end_date = end_date;
   } else {
-    const today = changeToUrlForm(new Date());
+    const today = createStringDate(new Date());
     const sevenDaysAgoDate = new Date();
     sevenDaysAgoDate.setDate(sevenDaysAgoDate.getDate() - 7);
-    const sevenDaysAgo = changeToUrlForm(sevenDaysAgoDate);
+    const sevenDaysAgo = createStringDate(sevenDaysAgoDate);
     const logs: log_date_store[] = findFiles([sevenDaysAgo, today]);
     const logs_with_data = getDataFromFiles(logs);
     filtered_data = spread_log_data(logs_with_data);
