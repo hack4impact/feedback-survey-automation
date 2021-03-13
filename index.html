@@ -68,18 +68,12 @@
       height="100%"
       src="https://script.google.com/a/hack4impact.org/macros/s/AKfycbz1kGHf-TaxtbaQvo8MuvPPDY7bCY-3iuQrpiHYjKKx_ZBhTbuanG2a/exec"
       id="logIframe"
-      onload="iframeLoaded()"
+      onload="resizeIframe(this)"
     ></iframe>
     <script type="text/javascript">
-      function iframeLoaded() {
-        console.log("Called");
-        var iFrameID = document.getElementById("logIframe");
-        if (iFrameID) {
-          // here you can make the height, I delete it first, then I make it again
-          iFrameID.height = "";
-          iFrameID.height =
-            iFrameID.contentWindow.document.body.scrollHeight + "px";
-        }
+      function resizeIframe(iframe) {
+        iFrameID.height =
+          iFrameID.contentWindow.document.body.scrollHeight + "px";
       }
     </script>
   </body>
