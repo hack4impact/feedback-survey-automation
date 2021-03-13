@@ -10,7 +10,7 @@ const loadingContainer = document.getElementById("loadingContainer");
 
 const params = new URLSearchParams(window.location.href);
 
-console.log(params.get("dev"));
+console.log(params.get("dev"), window.location.href);
 
 showDevLogs.checked = params.get("dev") === "true" ? true : false;
 logIframe.setAttribute("data-type", "prod");
