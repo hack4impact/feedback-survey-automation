@@ -36,7 +36,7 @@ See the [Tools and Technologies Wiki]
 
 ## Logs Website
 
-**The [logs website](https://hack4impact.github.io/feedback-survey-automation/) displays logs for every automated run** (includes both development and production logs).
+The **[logs website](https://hack4impact.github.io/feedback-survey-automation/)** displays logs for every automated run (includes both development and production logs).
 
 ## Contributors
 
