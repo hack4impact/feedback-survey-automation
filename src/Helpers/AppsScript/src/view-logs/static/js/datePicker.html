@@ -94,10 +94,17 @@
         toDate.innerText.length !== 0
           ? createStringDate(parseDate(toDate.innerText))
           : null;
+
       if (!toDateString) {
-        window.location.href = `${windowUrl}?date=${fromDateString}`;
+        window.top.postMessage(
+          { type: "dateChange", date: fromDateString },
+          "https://hack4impact.github.io/feedback-survey-automation/"
+        );
       } else {
-        window.location.href = `${windowUrl}?start=${fromDateString}&end=${toDateString}`;
+        window.top.postMessage(
+          { type: "dateChange", start: fromDateString, end: toDateString },
+          "https://hack4impact.github.io/feedback-survey-automation/"
+        );
       }
     }
   };

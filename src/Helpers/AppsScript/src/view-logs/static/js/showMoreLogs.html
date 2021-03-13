@@ -19,8 +19,10 @@
     showMoreLogsBtn.onclick = function () {
       startDate.setDate(startDate.getDate() - 7);
       const newStart = createStringDate(startDate);
-
-      window.location.href = `${baseURL}?start=${newStart}&end=${endDateStr}`;
+      window.top.postMessage(
+        { type: "showMoreLogs", start: newStart, end: endDateStr },
+        "https://hack4impact.github.io/feedback-survey-automation/"
+      );
     };
   }
 </script>
