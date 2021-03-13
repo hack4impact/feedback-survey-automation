@@ -8,7 +8,11 @@ const logIframe = document.getElementById("logIframe");
 const showDevLogs = document.getElementById("showDevLogs");
 const loadingContainer = document.getElementById("loadingContainer");
 
-showDevLogs.checked = false;
+const params = new URLSearchParams(window.location.href);
+
+console.log(params.get("dev"));
+
+showDevLogs.checked = params.get("dev") === "true" ? true : false;
 logIframe.setAttribute("data-type", "prod");
 logIframe.src = getIframeSrc();
 
