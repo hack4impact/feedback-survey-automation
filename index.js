@@ -10,6 +10,22 @@ const showDevLogs = document.getElementById("showDevLogs");
 showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
+logIframe.onload = function () {
+  console.log("On Load");
+};
+
+logIframe.onloadstart = function () {
+  console.log("On Load Start");
+};
+
+logIframe.onloadeddata = function () {
+  console.log("On Load Data");
+};
+
+logIframe.onloadedmetadata = function () {
+  console.log("On Load Meta Data");
+};
+
 showDevLogs.onclick = function () {
   if (showDevLogs.checked) {
     logIframe.src = DEV_LOGS_URL;
