@@ -12,6 +12,7 @@ showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
 window.addEventListener("message", (event) => {
+  console.log("listener called!", event);
   if (event.origin.endsWith("script.googleusercontent.com")) {
     if (event.data === "startLoading") {
       addLoading();
