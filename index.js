@@ -12,6 +12,7 @@ showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
 window.addEventListener("message", (event) => {
+  console.log("WE ARE BEING CALLED!");
   if (
     event.origin.startsWith(DEV_LOGS_URL) ||
     event.origin.startsWith(PROD_LOGS_URL)
