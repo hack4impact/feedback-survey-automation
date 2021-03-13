@@ -46,6 +46,7 @@
               class="pick-date"
               id="from-date"
               aria-label="Starting Date"
+              data-start="<?= start_date ?>"
             ></span>
             <span class="blurred-date" id="blurred-date-container">
               to
@@ -53,6 +54,7 @@
                 class="pick-date blurred-date"
                 id="to-date"
                 aria-label="Ending Dates"
+                data-end="<?= end_date ?>"
               ></span>
             </span>
           </nav>
@@ -393,7 +395,7 @@
       <? } ?>
 
       <? if (logs_per_day.length === 0) { ?>
-      <p id="noLogsMessage">
+      <p id="no-logs-message">
         No logs from
         <?= parseDateFromUrlForm(start_date).toLocaleDateString() ?>
         <? if (end_date) { ?>
@@ -401,6 +403,15 @@
         <?= parseDateFromUrlForm(end_date).toLocaleDateString() ?>
         <? } ?>
       </p>
+      <?  } ?>
+
+      <? if (prev_logs.length >
+      0) { ?>
+      <div id="show-more-logs-container">
+        <button id="show-more-logs" class="btn btn-primary">
+          Show More Logs
+        </button>
+      </div>
       <?  } ?>
 
       <p id="footer">
@@ -424,6 +435,7 @@
     <?!= include("src/view-logs/static/js/dropdown.html") ?>
     <?!= include("src/view-logs/static/js/datePicker.html") ?>
     <?!= include("src/view-logs/static/js/showOnlyErrors.html") ?>
+    <?!= include("src/view-logs/static/js/showMoreLogs.html") ?>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

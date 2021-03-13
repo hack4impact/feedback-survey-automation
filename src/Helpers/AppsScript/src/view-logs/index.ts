@@ -1,4 +1,8 @@
-import { getAllDatesInRange, validateDateFormat } from "./misc-helpers";
+import {
+  getAllDatesInRange,
+  parseDateFromUrlForm,
+  validateDateFormat,
+} from "./misc-helpers";
 import { getDataFromFiles, spread_log_data } from "./data-helpers";
 import { createStringDate } from "../helpers/misc";
 
@@ -57,6 +61,22 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
     template.end_date = today;
   }
 
+  const sevenBeforeStart = parseDateFromUrlForm(
+    template.start_date as string
+  ) as Date;
+  sevenBeforeStart.setDate(sevenBeforeStart.getDate() - 7);
+
+  const oneBeforeStart = parseDateFromUrlForm(
+    template.start_date as string
+  ) as Date;
+  oneBeforeStart.setDate(oneBeforeStart.getDate() - 1);
+
+  const prevLogs = findFiles([
+    createStringDate(sevenBeforeStart),
+    createStringDate(oneBeforeStart),
+  ]);
+
+  template.prev_logs = prevLogs;
   template.logs_per_day = filtered_data;
   return template.evaluate();
 };

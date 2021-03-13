@@ -1,0 +1,26 @@
+<script>
+  const showMoreLogsBtn = document.getElementById("show-more-logs");
+
+  if (showMoreLogsBtn) {
+    const to = document.getElementById("to-date");
+    const endDateStr = to.getAttribute("data-end");
+
+    const from = document.getElementById("from-date");
+    const startDateStr = from.getAttribute("data-start");
+
+    const [year, month, day] = startDateStr
+      .split("-")
+      .map((part) => parseInt(part));
+
+    const startDate = new Date(year, month - 1, day);
+
+    const baseURL = process.env.APPS_SCRIPT_URL;
+
+    showMoreLogsBtn.onclick = function () {
+      startDate.setDate(startDate.getDate() - 7);
+      const newStart = createStringDate(startDate);
+
+      window.top.location.href = `${baseURL}?start=${newStart}&end=${endDateStr}`;
+    };
+  }
+</script>

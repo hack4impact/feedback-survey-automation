@@ -47,11 +47,12 @@
 
   function parseDate(dateString) {
     if (!validateDate(dateString)) return null;
-    let [month, day, year] = dateString
+
+    const [month, day, year] = dateString
       .split("/")
       .map((part) => parseInt(part));
-    month--;
-    const date = new Date(year, month, day);
+
+    const date = new Date(year, month - 1, day);
     return date;
   }
 

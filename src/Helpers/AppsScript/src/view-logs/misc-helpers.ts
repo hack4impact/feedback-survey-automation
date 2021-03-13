@@ -39,8 +39,10 @@ export const include = (filename: string): string => {
 
 export const parseDateFromUrlForm = (dateString: string): Date | null => {
   if (!validateDateFormat(dateString)) return null;
-  // eslint-disable-next-line prefer-const
-  let [year, month, day] = dateString.split("-").map((part) => parseInt(part));
-  month--;
-  return new Date(year, month, day);
+
+  const [year, month, day] = dateString
+    .split("-")
+    .map((part) => parseInt(part));
+
+  return new Date(year, month - 1, day);
 };
