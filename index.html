@@ -46,10 +46,7 @@
   </head>
 
   <body>
-    <nav
-      class="navbar navbar-light bg-light d-flex"
-      style="height: 79px; position: relative"
-    >
+    <nav class="navbar navbar-light bg-light d-flex" id="navbar">
       <a class="navbar-brand mr-auto" href="https://hack4impact.org">
         <img
           src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/hack4impact-banner.svg"
@@ -57,14 +54,7 @@
           id="logo"
         />
       </a>
-      <h3
-        style="
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        "
-      >
+      <h3 id="title">
         <a href="https://github.com/hack4impact/feedback-survey-automation">
           Feedback Survey Automation
         </a>
@@ -78,11 +68,10 @@
       </div>
     </nav>
     <iframe
-      style="height: calc(100% - 79px); border: none"
       width="100%"
       src="https://script.google.com/a/hack4impact.org/macros/s/AKfycbz1kGHf-TaxtbaQvo8MuvPPDY7bCY-3iuQrpiHYjKKx_ZBhTbuanG2a/exec"
-      style="border: none"
+      id="logIframe"
     ></iframe>
-    <script type="text/javascript"></script>
+    <script src="https://hack4impact.github.io/feedback-survey-automation/index.js"></script>
   </body>
 </html>

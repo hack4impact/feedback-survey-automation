@@ -1,4 +1,25 @@
+:root {
+  --nav-height: 79px;
+}
+
 html,
 body {
   height: 100%;
+}
+
+#navbar {
+  height: var(--nav-height);
+  position: relative;
+}
+
+#title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#logIframe {
+  height: calc(100% - var(--nav-height));
+  border: none;
 }
