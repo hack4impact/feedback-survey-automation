@@ -6,24 +6,15 @@ const PROD_LOGS_URL =
 
 const logIframe = document.getElementById("logIframe");
 const showDevLogs = document.getElementById("showDevLogs");
+const loadingContainer = document.getElementById("loadingContainer");
 
 showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
 logIframe.onload = function () {
-  console.log("On Load");
-};
-
-logIframe.onloadstart = function () {
-  console.log("On Load Start");
-};
-
-logIframe.onloadeddata = function () {
-  console.log("On Load Data");
-};
-
-logIframe.onloadedmetadata = function () {
-  console.log("On Load Meta Data");
+  console.log(logIframe.contentWindow);
+  removeLoading();
+  console.log("On Load qsqq sq  ");
 };
 
 showDevLogs.onclick = function () {
@@ -32,4 +23,14 @@ showDevLogs.onclick = function () {
   } else {
     logIframe.src = PROD_LOGS_URL;
   }
+  addLoading();
 };
+
+function removeLoading() {
+  loadingContainer.classList.remove("d-flex");
+  loadingContainer.style.display = "none";
+}
+
+function addLoading() {
+  loadingContainer.classList.add("d-flex");
+}
