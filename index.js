@@ -9,16 +9,23 @@ const showDevLogs = document.getElementById("showDevLogs");
 const loadingContainer = document.getElementById("loadingContainer");
 
 showDevLogs.checked = false;
-logIframe.src = PROD_LOGS_URL;
+logIframe.setAttribute("data-type", "prod");
+logIframe.src = getIframeSrc();
 
 window.addEventListener("message", (event) => {
   console.log("listener called!", event);
   if (event.origin.endsWith("script.googleusercontent.com")) {
-    if (event.data === "startLoading") {
+    const { type } = event.data;
+
+    if (type === "dateChange") {
+      if (event.data.date) {
+        logIframe.src = `${getIframeSrc()}?date=${event.data.date}`;
+      } else if (event.data.start && event.data.end) {
+        logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
+          event.data.end
+        }`;
+      }
       addLoading();
-    }
-    if (event.data === "stopLoading") {
-      removeLoading();
     }
   }
 });
@@ -30,9 +37,11 @@ logIframe.onload = function () {
 
 showDevLogs.onclick = function () {
   if (showDevLogs.checked) {
-    logIframe.src = DEV_LOGS_URL;
+    logIframe.setAttribute("data-type", "dev");
+    logIframe.src = getIframeSrc();
   } else {
-    logIframe.src = PROD_LOGS_URL;
+    logIframe.setAttribute("data-type", "prod");
+    logIframe.src = getIframeSrc();
   }
   addLoading();
 };
@@ -45,4 +54,9 @@ function removeLoading() {
 function addLoading() {
   loadingContainer.classList.add("d-flex");
   loadingContainer.style.display = "flex";
+}
+
+function getIframeSrc() {
+  const type = logIframe.getAttribute("data-type");
+  return type === "dev" ? DEV_LOGS_URL : PROD_LOGS_URL;
 }
