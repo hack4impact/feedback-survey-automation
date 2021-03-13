@@ -98,9 +98,7 @@
         <? } ?>>
         <div class="box-row d-flex align-items-center">
           <span class="mr-auto">
-            <strong
-              ><?= parseDateFromUrlForm(day.date).toLocaleDateString() ?></strong
-            >
+            <?= parseDateFromUrlForm(day.date).toLocaleDateString() ?>
           </span>
           <? if (day.files.errors.length>0) { ?>
           <span class="button-icon-right bg-danger">
@@ -119,11 +117,11 @@
               feedback survey reminders sent
             </span>
             <? if (day.files.feedback_reminders_sent.length!==0) { ?>
-            <span class="button-icon-right">
+            <button class="button-icon-right">
               <i
                 class="mdi mdi-arrow-down-drop-circle-outline dropdown-toggle-button"
               ></i>
-            </span>
+            </button>
             <?  } ?>
           </div>
           <div class="hidden-content">

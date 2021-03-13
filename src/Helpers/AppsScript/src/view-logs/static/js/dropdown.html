@@ -3,9 +3,13 @@
   for (const dropdown of dropdowns) {
     const dropdownToggle = dropdown.querySelector(".dropdown-toggle-button");
     if (!dropdownToggle) continue;
+
     const hiddenContent = dropdown.querySelector(".hidden-content");
+    dropdown.style.cursor = "pointer";
+
     dropdownToggle.classList.add("off");
-    dropdownToggle.onclick = function (event) {
+
+    dropdown.onclick = function (event) {
       if (dropdownToggle.classList.contains("off")) {
         hiddenContent.style.height = "auto";
       } else {
