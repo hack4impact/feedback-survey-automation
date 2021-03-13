@@ -23,6 +23,7 @@ window.addEventListener("message", (event) => {
 });
 
 logIframe.onload = function () {
+  console.log("DONE LOADIN!");
   removeLoading();
 };
 
@@ -42,4 +43,5 @@ function removeLoading() {
 
 function addLoading() {
   loadingContainer.classList.add("d-flex");
+  loadingContainer.style.display = "flex";
 }
