@@ -17,15 +17,30 @@ window.addEventListener("message", (event) => {
   if (event.origin.endsWith("script.googleusercontent.com")) {
     const { type } = event.data;
 
-    if (type === "dateChange") {
-      if (event.data.date) {
-        logIframe.src = `${getIframeSrc()}?date=${event.data.date}`;
-      } else if (event.data.start && event.data.end) {
-        logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
-          event.data.end
-        }`;
+    switch (type) {
+      case "dateChange": {
+        if (event.data.date) {
+          logIframe.src = `${getIframeSrc()}?date=${event.data.date}`;
+        } else if (event.data.start && event.data.end) {
+          logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
+            event.data.end
+          }`;
+        }
+        addLoading();
+        break;
       }
-      addLoading();
+      case "showMoreLogs": {
+        if (event.data.start && event.data.end) {
+          logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
+            event.data.end
+          }`;
+        }
+        addLoading();
+        break;
+      }
+      default: {
+        break;
+      }
     }
   }
 });
