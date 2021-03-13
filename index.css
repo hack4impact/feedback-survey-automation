@@ -1,5 +1,6 @@
 :root {
   --nav-height: 79px;
+  --alert-height: 50px;
 }
 
 html,
@@ -20,8 +21,12 @@ body {
 }
 
 #logIframe {
-  height: calc(100% - var(--nav-height));
+  height: calc(100% - var(--nav-height) - var(--alert-height));
   border: none;
+}
+
+#logIframe.alert-closed {
+  height: calc(100% - var(--nav-height));
 }
 
 #troubleshooting-alert {

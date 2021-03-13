@@ -83,3 +83,8 @@ function setIframeSrc() {
     logIframe.src = getIframeSrc();
   }
 }
+
+// eslint-disable-next-line no-undef
+$("#troubleshooting-alert").on("closed.bs.alert", () => {
+  logIframe.classList.add("alert-closed");
+});
