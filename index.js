@@ -19,21 +19,22 @@ window.addEventListener("message", (event) => {
 
     switch (type) {
       case "dateChange": {
-        if (event.data.date) {
-          logIframe.src = `${getIframeSrc()}?date=${event.data.date}`;
-        } else if (event.data.start && event.data.end) {
-          logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
-            event.data.end
-          }`;
+        const { date, start, end } = event.data;
+
+        if (date) {
+          logIframe.src = `${getIframeSrc()}?date=${date}`;
+        } else if (start && end) {
+          logIframe.src = `${getIframeSrc()}?start=${start}&end=${end}`;
         }
+
         addLoading();
         break;
       }
       case "showMoreLogs": {
-        if (event.data.start && event.data.end) {
-          logIframe.src = `${getIframeSrc()}?start=${event.data.start}&end=${
-            event.data.end
-          }`;
+        const { start, end } = event.data;
+
+        if (start && end) {
+          logIframe.src = `${getIframeSrc()}?start=${start}&end=${end}`;
         }
         addLoading();
         break;
