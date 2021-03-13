@@ -13,6 +13,7 @@ logIframe.src = PROD_LOGS_URL;
 
 window.addEventListener("message", (event) => {
   console.log("WE ARE BEING CALLED!");
+  console.log(event);
   if (
     event.origin.startsWith(DEV_LOGS_URL) ||
     event.origin.startsWith(PROD_LOGS_URL)
