@@ -64,7 +64,6 @@
     "@types/dotenv-safe": "^8.1.1",
     "@types/google-apps-script": "^1.0.22",
     "@types/html-to-text": "^6.0.0",
-    "@types/node": "^14.14.22",
     "@types/node-fetch": "^2.5.8",
     "@types/nodemailer": "^6.4.0",
     "@types/prettier": "^2.2.1",
