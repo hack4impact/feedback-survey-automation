@@ -8,9 +8,9 @@ const logIframe = document.getElementById("logIframe");
 const showDevLogs = document.getElementById("showDevLogs");
 const loadingContainer = document.getElementById("loadingContainer");
 
-const params = new URLSearchParams(window.location.href);
+const params = new URLSearchParams(window.location.search);
 
-console.log(params.get("dev"), window.location.href);
+console.log(params.get("dev"), window.location.search);
 
 showDevLogs.checked = params.get("dev") === "true" ? true : false;
 logIframe.setAttribute("data-type", "prod");
