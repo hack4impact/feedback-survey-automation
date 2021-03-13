@@ -47,7 +47,6 @@ window.addEventListener("message", (event) => {
 });
 
 logIframe.onload = function () {
-  console.log("DONE LOADIN!");
   removeLoading();
 };
 
