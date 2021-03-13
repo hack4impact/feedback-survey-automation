@@ -23,3 +23,7 @@ body {
   height: calc(100% - var(--nav-height));
   border: none;
 }
+
+#troubleshooting-alert {
+  text-align: center;
+}
