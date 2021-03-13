@@ -47,7 +47,12 @@
 
   <body>
     <nav class="navbar navbar-light bg-light d-flex" id="navbar">
-      <a class="navbar-brand mr-auto" href="https://hack4impact.org">
+      <a
+        class="navbar-brand mr-auto"
+        href="https://hack4impact.org"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <img
           src="https://raw.githubusercontent.com/hack4impact/feedback-survey-automation/main/static/images/hack4impact-banner.svg"
           alt="Hack4Impact Logo"
@@ -55,7 +60,11 @@
         />
       </a>
       <h3 id="title">
-        <a href="https://github.com/hack4impact/feedback-survey-automation">
+        <a
+          href="https://github.com/hack4impact/feedback-survey-automation"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Feedback Survey Automation
         </a>
         Logs
@@ -67,12 +76,38 @@
         >
       </div>
     </nav>
+    <div
+      class="alert alert-warning alert-dismissible fade show mb-0"
+      role="alert"
+      id="troubleshooting-alert"
+    >
+      <strong>Troubleshooting:</strong> Sign in to a Hack4Impact Google account
+      (@hack4impact.org) to access logs
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div class="d-flex justify-content-center mt-3" id="loadingContainer">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
     <iframe width="100%" id="logIframe"></iframe>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://hack4impact.github.io/feedback-survey-automation/index.js"></script>
   </body>
 </html>
