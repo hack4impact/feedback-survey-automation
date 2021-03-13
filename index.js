@@ -11,8 +11,16 @@ const loadingContainer = document.getElementById("loadingContainer");
 showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
+window.addEventListener("message", (event) => {
+  if (
+    event.origin.startsWith(DEV_LOGS_URL) ||
+    event.origin.startsWith(PROD_LOGS_URL)
+  ) {
+    console.log(event.data);
+  }
+});
+
 logIframe.onload = function () {
-  console.log(logIframe.contentWindow);
   removeLoading();
   console.log("On Load qsqq sq  ");
 };
