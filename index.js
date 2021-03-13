@@ -56,6 +56,7 @@ showDevLogs.onclick = function () {
   } else {
     params.delete("dev");
   }
+  window.location.search = params.toString();
   // setIframeSrc();
   // addLoading();
 };
