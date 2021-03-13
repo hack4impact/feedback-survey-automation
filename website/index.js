@@ -8,12 +8,12 @@ const logIframe = document.getElementById("logIframe");
 const showDevLogs = document.getElementById("showDevLogs");
 const loadingContainer = document.getElementById("loadingContainer");
 
-showDevLogs.checked = false;
-logIframe.setAttribute("data-type", "prod");
-logIframe.src = getIframeSrc();
+const params = new URLSearchParams(window.location.search);
+
+showDevLogs.checked = params.get("dev") === "true" ? true : false;
+setIframeSrc();
 
 window.addEventListener("message", (event) => {
-  console.log("listener called!", event);
   if (event.origin.endsWith("script.googleusercontent.com")) {
     const { type } = event.data;
 
@@ -52,13 +52,11 @@ logIframe.onload = function () {
 
 showDevLogs.onclick = function () {
   if (showDevLogs.checked) {
-    logIframe.setAttribute("data-type", "dev");
-    logIframe.src = getIframeSrc();
+    params.set("dev", "true");
   } else {
-    logIframe.setAttribute("data-type", "prod");
-    logIframe.src = getIframeSrc();
+    params.delete("dev");
   }
-  addLoading();
+  window.location.search = params.toString();
 };
 
 function removeLoading() {
@@ -74,4 +72,14 @@ function addLoading() {
 function getIframeSrc() {
   const type = logIframe.getAttribute("data-type");
   return type === "dev" ? DEV_LOGS_URL : PROD_LOGS_URL;
+}
+
+function setIframeSrc() {
+  if (showDevLogs.checked) {
+    logIframe.setAttribute("data-type", "dev");
+    logIframe.src = getIframeSrc();
+  } else {
+    logIframe.setAttribute("data-type", "prod");
+    logIframe.src = getIframeSrc();
+  }
 }
