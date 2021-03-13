@@ -12,19 +12,18 @@ showDevLogs.checked = false;
 logIframe.src = PROD_LOGS_URL;
 
 window.addEventListener("message", (event) => {
-  console.log("WE ARE BEING CALLED!");
-  console.log(event);
-  if (
-    event.origin.startsWith(DEV_LOGS_URL) ||
-    event.origin.startsWith(PROD_LOGS_URL)
-  ) {
-    console.log(event.data);
+  if (event.origin.endsWith("script.googleusercontent.com")) {
+    if (event.data === "startLoading") {
+      addLoading();
+    }
+    if (event.data === "stopLoading") {
+      removeLoading();
+    }
   }
 });
 
 logIframe.onload = function () {
   removeLoading();
-  console.log("On Load qsqq sq  ");
 };
 
 showDevLogs.onclick = function () {
