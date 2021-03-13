@@ -5,6 +5,7 @@
 <p align="center">
 <a href="https://github.com/hack4impact/feedback-survey-automation/actions?query=workflow%3A%22Automated+Run%22"><img alt="Automated Run Badge" src="https://img.shields.io/github/workflow/status/hack4impact/feedback-survey-automation/Automated%20Run?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Automated%20Run"></img></a>
 <a href="https://github.com/hack4impact/feedback-survey-automation/actions?query=workflow%3A%22Node+CI%22"><img alt="Node CI Badge" src="https://img.shields.io/github/workflow/status/hack4impact/feedback-survey-automation/Node%20CI?style=flat-square&labelColor=000000&logo=github&logoColor=FFFFFF&label=Node%20CI"></img></a>
+<a href="https://hack4impact.github.io/feedback-survey-automation/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fhack4impact.github.io%2Ffeedback-survey-automation%2F&style=flat-square&label=Logs%20Website&logo=github&logoColor=FFFFFF&labelColor=000000" alt="Logs Website"/></a>
 <a href="https://lgtm.com/projects/g/hack4impact/feedback-survey-automation/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/github/hack4impact/feedback-survey-automation?logo=lgtm&logoColor=FFFFFF&labelColor=000000&label=Code%20Quality&style=flat-square" alt="Code Quality"></a>
 </p>
 
@@ -14,6 +15,7 @@
 - [Guide to Developing Locally](#guide-to-developing-locally)
 - [How it Works](#how-it-works)
 - [Tools and Technologies](#tools-and-technologies)
+- [Logs Website](#logs-website)
 - [Contributors](#contributors)
 
 ## Guide to Running Locally
@@ -31,6 +33,10 @@ See the [How it Works Wiki]
 ## Tools and Technologies
 
 See the [Tools and Technologies Wiki]
+
+## Logs Website
+
+**The [logs website](https://hack4impact.github.io/feedback-survey-automation/) displays logs for every automated run** (includes both development and production logs).
 
 ## Contributors
 
