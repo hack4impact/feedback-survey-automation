@@ -95,9 +95,9 @@
           ? createStringDate(parseDate(toDate.innerText))
           : null;
       if (!toDateString) {
-        window.top.location.href = `${windowUrl}?date=${fromDateString}`;
+        window.location.href = `${windowUrl}?date=${fromDateString}`;
       } else {
-        window.top.location.href = `${windowUrl}?start=${fromDateString}&end=${toDateString}`;
+        window.location.href = `${windowUrl}?start=${fromDateString}&end=${toDateString}`;
       }
     }
   };

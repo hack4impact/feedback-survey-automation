@@ -78,7 +78,9 @@ export const doGet = (request: GoogleAppsScript.Events.DoGet): any => {
 
   template.prev_logs = prevLogs;
   template.logs_per_day = filtered_data;
-  return template.evaluate();
+  return template
+    .evaluate()
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 };
 
 //date format must be (YYYY-MM-DD)
