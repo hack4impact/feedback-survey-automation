@@ -14,8 +14,6 @@
 
     const startDate = new Date(year, month - 1, day);
 
-    const baseURL = process.env.APPS_SCRIPT_URL;
-
     showMoreLogsBtn.onclick = function () {
       startDate.setDate(startDate.getDate() - 7);
       const newStart = createStringDate(startDate);

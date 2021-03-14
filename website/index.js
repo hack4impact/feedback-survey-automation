@@ -14,7 +14,9 @@ showDevLogs.checked = params.get("dev") === "true" ? true : false;
 setIframeSrc();
 
 window.addEventListener("message", (event) => {
-  if (event.origin.endsWith("script.googleusercontent.com")) {
+  //Reason: LGTM comment needs to be on the same line
+  // prettier-ignore
+  if (event.origin.endsWith("script.googleusercontent.com")) { //lgtm [js/incomplete-url-substring-sanitization]
     const { type } = event.data;
 
     switch (type) {
