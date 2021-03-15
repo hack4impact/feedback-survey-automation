@@ -125,6 +125,7 @@ export type FormQuestion =
 export type DateParameter = Date | Moment | number | string;
 
 export type LogLabel =
+  | "incorrectProjectInfo"
   | "falseyProjectStatus"
   | "notInUse"
   | "reminderNeeded"

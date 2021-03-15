@@ -20,6 +20,7 @@ import { createGoogleForm } from "./Helpers/Forms";
 import { parseProject, flattenFields, googleAuth } from "./Helpers/General";
 import Logger from "./Helpers/Logger";
 import { FIELDS } from "./Utils/constants";
+import { LogLabel } from "./Utils/types";
 
 process.on("unhandledRejection", (e) => {
   Logger.error(e);
@@ -68,7 +69,9 @@ const script = async () => {
             try {
               checkedData = checkRequiredFields(data);
             } catch (e) {
-              logger.error(e.message);
+              logger.error(e.message, {
+                extra: { label: "incorrectProjectInfo" as LogLabel },
+              });
               continue;
             }
 
