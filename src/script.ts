@@ -64,7 +64,13 @@ const script = async () => {
             Logger.bold(projectName);
 
             // Make sure the project has all required fields. If not, throw an error.
-            const checkedData = checkRequiredFields(data);
+            let checkedData;
+            try {
+              checkedData = checkRequiredFields(data);
+            } catch (e) {
+              logger.error(e.message);
+              continue;
+            }
 
             // Flatten fields that are supposed to be strings (but Airtable returns an array with 1 element)
             const flattenedData = flattenFields(checkedData);

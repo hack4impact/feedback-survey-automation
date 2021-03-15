@@ -8,6 +8,8 @@ export type ProjectData = Record<keyof typeof FIELDS, string | string[]>;
 
 interface CheckedFields {
   projectName: string;
+  representativeName: string;
+  representativeEmail: string;
   deliveryDate: string;
   nonprofitName: string;
   chapter: [string];

@@ -5,6 +5,8 @@ import { TIME_PERIODS, PROJECT_STATUSES } from "../../Utils/constants";
 const checkRequiredFields = (data: ProjectData): CheckedData => {
   const {
     projectName,
+    representativeName,
+    representativeEmail,
     chapter,
     chapterName,
     nonprofitName,
@@ -17,6 +19,18 @@ const checkRequiredFields = (data: ProjectData): CheckedData => {
   if (typeof projectName !== "string") {
     throw new Error(
       `This project does not have a string name (${projectName})`
+    );
+  }
+
+  if (typeof representativeName !== "string") {
+    throw new Error(
+      `This project does not have a string Representative Name (${representativeName})`
+    );
+  }
+
+  if (typeof representativeEmail !== "string") {
+    throw new Error(
+      `This project does not have a string Representative Email (${representativeEmail})`
     );
   }
 
