@@ -13,9 +13,8 @@ jobs:
         env:
           - vars: DEV_ENV
             claspInfo: DEV_CLASP_PROJECT_INFO
-          # Uncomment ↓ when ready to start doing prod runs
-          # - vars: PROD_ENV
-          #   claspInfo: PROD_CLASP_PROJECT_INFO
+          - vars: PROD_ENV
+            claspInfo: PROD_CLASP_PROJECT_INFO
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
