@@ -1,6 +1,4 @@
 // Externals
-import { config } from "dotenv-safe";
-config();
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import { promisify } from "util";
