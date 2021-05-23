@@ -23,7 +23,7 @@ const checkProjectStatus = async (
       return true;
     }
     case "In Progress": {
-      return await logFalsey(projectStatus, logger);
+      return true;
     }
     case "Unknown": {
       return true;
