@@ -176,13 +176,14 @@ const sendReminder = (
         to: fields[FIELDS.representativeEmail],
         cc: fields[FIELDS.chapterEmail],
       });
-    }
-    catch (e) {
-      logAndWrite(
-        `Error sending two-week reminder email: ${e}`,
-        "error",
-        { emails: [fields[FIELDS.representativeEmail], fields[FIELDS.chapterEmail]], label: "twoWeekReminderEmailError" }
-      );
+    } catch (e) {
+      logAndWrite(`Error sending two-week reminder email: ${e}`, "error", {
+        emails: [
+          fields[FIELDS.representativeEmail],
+          fields[FIELDS.chapterEmail],
+        ],
+        label: "twoWeekReminderEmailError",
+      });
     }
   }
   logAndWrite(
