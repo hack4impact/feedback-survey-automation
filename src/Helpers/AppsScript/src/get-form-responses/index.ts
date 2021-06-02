@@ -17,6 +17,7 @@ export type LogLabel =
   | "uploadError"
   | "uploadErrorEmailSent"
   | "twoWeekReminderEmailSent"
+  | "twoWeekReminderEmailError"
   | "sheetRespondedReminderSent"
   | "sheetRespondedExpired";
 
@@ -168,12 +169,22 @@ const sendReminder = (
   }`;
 
   if (process.env.DRY_RUN === `false`) {
-    MailApp.sendEmail({
-      subject,
-      htmlBody: email,
-      to: fields[FIELDS.representativeEmail],
-      cc: fields[FIELDS.chapterEmail],
-    });
+    try {
+      MailApp.sendEmail({
+        subject,
+        htmlBody: email,
+        to: fields[FIELDS.representativeEmail],
+        cc: fields[FIELDS.chapterEmail],
+      });
+    } catch (e) {
+      logAndWrite(`Error sending two-week reminder email: ${e}`, "error", {
+        emails: [
+          fields[FIELDS.representativeEmail],
+          fields[FIELDS.chapterEmail],
+        ],
+        label: "twoWeekReminderEmailError",
+      });
+    }
   }
   logAndWrite(
     `Sent two week reminder email to: ${
