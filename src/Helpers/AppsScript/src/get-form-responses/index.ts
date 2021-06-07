@@ -171,8 +171,16 @@ const sendReminder = (
   try {
     // Airtable may be giving the email in an array data type instead of a string, which caused problems
     // This makes sure it retreives the string no matter the data type
-    const chapterEmail = (Array.isArray(fields[FIELDS.chapterEmail]) && fields[FIELDS.chapterEmail].length>0) ? fields[FIELDS.chapterEmail][0] : fields[FIELDS.chapterEmail];
-    const representativeEmail = (Array.isArray(fields[FIELDS.representativeEmail]) && fields[FIELDS.representativeEmail].length>0) ? fields[FIELDS.representativeEmail][0] : fields[FIELDS.representativeEmail];
+    const chapterEmail =
+      Array.isArray(fields[FIELDS.chapterEmail]) &&
+      fields[FIELDS.chapterEmail].length > 0
+        ? fields[FIELDS.chapterEmail][0]
+        : fields[FIELDS.chapterEmail];
+    const representativeEmail =
+      Array.isArray(fields[FIELDS.representativeEmail]) &&
+      fields[FIELDS.representativeEmail].length > 0
+        ? fields[FIELDS.representativeEmail][0]
+        : fields[FIELDS.representativeEmail];
 
     // Only send the email if its not a dry run
     if (process.env.DRY_RUN === `false`) {
@@ -185,9 +193,9 @@ const sendReminder = (
     }
 
     logAndWrite(
-      `Sent two week reminder email to: ${
-        representativeEmail
-      } for project: ${fields[FIELDS.projectName]}`,
+      `Sent two week reminder email to: ${representativeEmail} for project: ${
+        fields[FIELDS.projectName]
+      }`,
       "success",
       { email, subject, label: "twoWeekReminderEmailSent" }
     );
@@ -201,7 +209,6 @@ const sendReminder = (
       "success",
       { label: "sheetRespondedReminderSent" }
     );
-
   } catch (e) {
     logAndWrite(`Error sending two-week reminder email: ${e}`, "error", {
       emails: [fields[FIELDS.representativeEmail], fields[FIELDS.chapterEmail]],
