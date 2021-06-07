@@ -168,41 +168,46 @@ const sendReminder = (
     fields[FIELDS.projectName]
   }`;
 
-  if (process.env.DRY_RUN === `false`) {
-    try {
+  try {
+    // Airtable may be giving the email in an array data type instead of a string, which caused problems
+    // This makes sure it retreives the string no matter the data type
+    const chapterEmail = (Array.isArray(fields[FIELDS.chapterEmail]) && fields[FIELDS.chapterEmail].length>0) ? fields[FIELDS.chapterEmail][0] : fields[FIELDS.chapterEmail];
+    const representativeEmail = (Array.isArray(fields[FIELDS.representativeEmail]) && fields[FIELDS.representativeEmail].length>0) ? fields[FIELDS.representativeEmail][0] : fields[FIELDS.representativeEmail];
+
+    // Only send the email if its not a dry run
+    if (process.env.DRY_RUN === `false`) {
       MailApp.sendEmail({
         subject,
         htmlBody: email,
-        to: fields[FIELDS.representativeEmail],
-        cc: fields[FIELDS.chapterEmail],
-      });
-    } catch (e) {
-      logAndWrite(`Error sending two-week reminder email: ${e}`, "error", {
-        emails: [
-          fields[FIELDS.representativeEmail],
-          fields[FIELDS.chapterEmail],
-        ],
-        label: "twoWeekReminderEmailError",
+        to: representativeEmail,
+        cc: chapterEmail,
       });
     }
-  }
-  logAndWrite(
-    `Sent two week reminder email to: ${
-      fields[FIELDS.representativeEmail]
-    } for project: ${fields[FIELDS.projectName]}`,
-    "success",
-    { email, subject, label: "twoWeekReminderEmailSent" }
-  );
 
-  row.responded = "Reminder Sent";
-  if (process.env.DRY_RUN === `false`) {
-    modifySheetRow(row, index);
+    logAndWrite(
+      `Sent two week reminder email to: ${
+        representativeEmail
+      } for project: ${fields[FIELDS.projectName]}`,
+      "success",
+      { email, subject, label: "twoWeekReminderEmailSent" }
+    );
+
+    row.responded = "Reminder Sent";
+    if (process.env.DRY_RUN === `false`) {
+      modifySheetRow(row, index);
+    }
+    logAndWrite(
+      `Modified sheet row #${index} with responded = '${row.responded}'`,
+      "success",
+      { label: "sheetRespondedReminderSent" }
+    );
+
+  } catch (e) {
+    logAndWrite(`Error sending two-week reminder email: ${e}`, "error", {
+      emails: [fields[FIELDS.representativeEmail], fields[FIELDS.chapterEmail]],
+      label: "twoWeekReminderEmailError",
+    });
   }
-  logAndWrite(
-    `Modified sheet row #${index} with responded = '${row.responded}'`,
-    "success",
-    { label: "sheetRespondedReminderSent" }
-  );
 };
 
 const formExpired = (row: RowObj, index: number) => {
