@@ -1,7 +1,7 @@
 // Externals
 import { join } from "path";
 import Hack4ImpactLogger from "@hack4impact/logger";
-import { existsSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 class Logger extends Hack4ImpactLogger {
   static readonly OUTPUT_PATH = join(__dirname, "..", "..", "..", "output");
@@ -15,6 +15,9 @@ class Logger extends Hack4ImpactLogger {
     // Use 'sync' methods instead of promises (inside constructor)
     if (!existsSync(Logger.OUTPUT_PATH)) {
       mkdirSync(Logger.OUTPUT_PATH, { recursive: true });
+    }
+    if (!existsSync(Logger.LOGS_PATH)) {
+      writeFileSync(Logger.LOGS_PATH, "");
     }
   }
 
