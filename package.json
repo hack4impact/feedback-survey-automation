@@ -55,7 +55,7 @@
     "googleapis": "^67.0.0",
     "html-to-text": "^6.0.0",
     "moment": "^2.29.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.4.17",
     "yargs": "^16.2.0"
   },
